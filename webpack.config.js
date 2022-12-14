@@ -21,7 +21,7 @@ const baseConfig = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                test: /\.(png|svg|jpg|jpeg|webp|gif|ico|gif)$/i,
                 type: 'asset/resource',
             },
         ],
@@ -38,18 +38,17 @@ const baseConfig = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './src/index.html'),
             filename: 'index.html',
-            // favicon: './src/assets/favicon.ico',
         }),
         new CleanWebpackPlugin(),
         new ESLintPlugin({ extensions: ['ts', 'js'] }),
-        // new CopyPlugin({
-        //     patterns: [
-        //         {
-        //             from: path.resolve(__dirname, 'src', 'assets', 'news_placeholder.jpg'),
-        //             to: path.resolve(__dirname, 'dist', 'img', 'news_placeholder.jpg'),
-        //         },
-        //     ],
-        // }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'src', 'assets'),
+                    to: path.resolve(__dirname, 'dist', 'assets'),
+                },
+            ],
+        }),
     ],
 };
 
