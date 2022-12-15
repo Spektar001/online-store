@@ -1,0 +1,17 @@
+.products-page__container {
+    display: flex;
+    gap: 15px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.products-page__container_left {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 20%;
+}
+
+.products-page__container_right {
+    width: 80%;
+}

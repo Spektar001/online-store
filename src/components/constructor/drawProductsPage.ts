@@ -1,0 +1,22 @@
+import { ProductsData, checkedQuerySelector } from '../../types/exports';
+import { drawProducts } from './products/drawProducts';
+import { drawFilters } from './filters/drawFilters';
+import { createEl, appendEl } from './elements/elements';
+import './productsPage.css';
+
+export function drawProductsPage(data: ProductsData[]): void {
+    const productsPageContainer = createEl('products-page__container', 'div');
+    const productsPageLeft = createEl('products-page__container_left', 'div');
+    const productsPageRight = createEl('products-page__container_right', 'div');
+    const productsContainer = createEl('products__container', 'div');
+
+    appendEl(productsPageRight, productsContainer);
+
+    appendEl(productsPageContainer, productsPageLeft);
+    appendEl(productsPageContainer, productsPageRight);
+
+    appendEl(checkedQuerySelector(document, 'main'), productsPageContainer);
+
+    drawProducts(data);
+    drawFilters(data);
+}

@@ -8,6 +8,10 @@ h1 {
     color: rebeccapurple;
 }
 
+li {
+    list-style: none;
+}
+
 button {
     padding: 5px;
     border: none;

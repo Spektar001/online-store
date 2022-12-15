@@ -21,7 +21,7 @@ export function drawProducts(data: ProductsData[]): void {
         const productMidBox = createEl('product__contaiter product__contaiter_mid', 'div');
         const productBotBox = createEl('product__contaiter product__contaiter_bot', 'div');
 
-        productRating.textContent = `${data[i].rating}`;
+        productRating.textContent = `${data[i].rating.toFixed(1)}`;
         productDiscount.textContent = `-${data[i].discountPercentage}%`;
         productImage.style.backgroundImage = `url(${data[i].thumbnail}`;
         productTitle.textContent = `${data[i].title}`;

@@ -1,6 +1,6 @@
 import { checkedQuerySelector, ProductsData } from './types/exports';
 import { getProductsData } from './components/api/products';
-import { drawProducts } from './components/constructor/products/drawProducts';
+import { drawProductsPage } from './components/constructor/drawProductsPage';
 import './global.css';
 
 let state: ProductsData[] = [];
@@ -8,7 +8,7 @@ let state: ProductsData[] = [];
 async function setProdouctsValues() {
     const result = await getProductsData();
     state = result.products;
-    drawProducts(state);
+    drawProductsPage(state);
 }
 
 setProdouctsValues();

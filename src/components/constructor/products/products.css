@@ -2,8 +2,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    width: 70%;
-    margin: 0 auto;
 }
 
 /* item------------------------------------------------- */
@@ -12,8 +10,11 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: 15%;
+    width: 22%;
     height: 430px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 5px 0 gray;
 }
 
 .product__contaiter {
