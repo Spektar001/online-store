@@ -1,0 +1,115 @@
+.products__container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+/* item------------------------------------------------- */
+
+.product__item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 15%;
+    height: 430px;
+}
+
+.product__contaiter {
+    display: flex;
+    justify-content: space-between;
+}
+
+.product__contaiter_mid,
+.product__contaiter_bot {
+    justify-content: flex-start;
+    gap: 5px 10px;
+}
+
+.product__contaiter_mid {
+    flex-direction: column;
+}
+
+/* labels------------------------------------------------- */
+
+.product__label {
+    width: fit-content;
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+.product__rating {
+    border: 1px solid gray;
+}
+
+.product__discount {
+    color: white;
+    background-color: rgb(187, 7, 7);
+    border: 1px solid rgb(187, 7, 7);
+}
+
+.product__category {
+    color: white;
+    background-color: rgb(137, 126, 236);
+    border: 1px solid rgb(137, 126, 236);
+}
+
+.product__brand {
+    color: white;
+    background-color: cornflowerblue;
+    border: 1px solid cornflowerblue;
+}
+
+/* image------------------------------------------------- */
+
+.product__image {
+    aspect-ratio: 1/1;
+    width: 100%;
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    box-shadow: 0 3px 5px 0 black;
+    transition: 0.5s;
+}
+
+.product__item:hover .product__image {
+    background-size: 120%;
+}
+
+/* title------------------------------------------------- */
+
+.product__title {
+    height: 3rem;
+    padding: 3px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* price------------------------------------------------- */
+
+.product__price,
+.product__price_disc {
+    font-weight: bold;
+}
+
+.product__price {
+    color: gray;
+    font-size: 1.4rem;
+    text-decoration: line-through;
+}
+
+.product__price_disc {
+    font-size: 1.7rem;
+}
+
+/* buy-button------------------------------------------------- */
+
+.product__button_buy {
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.05rem;
+    font-weight: bold;
+    background-color: coral;
+}

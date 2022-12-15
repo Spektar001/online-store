@@ -1,16 +1,15 @@
-import { checkedQuerySelector, Products } from './types/exports';
+import { checkedQuerySelector, ProductsData } from './types/exports';
 import { getProductsData } from './components/api/products';
 import { drawProducts } from './components/constructor/drawElements';
 import './global.css';
 
-let state: Products;
+let state: ProductsData[] = [];
 
 async function setProdouctsValues() {
     const result = await getProductsData();
-    state = result;
+    state = result.products;
     drawProducts(state);
 }
 
 setProdouctsValues();
-
 checkedQuerySelector(document, '.button').addEventListener('click', () => console.log(state));

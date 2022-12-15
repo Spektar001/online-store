@@ -5,7 +5,7 @@ export interface Products {
     total: number;
 }
 
-interface ProductsData {
+export interface ProductsData {
     brand: string;
     category: string;
     description: string;
