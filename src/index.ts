@@ -1,6 +1,6 @@
 import { checkedQuerySelector, ProductsData } from './types/exports';
 import { getProductsData } from './components/api/products';
-import { drawProducts } from './components/constructor/drawElements';
+import { drawProducts } from './components/constructor/products/drawProducts';
 import './global.css';
 
 let state: ProductsData[] = [];

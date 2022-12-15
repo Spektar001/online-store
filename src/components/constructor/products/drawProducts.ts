@@ -1,6 +1,6 @@
-import { checkedQuerySelector, ProductsData } from '../../types/exports';
-import { appendEl, createEl } from './elements';
-import './elements.css';
+import { checkedQuerySelector, ProductsData } from '../../../types/exports';
+import { appendEl, createEl } from '../elements/elements';
+import './products.css';
 
 export function drawProducts(data: ProductsData[]): void {
     for (let i = 0; i < data.length; i += 1) {
