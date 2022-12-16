@@ -14,16 +14,31 @@ export function drawFilters(data: ProductsData[], state: ProductsData[], curStat
     }
 
     filtered = new Set(categories);
-    getFilteredKeys(filtered, 'filter__list', 'filter__item', state, curState);
+    getFilteredKeys(
+        filtered,
+        'filter__list',
+        'filter__item',
+        'filter__checkbox filter__checkbox_category',
+        state,
+        curState
+    );
 
     filtered = new Set(brands);
-    getFilteredKeys(filtered, 'filter__list', 'filter__item', state, curState);
+    getFilteredKeys(
+        filtered,
+        'filter__list',
+        'filter__item',
+        'filter__checkbox filter__checkbox_brand',
+        state,
+        curState
+    );
 }
 
 function getFilteredKeys(
     data: Set<string>,
     listSelector: string,
     itemSelector: string,
+    checkboxSelector: string,
     state: ProductsData[],
     curState: ProductsData[]
 ): void {
@@ -34,7 +49,7 @@ function getFilteredKeys(
 
     for (const item of filtered) {
         const filterItem = createEl(itemSelector, 'li');
-        const filterCheckbox = <HTMLInputElement>createEl('filter__checkbox', 'input');
+        const filterCheckbox = <HTMLInputElement>createEl(checkboxSelector, 'input');
         const filterLabel = <HTMLLabelElement>createEl('filter__label', 'label');
 
         filterCheckbox.type = 'checkbox';
@@ -43,7 +58,6 @@ function getFilteredKeys(
         filterLabel.htmlFor = item;
 
         filterCheckbox.addEventListener('change', () => {
-            setFilter(filterCheckbox, state, curState);
             curState = setFilter(filterCheckbox, state, curState);
         });
 

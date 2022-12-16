@@ -48,3 +48,13 @@ export function drawProducts(data: ProductsData[]): void {
         appendEl(productsContainer, productItem);
     }
 }
+
+export function drawNoMatch(): void {
+    const productsContainer = checkedQuerySelector(document, '.products__container');
+    productsContainer.innerHTML = '';
+
+    const noMatchEl = createEl('no-match', 'div');
+    noMatchEl.textContent = `NO MATCHES`;
+
+    appendEl(productsContainer, noMatchEl);
+}
