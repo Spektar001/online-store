@@ -24,21 +24,26 @@ export function setFilter(checkbox: HTMLInputElement, state: ProductsData[], cur
     }
 
     filterState = filteredCategory.concat(filteredBrands);
-    console.log(filterState);
 
     const checkboxes = document.querySelectorAll('.filter__checkbox');
     const selectedCboxes = Array.prototype.slice.call(checkboxes).filter((item) => item.checked === true);
 
-    if (selectedCboxes.length === 0) {
-        console.log(filterState);
+    if (selectedCboxes.length === 0 || selectedCboxes.length === checkboxes.length) {
         drawProducts(state);
+        curState = state;
     } else if (selectedCboxes.length === 1) {
-        console.log(filterState);
         drawProducts(filterState);
-    } else if (selectedCboxes.length >= 1 && getSameItems(filterState).length === 0) {
-        drawProducts(Array.from(new Set(filterState)));
-    } else {
-        drawProducts(filterState);
+        curState = filterState;
+    } else if (selectedCboxes.length > 1) {
+        if (getSameItems(filterState).length !== 0) {
+            drawProducts(getSameItems(filterState));
+            curState = getSameItems(filterState);
+        } else if (isEqual(filterState, filteredCategory) || isEqual(filterState, filteredBrands)) {
+            drawProducts(filterState);
+            curState = filterState;
+        } else {
+            drawNoMatch();
+        }
     }
 
     return curState;
@@ -60,7 +65,6 @@ function getSameItems(state: ProductsData[]): ProductsData[] {
         }
     }
 
-    console.log(result);
     return result;
 }
 
