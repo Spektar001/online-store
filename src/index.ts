@@ -4,11 +4,13 @@ import { drawProductsPage } from './components/constructor/drawProductsPage';
 import './global.css';
 
 let state: ProductsData[] = [];
+let curState: ProductsData[] = [];
 
 async function setProdouctsValues() {
     const result = await getProductsData();
     state = result.products;
-    drawProductsPage(state);
+    curState = state;
+    drawProductsPage(state, state, curState);
 }
 
 setProdouctsValues();

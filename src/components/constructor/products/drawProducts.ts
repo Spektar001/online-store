@@ -3,9 +3,10 @@ import { appendEl, createEl } from '../elements/elements';
 import './products.css';
 
 export function drawProducts(data: ProductsData[]): void {
-    for (let i = 0; i < data.length; i += 1) {
-        const productsContainer = checkedQuerySelector(document, '.products__container');
+    const productsContainer = checkedQuerySelector(document, '.products__container');
+    productsContainer.innerHTML = '';
 
+    for (let i = 0; i < data.length; i += 1) {
         const productItem = createEl('product__item', 'div');
         const productRating = createEl('product__label product__rating', 'span');
         const productDiscount = createEl('product__label product__discount', 'span');
