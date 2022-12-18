@@ -1,0 +1,57 @@
+.products__topbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 5px 0 gray;
+}
+
+.sort__contaiter {
+    position: relative;
+    width: 200px;
+}
+
+.sort__list_button {
+    width: 100%;
+    padding: 10px;
+    text-align: start;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.sort__list {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.sort__list_hidden {
+    display: none;
+}
+
+.sort__search {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.products__view {
+    display: flex;
+    gap: 10px;
+}
+
+.view__button_1,
+.view__button_2 {
+    width: 40px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
