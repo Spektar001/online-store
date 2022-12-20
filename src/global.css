@@ -104,14 +104,14 @@ a:before, a:after, a > span:before, a > span:after {
 }
 .header__cart {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center; */
+  justify-content: flex-end;
   color: #FFFFFF;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 500;
 }
 #cart-count {
-  font-size: 20px;
+  font-size: 1.3rem;
 }
 /**FOOTER***************************************************************************************/
 .footer {
