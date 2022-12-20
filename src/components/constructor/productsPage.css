@@ -1,8 +1,9 @@
 .products-page__container {
     display: flex;
     gap: 15px;
-    width: 70%;
-    margin: 0 auto;
+		max-width: 1240px;
+		padding: 0 20px;
+		margin: 0 auto;
 }
 
 .products-page__container_left {

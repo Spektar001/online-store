@@ -70,6 +70,7 @@
     background-position: center;
     background-size: 100%;
     background-repeat: no-repeat;
+    border-radius: 10px;
     box-shadow: 0 3px 5px 0 black;
     transition: 0.5s;
 }
@@ -112,5 +113,9 @@
     color: white;
     font-size: 1.05rem;
     font-weight: bold;
-    background-color: coral;
+    background-color: #F67280;
+}
+.product__button_buy:hover {
+  background-color: #E23E57;
+  transition: all 0.3s ease;
 }

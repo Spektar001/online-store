@@ -19,9 +19,9 @@ export function drawTopbar() {
 
     setSortList(sortListContainer, sortListButton);
 
-    sortListButton.textContent = 'Sort by..';
+    sortListButton.textContent = 'Sort by...';
     sortSearch.type = 'search';
-    sortSearch.placeholder = 'Type to search products..';
+    sortSearch.placeholder = 'Type to search products...';
     productsViewButton1.textContent = '3';
     productsViewButton2.textContent = '4';
 
