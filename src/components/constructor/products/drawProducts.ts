@@ -1,8 +1,9 @@
 import { checkedQuerySelector, ProductsData } from '../../../types/exports';
 import { appendEl, createEl } from '../elements/elements';
+import { drawProduct } from '../pruduct/drawProduct';
 import './products.css';
 
-export function drawProducts(data: ProductsData[]): void {
+export function drawProducts(data: ProductsData[], state: ProductsData[]): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
     productsContainer.innerHTML = '';
 
@@ -22,6 +23,7 @@ export function drawProducts(data: ProductsData[]): void {
         const productMidBox = createEl('product__contaiter product__contaiter_mid', 'div');
         const productBotBox = createEl('product__contaiter product__contaiter_bot', 'div');
 
+        productItem.id = `${data[i].id}`;
         productRating.textContent = `${data[i].rating.toFixed(1)}`;
         productDiscount.textContent = `-${data[i].discountPercentage}%`;
         productImage.style.backgroundImage = `url(${data[i].thumbnail}`;
@@ -31,6 +33,10 @@ export function drawProducts(data: ProductsData[]): void {
         productDiscPrice.textContent = `${Math.floor(data[i].price * ((100 - data[i].discountPercentage) / 100))}€`;
         productPrice.textContent = `${data[i].price}€`;
         buyButton.textContent = `Add to cart`;
+
+        productItem.addEventListener('click', () => {
+            drawProduct(productItem, state);
+        });
 
         appendEl(productTopBox, productRating);
         appendEl(productTopBox, productDiscount);

@@ -21,6 +21,6 @@ export function drawProductsPage(data: ProductsData[], state: ProductsData[], cu
     appendEl(checkedQuerySelector(document, 'main'), productsPageContainer);
 
     drawTopbar();
-    drawProducts(data);
+    drawProducts(data, state);
     drawFilters(data, state, curState);
 }
