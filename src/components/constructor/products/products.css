@@ -115,7 +115,8 @@
     font-weight: bold;
     background-color: #F67280;
 }
+
 .product__button_buy:hover {
-  background-color: #E23E57;
-  transition: all 0.3s ease;
+    background-color: #E23E57;
+    transition: all 0.3s ease;
 }
