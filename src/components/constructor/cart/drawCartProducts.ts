@@ -72,7 +72,9 @@ function drawCartProduct(state: ProductsData[], item: CartData, number: number, 
     productBrand.textContent = item.brand;
     productRating.textContent = `${item.rating.toFixed(1)}`;
     productDiscount.textContent = `${item.discountPercentage}%`;
-    productDiscPrice.textContent = `${Math.floor(item.price * ((100 - item.discountPercentage) / 100))}€`;
+    productDiscPrice.textContent = `
+        ${Math.floor(item.price * ((100 - item.discountPercentage) / 100)) * item.amount}€
+    `;
     productStock.textContent = `In stock: ${item.stock}`;
     productAddButton.textContent = '+';
     productBuyAmount.textContent = `${item.amount}`;
@@ -95,6 +97,9 @@ function drawCartProduct(state: ProductsData[], item: CartData, number: number, 
         countCartProducts(cartState);
         countCartTotal(cartState);
         drawCartSummary(cartState);
+        productDiscPrice.textContent = `
+            ${Math.floor(item.price * ((100 - item.discountPercentage) / 100)) * item.amount}€
+        `;
     });
 
     productAddButton.addEventListener('click', () => {
@@ -108,6 +113,9 @@ function drawCartProduct(state: ProductsData[], item: CartData, number: number, 
         countCartProducts(cartState);
         countCartTotal(cartState);
         drawCartSummary(cartState);
+        productDiscPrice.textContent = `
+            ${Math.floor(item.price * ((100 - item.discountPercentage) / 100)) * item.amount}€
+        `;
     });
 
     appendEl(cartProductsContainer, productContainer);

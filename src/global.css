@@ -47,10 +47,8 @@ html, body {
 .wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   min-height: 100%;
   overflow: hidden;
-  gap: 15px;
   background-color: #F9F7F7;
 }
 .container {
@@ -61,15 +59,15 @@ html, body {
 
 /**HEADER***************************************************************************************/
 .header {
+  height: 100px;
   background-color: #FF5722;
   background-color: #3F72AF;
-  padding-top: 25px;
-  padding-bottom: 25px;
 }
 .header__body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100px;
 }
 a, a > span {
   position: relative;
@@ -120,17 +118,23 @@ a:before, a:after, a > span:before, a > span:after {
 #cart-count {
   font-size: 1.3rem;
 }
+
+main {
+  min-height: calc(100vh - 200px);
+  padding: 15px 0;
+}
+
 /**FOOTER***************************************************************************************/
 .footer {
   /* background-color: #FF5722; */
+  height: 100px;
   background-color: #112D4E;
-  padding-top: 15px;
-  padding-bottom: 15px;
 }
 .footer__body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100px;
 }
 .footer__github-link:hover svg{
   fill: #E23E57;

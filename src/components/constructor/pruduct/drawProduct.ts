@@ -1,6 +1,6 @@
 import { createEl, appendEl } from '../elements/elements';
 import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
-import { addToCart, countCartTotal } from '../cart/cartControls';
+import { addToCart, countCartTotal, countCartProducts } from '../cart/cartControls';
 import './product.css';
 
 export function drawProduct(product: HTMLElement, data: ProductsData[], cartState: CartData[]): void {
@@ -84,6 +84,7 @@ export function drawProduct(product: HTMLElement, data: ProductsData[], cartStat
 
     productCartButton.addEventListener('click', () => {
         addToCart(productCartButton, product, data, cartState);
+        countCartProducts(cartState);
         countCartTotal(cartState);
     });
 
