@@ -36,6 +36,6 @@ export function drawCartSummary(data: ProductsData[]): void {
     summarySummText.textContent = 'Total:';
     summaryTooltip.textContent = 'Test: HALAVA or TEN%';
     topbarItemsInput.type = 'text';
-    topbarItemsInput.placeholder = 'Enter your promocode..';
+    topbarItemsInput.placeholder = 'Enter your promocode...';
     summaryBuyButton.textContent = 'BUY NOW';
 }

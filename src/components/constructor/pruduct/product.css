@@ -27,6 +27,7 @@
     width: 100%;
     height: fit-content;
     font-size: 1.2rem;
+		text-align: center;
 }
 
 .product-page__container_images,
@@ -94,7 +95,7 @@
     width: fit-content;
     padding: 2px 5px;
     color: white;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .product-page__category {

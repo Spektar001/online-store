@@ -83,6 +83,7 @@
     min-width: 2rem;
     height: 2rem;
     border: 1px solid gray;
+    border-radius: 5px;
 }
 
 .cart-product__image {
@@ -91,6 +92,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 5px;
 }
 
 .cart-product__container_desc {
@@ -110,7 +112,7 @@
 
 .cart-product__label {
     padding: 3px;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .cart-product__category {
@@ -138,7 +140,7 @@
 .cart-product__container_amount {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     gap: 5px;
     width: 15%;
     border-left: 1px solid gray;
