@@ -45,8 +45,8 @@ export function drawTopbar() {
     });
 
     document.addEventListener('click', (e) => {
-        const targetDocument = e.target;
-        const its_details = targetDocument == details;
+      const targetDocument = <HTMLDivElement>e.target;
+      const its_details = targetDocument == details || details.contains(targetDocument);
         const its_productsViewButton1 = targetDocument == productsViewButton1;
         const details_is_active = details.classList.contains('details');
         if (!its_details && !its_productsViewButton1 && details_is_active) {
