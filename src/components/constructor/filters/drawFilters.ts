@@ -3,14 +3,14 @@ import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exp
 import { createEl, appendEl } from '../elements/elements';
 import './filters.css';
 
-export function drawFilters(data: ProductsData[], state: ProductsData[], cartState: CartData[]): void {
+export function drawFilters(state: ProductsData[], cartState: CartData[]): void {
     const categories: string[] = [];
     const brands: string[] = [];
     let filtered: Set<string>;
 
-    for (let i = 0; i < data.length; i += 1) {
-        categories.push(data[i].category);
-        brands.push(data[i].brand);
+    for (let i = 0; i < state.length; i += 1) {
+        categories.push(state[i].category);
+        brands.push(state[i].brand);
     }
 
     filtered = new Set(categories);

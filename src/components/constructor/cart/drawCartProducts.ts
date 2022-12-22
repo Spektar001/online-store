@@ -2,7 +2,14 @@ import { createEl, appendEl } from '../elements/elements';
 import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
 import { drawProduct } from '../pruduct/drawProduct';
 import { drawCartSummary } from './drawSummary';
-import { deleteFromCart, reduceAmount, increaseAmount, countCartTotal, countCartProducts } from './cartControls';
+import {
+    deleteFromCart,
+    checkEmptyCart,
+    reduceAmount,
+    increaseAmount,
+    countCartTotal,
+    countCartProducts,
+} from './cartControls';
 import './cart.css';
 
 export function drawCartProducts(state: ProductsData[], cartState: CartData[]): void {
@@ -15,6 +22,7 @@ export function drawCartProducts(state: ProductsData[], cartState: CartData[]): 
 }
 
 function drawCartProduct(state: ProductsData[], item: CartData, number: number, cartState: CartData[]): void {
+    const cartContainer = checkedQuerySelector(document, '.cart-page__container');
     const cartProductsContainer = checkedQuerySelector(document, '.cart-products__container');
 
     const productContainer = createEl('cart-product__container', 'div');
@@ -97,6 +105,7 @@ function drawCartProduct(state: ProductsData[], item: CartData, number: number, 
         countCartProducts(cartState);
         countCartTotal(cartState);
         drawCartSummary(cartState);
+        checkEmptyCart(cartContainer, cartState);
         productDiscPrice.textContent = `
             ${Math.floor(item.price * ((100 - item.discountPercentage) / 100)) * item.amount}€
         `;

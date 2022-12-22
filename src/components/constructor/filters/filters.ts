@@ -29,14 +29,14 @@ export function setFilter(checkbox: HTMLInputElement, state: ProductsData[], car
     const selectedCboxes = Array.prototype.slice.call(checkboxes).filter((item) => item.checked === true);
 
     if (selectedCboxes.length === 0 || selectedCboxes.length === checkboxes.length) {
-        drawProducts(state, state, cartState);
+        drawProducts(state, cartState);
     } else if (selectedCboxes.length === 1) {
-        drawProducts(filterState, state, cartState);
+        drawProducts(filterState, cartState);
     } else if (selectedCboxes.length > 1) {
         if (getSameItems(filterState).length !== 0) {
-            drawProducts(getSameItems(filterState), state, cartState);
+            drawProducts(getSameItems(filterState), cartState);
         } else if (isEqual(filterState, filteredCategory) || isEqual(filterState, filteredBrands)) {
-            drawProducts(filterState, state, cartState);
+            drawProducts(filterState, cartState);
         } else {
             drawNoMatch();
         }

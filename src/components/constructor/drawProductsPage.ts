@@ -5,7 +5,7 @@ import { drawFilters } from './filters/drawFilters';
 import { createEl, appendEl } from './elements/elements';
 import './productsPage.css';
 
-export function drawProductsPage(data: ProductsData[], state: ProductsData[], cartState: CartData[]): void {
+export function drawProductsPage(state: ProductsData[], cartState: CartData[]): void {
     const productsPageContainer = createEl('products-page__container', 'div');
     const productsPageLeft = createEl('products-page__container_left', 'div');
     const productsPageRight = createEl('products-page__container_right', 'div');
@@ -21,6 +21,6 @@ export function drawProductsPage(data: ProductsData[], state: ProductsData[], ca
     appendEl(checkedQuerySelector(document, 'main'), productsPageContainer);
 
     drawTopbar();
-    drawProducts(data, state, cartState);
-    drawFilters(data, state, cartState);
+    drawProducts(state, cartState);
+    drawFilters(state, cartState);
 }

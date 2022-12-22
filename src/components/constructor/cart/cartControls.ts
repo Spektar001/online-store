@@ -21,8 +21,13 @@ export function deleteFromCart(product: HTMLElement, cartState: CartData[]): voi
     for (const item of cartState) {
         if (item.id === +product.id && item.amount === 0) {
             cartState.splice(cartState.indexOf(item), 1);
-            console.log(cartState);
         }
+    }
+}
+
+export function checkEmptyCart(contaiter: HTMLElement, cartState: CartData[]): void {
+    if (cartState.length === 0) {
+        contaiter.innerHTML = 'NO PRODUCTS';
     }
 }
 
@@ -37,6 +42,7 @@ export function reduceAmount(
         if (item.id === +product.id) {
             item.amount--;
             amountEl.textContent = `${item.amount}`;
+
             if (item.amount < item.stock) {
                 button.classList.remove(selector);
             }

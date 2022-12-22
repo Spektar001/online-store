@@ -9,15 +9,22 @@ export function drawCart(state: ProductsData[], cartState: CartData[]): void {
     const main = checkedQuerySelector(document, 'main');
     main.innerHTML = '';
 
+    const cartPageContainer = createEl('cart-page__container container', 'div');
+
     if (!cartState.length) {
-        main.innerHTML = 'NO PRODUCTS';
+        appendEl(main, cartPageContainer);
+        cartPageContainer.innerHTML = 'NO PRODUCTS';
     } else {
-        drawFilledCart(main, state, cartState);
+        drawFilledCart(main, cartPageContainer, state, cartState);
     }
 }
 
-function drawFilledCart(parent: HTMLElement, state: ProductsData[], cartState: CartData[]): void {
-    const cartPageContainer = createEl('cart-page__container container', 'div');
+function drawFilledCart(
+    parent: HTMLElement,
+    pageContaier: HTMLElement,
+    state: ProductsData[],
+    cartState: CartData[]
+): void {
     const cartPageLeft = createEl('cart-page__container_left', 'div');
     const cartPageRight = createEl('cart-page__container_right', 'div');
     const cartProductsTopbar = createEl('cart-products__topbar', 'div');
@@ -26,12 +33,12 @@ function drawFilledCart(parent: HTMLElement, state: ProductsData[], cartState: C
     appendEl(cartPageLeft, cartProductsTopbar);
     appendEl(cartPageLeft, cartProductsContainer);
 
-    appendEl(cartPageContainer, cartPageLeft);
-    appendEl(cartPageContainer, cartPageRight);
+    appendEl(pageContaier, cartPageLeft);
+    appendEl(pageContaier, cartPageRight);
 
-    appendEl(parent, cartPageContainer);
+    appendEl(parent, pageContaier);
 
     drawCartProducts(state, cartState);
-    drawCartTopbar(cartState);
+    drawCartTopbar();
     drawCartSummary(cartState);
 }

@@ -4,11 +4,11 @@ import { drawProduct } from '../pruduct/drawProduct';
 import { addToCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
 import './products.css';
 
-export function drawProducts(data: ProductsData[], state: ProductsData[], cartState: CartData[]): void {
+export function drawProducts(state: ProductsData[], cartState: CartData[]): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
     productsContainer.innerHTML = '';
 
-    for (let i = 0; i < data.length; i += 1) {
+    for (const item of state) {
         const productItem = createEl('product__item', 'div');
         const productRating = createEl('product__label product__rating', 'span');
         const productDiscount = createEl('product__label product__discount', 'span');
@@ -24,15 +24,15 @@ export function drawProducts(data: ProductsData[], state: ProductsData[], cartSt
         const productMidBox = createEl('product__contaiter product__contaiter_mid', 'div');
         const productBotBox = createEl('product__contaiter product__contaiter_bot', 'div');
 
-        productItem.id = `${data[i].id}`;
-        productRating.textContent = `${data[i].rating.toFixed(1)}`;
-        productDiscount.textContent = `-${data[i].discountPercentage}%`;
-        productImage.style.backgroundImage = `url(${data[i].thumbnail}`;
-        productTitle.textContent = `${data[i].title}`;
-        productCategory.textContent = `${data[i].category}`;
-        productBrand.textContent = `${data[i].brand}`;
-        productDiscPrice.textContent = `${Math.floor(data[i].price * ((100 - data[i].discountPercentage) / 100))}€`;
-        productPrice.textContent = `${data[i].price}€`;
+        productItem.id = `${item.id}`;
+        productRating.textContent = `${item.rating.toFixed(1)}`;
+        productDiscount.textContent = `-${item.discountPercentage}%`;
+        productImage.style.backgroundImage = `url(${item.thumbnail}`;
+        productTitle.textContent = `${item.title}`;
+        productCategory.textContent = `${item.category}`;
+        productBrand.textContent = `${item.brand}`;
+        productDiscPrice.textContent = `${Math.floor(item.price * ((100 - item.discountPercentage) / 100))}€`;
+        productPrice.textContent = `${item.price}€`;
         buyButton.textContent = `Add to cart`;
 
         productItem.addEventListener('click', (e) => {

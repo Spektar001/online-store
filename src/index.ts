@@ -13,7 +13,7 @@ const cartState: CartData[] =
 async function setProdouctsValues() {
     const result = await getProductsData();
     state = result.products;
-    drawProductsPage(state, state, cartState);
+    drawProductsPage(state, cartState);
     countCartProducts(cartState);
     countCartTotal(cartState);
 }
