@@ -2,9 +2,9 @@ import { createEl, appendEl } from '../elements/elements';
 import { checkedQuerySelector } from '../../../types/exports';
 import './topbar.css';
 
-const details = document.querySelector('.details');
-const bgLayer = document.querySelector('.bg_layer');
-const btnConfirm = document.querySelector('.btn-confirm');
+const details = <HTMLElement>document.querySelector('.details');
+const bgLayer = <HTMLElement>document.querySelector('.bg_layer');
+const btnConfirm = <HTMLElement>document.querySelector('.btn-confirm');
 
 export function drawTopbar() {
     const topbarContainer = checkedQuerySelector(document, '.products__topbar');
@@ -46,7 +46,7 @@ export function drawTopbar() {
 
     document.addEventListener('click', (e) => {
         const targetDocument = e.target;
-        const its_details = targetDocument == details || details.contains(targetDocument);
+        const its_details = targetDocument == details;
         const its_productsViewButton1 = targetDocument == productsViewButton1;
         const details_is_active = details.classList.contains('details');
         if (!its_details && !its_productsViewButton1 && details_is_active) {
