@@ -1,7 +1,7 @@
 import { CartData, checkedQuerySelector, ProductsData } from '../../../types/exports';
 import { appendEl, createEl } from '../elements/elements';
 import { drawProduct } from '../pruduct/drawProduct';
-import { addToCart, countCartTotal, countCartProducts } from '../cart/cartControls';
+import { addToCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
 import './products.css';
 
 export function drawProducts(data: ProductsData[], state: ProductsData[], cartState: CartData[]): void {
@@ -47,6 +47,8 @@ export function drawProducts(data: ProductsData[], state: ProductsData[], cartSt
             countCartProducts(cartState);
             countCartTotal(cartState);
         });
+
+        setButtons(productItem, buyButton, cartState);
 
         appendEl(productTopBox, productRating);
         appendEl(productTopBox, productDiscount);

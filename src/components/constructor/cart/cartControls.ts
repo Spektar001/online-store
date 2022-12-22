@@ -85,3 +85,12 @@ export function countCartProducts(cartState: CartData[]): number {
     headerProducts.textContent = `${products}`;
     return products;
 }
+
+export function setButtons(parent: HTMLElement, button: HTMLElement, cartState: CartData[]): void {
+    for (const item of cartState) {
+        if (item.id === +parent.id) {
+            button.classList.add('product__button_added');
+            button.textContent = 'Added';
+        }
+    }
+}

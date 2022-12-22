@@ -1,9 +1,9 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
-import { addToCart, countCartTotal, countCartProducts } from '../cart/cartControls';
+import { checkedQuerySelector, ProductsData, CartData } from '../../../types/exports';
+import { addToCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
 import './product.css';
 
-export function drawProduct(product: HTMLElement, data: ProductsData[], cartState: CartData[]): void {
+export function drawProduct(product: HTMLElement, state: ProductsData[], cartState: CartData[]): void {
     const main = checkedQuerySelector(document, 'main');
     main.innerHTML = '';
     const productPageContainer = createEl('product-page__container', 'div');
@@ -54,7 +54,7 @@ export function drawProduct(product: HTMLElement, data: ProductsData[], cartStat
     appendEl(productContainer, productImageContainer);
     appendEl(productContainer, productDescriptionContainer);
 
-    for (const item of data) {
+    for (const item of state) {
         if (item.id === +product.id) {
             productBreadCrumbs.textContent = `Store / ${item.category} / ${item.brand} / ${item.title}`;
             for (let i = 0; i < item.images.length; i++) {
@@ -82,8 +82,10 @@ export function drawProduct(product: HTMLElement, data: ProductsData[], cartStat
         }
     }
 
+    setButtons(product, productCartButton, cartState);
+
     productCartButton.addEventListener('click', () => {
-        addToCart(productCartButton, product, data, cartState);
+        addToCart(productCartButton, product, state, cartState);
         countCartProducts(cartState);
         countCartTotal(cartState);
     });
