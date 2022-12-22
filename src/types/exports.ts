@@ -19,6 +19,10 @@ export interface ProductsData {
     title: string;
 }
 
+export interface CartData extends ProductsData {
+    amount: number;
+}
+
 export type Callback<T> = (data: T) => void;
 
 export function checkedQuerySelector(parent: Element | Document, selector: string): HTMLElement {

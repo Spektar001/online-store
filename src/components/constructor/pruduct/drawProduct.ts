@@ -1,8 +1,9 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
+import { addToCart, countCartTotal } from '../cart/cartControls';
 import './product.css';
 
-export function drawProduct(product: HTMLElement, data: ProductsData[]): void {
+export function drawProduct(product: HTMLElement, data: ProductsData[], cartState: CartData[]): void {
     const main = checkedQuerySelector(document, 'main');
     main.innerHTML = '';
     const productPageContainer = createEl('product-page__container', 'div');
@@ -80,6 +81,11 @@ export function drawProduct(product: HTMLElement, data: ProductsData[]): void {
             productBuyButton.textContent = `Buy now`;
         }
     }
+
+    productCartButton.addEventListener('click', () => {
+        addToCart(productCartButton, product, data, cartState);
+        countCartTotal(cartState);
+    });
 
     appendEl(productPageContainer, productContainer);
     appendEl(main, productPageContainer);

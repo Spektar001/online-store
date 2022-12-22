@@ -1,15 +1,20 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
 import { drawProduct } from '../pruduct/drawProduct';
+import { drawCartSummary } from './drawSummary';
+import { deleteFromCart, reduceAmount, increaseAmount, countCartTotal, countCartProducts } from './cartControls';
 import './cart.css';
 
-export function drawCartProducts(data: ProductsData[]): void {
-    for (let i = 0; i < data.length; i++) {
-        drawCartProduct(data, data[i], i);
+export function drawCartProducts(state: ProductsData[], cartState: CartData[]): void {
+    const cartProductsContainer = checkedQuerySelector(document, '.cart-products__container');
+    cartProductsContainer.innerHTML = '';
+
+    for (let i = 0; i < cartState.length; i++) {
+        drawCartProduct(state, cartState[i], i, cartState);
     }
 }
 
-function drawCartProduct(data: ProductsData[], item: ProductsData, number: number): void {
+function drawCartProduct(state: ProductsData[], item: CartData, number: number, cartState: CartData[]): void {
     const cartProductsContainer = checkedQuerySelector(document, '.cart-products__container');
 
     const productContainer = createEl('cart-product__container', 'div');
@@ -70,11 +75,39 @@ function drawCartProduct(data: ProductsData[], item: ProductsData, number: numbe
     productDiscPrice.textContent = `${Math.floor(item.price * ((100 - item.discountPercentage) / 100))}€`;
     productStock.textContent = `In stock: ${item.stock}`;
     productAddButton.textContent = '+';
-    productBuyAmount.textContent = '1';
+    productBuyAmount.textContent = `${item.amount}`;
     productRemoveButton.textContent = '-';
 
     productMainContaiter.addEventListener('click', () => {
-        drawProduct(productMainContaiter, data);
+        drawProduct(productMainContaiter, state, cartState);
+    });
+
+    productRemoveButton.addEventListener('click', () => {
+        reduceAmount(
+            productAddButton,
+            'cart-product__button_disabled',
+            productMainContaiter,
+            productBuyAmount,
+            cartState
+        );
+        deleteFromCart(productMainContaiter, cartState);
+        drawCartProducts(state, cartState);
+        countCartProducts(cartState);
+        countCartTotal(cartState);
+        drawCartSummary(cartState);
+    });
+
+    productAddButton.addEventListener('click', () => {
+        increaseAmount(
+            productAddButton,
+            'cart-product__button_disabled',
+            productMainContaiter,
+            productBuyAmount,
+            cartState
+        );
+        countCartProducts(cartState);
+        countCartTotal(cartState);
+        drawCartSummary(cartState);
     });
 
     appendEl(cartProductsContainer, productContainer);

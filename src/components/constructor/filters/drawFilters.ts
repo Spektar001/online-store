@@ -1,9 +1,9 @@
 import { setFilter } from './filters';
-import { ProductsData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
 import { createEl, appendEl } from '../elements/elements';
 import './filters.css';
 
-export function drawFilters(data: ProductsData[], state: ProductsData[], curState: ProductsData[]): void {
+export function drawFilters(data: ProductsData[], state: ProductsData[], cartState: CartData[]): void {
     const categories: string[] = [];
     const brands: string[] = [];
     let filtered: Set<string>;
@@ -20,7 +20,7 @@ export function drawFilters(data: ProductsData[], state: ProductsData[], curStat
         'filter__item',
         'filter__checkbox filter__checkbox_category',
         state,
-        curState
+        cartState
     );
 
     filtered = new Set(brands);
@@ -30,7 +30,7 @@ export function drawFilters(data: ProductsData[], state: ProductsData[], curStat
         'filter__item',
         'filter__checkbox filter__checkbox_brand',
         state,
-        curState
+        cartState
     );
 }
 
@@ -40,7 +40,7 @@ function getFilteredKeys(
     itemSelector: string,
     checkboxSelector: string,
     state: ProductsData[],
-    curState: ProductsData[]
+    cartState: CartData[]
 ): void {
     const filtered = new Set(data);
 
@@ -58,7 +58,7 @@ function getFilteredKeys(
         filterLabel.htmlFor = item;
 
         filterCheckbox.addEventListener('change', () => {
-            curState = setFilter(filterCheckbox, state, curState);
+            setFilter(filterCheckbox, state, cartState);
         });
 
         appendEl(filterItem, filterCheckbox);

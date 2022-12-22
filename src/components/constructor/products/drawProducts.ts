@@ -1,9 +1,10 @@
-import { checkedQuerySelector, ProductsData } from '../../../types/exports';
+import { CartData, checkedQuerySelector, ProductsData } from '../../../types/exports';
 import { appendEl, createEl } from '../elements/elements';
 import { drawProduct } from '../pruduct/drawProduct';
+import { addToCart, countCartTotal, countCartProducts } from '../cart/cartControls';
 import './products.css';
 
-export function drawProducts(data: ProductsData[], state: ProductsData[]): void {
+export function drawProducts(data: ProductsData[], state: ProductsData[], cartState: CartData[]): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
     productsContainer.innerHTML = '';
 
@@ -34,8 +35,17 @@ export function drawProducts(data: ProductsData[], state: ProductsData[]): void 
         productPrice.textContent = `${data[i].price}€`;
         buyButton.textContent = `Add to cart`;
 
-        productItem.addEventListener('click', () => {
-            drawProduct(productItem, state);
+        productItem.addEventListener('click', (e) => {
+            const target = e.target;
+            if (target !== buyButton) {
+                drawProduct(productItem, state, cartState);
+            }
+        });
+
+        buyButton.addEventListener('click', () => {
+            addToCart(buyButton, productItem, state, cartState);
+            countCartProducts(cartState);
+            countCartTotal(cartState);
         });
 
         appendEl(productTopBox, productRating);

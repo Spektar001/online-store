@@ -1,11 +1,11 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
 import { drawCartProducts } from './drawCartProducts';
 import { drawCartTopbar } from './drawTopbar';
 import { drawCartSummary } from './drawSummary';
 import './cart.css';
 
-export function drawCart(data: ProductsData[]): void {
+export function drawCart(state: ProductsData[], cartState: CartData[]): void {
     const main = checkedQuerySelector(document, 'main');
     main.innerHTML = '';
 
@@ -23,7 +23,7 @@ export function drawCart(data: ProductsData[]): void {
 
     appendEl(main, cartPageContainer);
 
-    drawCartProducts(data);
-    drawCartTopbar(data);
-    drawCartSummary(data);
+    drawCartProducts(state, cartState);
+    drawCartTopbar(cartState);
+    drawCartSummary(cartState);
 }

@@ -1,9 +1,11 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, checkedQuerySelector } from '../../../types/exports';
+import { CartData, checkedQuerySelector } from '../../../types/exports';
+import { countCartTotal, countCartProducts } from './cartControls';
 import './cart.css';
 
-export function drawCartSummary(data: ProductsData[]): void {
+export function drawCartSummary(cartState: CartData[]): void {
     const cartSummary = checkedQuerySelector(document, '.cart-page__container_right');
+    cartSummary.innerHTML = '';
 
     const summaryMainText = createEl('cart-summary__text_main', 'span');
     const summaryItemsAmountContainer = createEl('cart-summary__container_items', 'div');
@@ -32,8 +34,8 @@ export function drawCartSummary(data: ProductsData[]): void {
     appendEl(cartSummary, summaryBuyButton);
 
     summaryMainText.textContent = 'SUMMARY';
-    summaryItemsAmountText.textContent = 'Products:';
-    summarySummText.textContent = 'Total:';
+    summaryItemsAmountText.textContent = `Products: ${countCartProducts(cartState)}`;
+    summarySummText.textContent = `Total: ${countCartTotal(cartState)}€`;
     summaryTooltip.textContent = 'Test: HALAVA or TEN%';
     topbarItemsInput.type = 'text';
     topbarItemsInput.placeholder = 'Enter your promocode..';

@@ -168,6 +168,11 @@
     border: 1px solid gray;
 }
 
+.cart-product__button_disabled {
+    background-color: gray;
+    pointer-events: none;
+}
+
 .cart-topbar__amount,
 .cart-product__amount {
     display: flex;
