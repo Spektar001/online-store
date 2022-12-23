@@ -1,5 +1,6 @@
 import { createEl, appendEl } from '../elements/elements';
 import { ProductsData, checkedQuerySelector } from '../../../types/exports';
+import { showPopUp } from '../../constructor/popup/popup';
 import './product.css';
 
 export function drawProduct(product: HTMLElement, data: ProductsData[]): void {
@@ -83,4 +84,9 @@ export function drawProduct(product: HTMLElement, data: ProductsData[]): void {
 
     appendEl(productPageContainer, productContainer);
     appendEl(main, productPageContainer);
+
+    productBuyButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        showPopUp(productBuyButton);
+    });
 }

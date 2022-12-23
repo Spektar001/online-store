@@ -1,5 +1,6 @@
 import { createEl, appendEl } from '../elements/elements';
 import { ProductsData, checkedQuerySelector } from '../../../types/exports';
+import { showPopUp } from '../../constructor/popup/popup';
 import './cart.css';
 
 export function drawCartSummary(data: ProductsData[]): void {
@@ -38,4 +39,8 @@ export function drawCartSummary(data: ProductsData[]): void {
     topbarItemsInput.type = 'text';
     topbarItemsInput.placeholder = 'Enter your promocode...';
     summaryBuyButton.textContent = 'BUY NOW';
+
+    summaryBuyButton.addEventListener('click', () => {
+        showPopUp(summaryBuyButton);
+    });
 }

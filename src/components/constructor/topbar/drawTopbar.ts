@@ -2,10 +2,6 @@ import { createEl, appendEl } from '../elements/elements';
 import { checkedQuerySelector } from '../../../types/exports';
 import './topbar.css';
 
-const details = <HTMLElement>document.querySelector('.details');
-const bgLayer = <HTMLElement>document.querySelector('.bg_layer');
-const btnConfirm = <HTMLElement>document.querySelector('.btn-confirm');
-
 export function drawTopbar() {
     const topbarContainer = checkedQuerySelector(document, '.products__topbar');
     const sortListContainer = createEl('sort__contaiter', 'div');
@@ -32,30 +28,6 @@ export function drawTopbar() {
     appendEl(topbarContainer, sortListContainer);
     appendEl(topbarContainer, sortSearch);
     appendEl(topbarContainer, viewButtonsContainer);
-
-    productsViewButton1.addEventListener('click', (e) => {
-        e.preventDefault();
-        details.classList.remove('close');
-        bgLayer.classList.remove('close');
-    });
-    btnConfirm.addEventListener('click', (e) => {
-        e.preventDefault();
-        details.classList.add('close');
-        bgLayer.classList.add('close');
-    });
-
-    document.addEventListener('click', (e) => {
-      const targetDocument = <HTMLDivElement>e.target;
-      const its_details = targetDocument == details || details.contains(targetDocument);
-        const its_productsViewButton1 = targetDocument == productsViewButton1;
-        const details_is_active = details.classList.contains('details');
-        if (!its_details && !its_productsViewButton1 && details_is_active) {
-            details.classList.add('close');
-            setTimeout(() => {
-                bgLayer.classList.add('close');
-            }, 500);
-        }
-    });
 }
 
 function setSortList(sortListContainer: HTMLElement, sortListButton: HTMLElement): void {
