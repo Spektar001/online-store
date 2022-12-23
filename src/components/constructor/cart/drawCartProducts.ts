@@ -1,5 +1,5 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, CartData, PromoData, checkedQuerySelector } from '../../../types/exports';
 import { drawProduct } from '../pruduct/drawProduct';
 import { drawCartSummary } from './drawSummary';
 import {
@@ -12,16 +12,22 @@ import {
 } from './cartControls';
 import './cart.css';
 
-export function drawCartProducts(state: ProductsData[], cartState: CartData[]): void {
+export function drawCartProducts(state: ProductsData[], cartState: CartData[], promoState: PromoData[]): void {
     const cartProductsContainer = checkedQuerySelector(document, '.cart-products__container');
     cartProductsContainer.innerHTML = '';
 
     for (let i = 0; i < cartState.length; i++) {
-        drawCartProduct(state, cartState[i], i, cartState);
+        drawCartProduct(state, cartState[i], i, cartState, promoState);
     }
 }
 
-function drawCartProduct(state: ProductsData[], item: CartData, number: number, cartState: CartData[]): void {
+function drawCartProduct(
+    state: ProductsData[],
+    item: CartData,
+    number: number,
+    cartState: CartData[],
+    promoState: PromoData[]
+): void {
     const cartContainer = checkedQuerySelector(document, '.cart-page__container');
     const cartProductsContainer = checkedQuerySelector(document, '.cart-products__container');
 
@@ -101,10 +107,10 @@ function drawCartProduct(state: ProductsData[], item: CartData, number: number, 
             cartState
         );
         deleteFromCart(productMainContaiter, cartState);
-        drawCartProducts(state, cartState);
+        drawCartProducts(state, cartState, promoState);
         countCartProducts(cartState);
         countCartTotal(cartState);
-        drawCartSummary(cartState);
+        drawCartSummary(cartState, promoState);
         checkEmptyCart(cartContainer, cartState);
         productDiscPrice.textContent = `
             ${Math.floor(item.price * ((100 - item.discountPercentage) / 100)) * item.amount}€
@@ -121,7 +127,7 @@ function drawCartProduct(state: ProductsData[], item: CartData, number: number, 
         );
         countCartProducts(cartState);
         countCartTotal(cartState);
-        drawCartSummary(cartState);
+        drawCartSummary(cartState, promoState);
         productDiscPrice.textContent = `
             ${Math.floor(item.price * ((100 - item.discountPercentage) / 100)) * item.amount}€
         `;

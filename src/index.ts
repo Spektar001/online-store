@@ -1,4 +1,4 @@
-import { CartData, checkedQuerySelector, ProductsData } from './types/exports';
+import { CartData, checkedQuerySelector, ProductsData, PromoData } from './types/exports';
 import { getProductsData } from './components/api/products';
 import { drawProductsPage } from './components/constructor/drawProductsPage';
 import { countCartProducts, countCartTotal } from './components/constructor/cart/cartControls';
@@ -9,6 +9,8 @@ import './global.css';
 let state: ProductsData[] = [];
 const cartState: CartData[] =
     localStorage.getItem('cartState') !== null ? JSON.parse(localStorage.getItem('cartState') || '') : [];
+const promoState: PromoData[] =
+    localStorage.getItem('promoState') !== null ? JSON.parse(localStorage.getItem('promoState') || '') : [];
 
 async function setProdouctsValues() {
     const result = await getProductsData();
@@ -19,8 +21,9 @@ async function setProdouctsValues() {
 }
 
 setProdouctsValues();
-checkedQuerySelector(document, '.header__cart').addEventListener('click', () => drawCart(state, cartState));
+checkedQuerySelector(document, '.header__cart').addEventListener('click', () => drawCart(state, cartState, promoState));
 
 window.addEventListener('beforeunload', () => {
-    setStorage(cartState);
+    setStorage('cartState', cartState);
+    setStorage('promoState', promoState);
 });

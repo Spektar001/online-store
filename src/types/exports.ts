@@ -23,7 +23,10 @@ export interface CartData extends ProductsData {
     amount: number;
 }
 
-export type Callback<T> = (data: T) => void;
+export interface PromoData {
+    name: string;
+    discount: number;
+}
 
 export function checkedQuerySelector(parent: Element | Document, selector: string): HTMLElement {
     const el = parent.querySelector(selector);

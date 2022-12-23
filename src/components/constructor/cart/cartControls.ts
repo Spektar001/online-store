@@ -1,4 +1,4 @@
-import { CartData, ProductsData, checkedQuerySelector } from '../../../types/exports';
+import { CartData, ProductsData, PromoData, checkedQuerySelector } from '../../../types/exports';
 
 export function addToCart(
     button: HTMLElement,
@@ -10,7 +10,6 @@ export function addToCart(
         if (item.id === +product.id) {
             const cartItem = Object.assign(item, { amount: 1 });
             cartState.push(cartItem);
-            console.log(cartState);
             button.textContent = 'Added!';
             button.classList.add('product__button_added');
         }
@@ -92,6 +91,48 @@ export function countCartProducts(cartState: CartData[]): number {
     return products;
 }
 
+export function addPromoItem(input: HTMLInputElement, promocodes: PromoData[], promoState: PromoData[]): boolean {
+    for (const promo of promocodes) {
+        if (input.value === promo.name && promoState.every((item) => item.name !== input.value)) {
+            promoState.push(promo);
+            input.value = '';
+            return true;
+        } else if (input.value === promo.name && promoState.findIndex((item) => item.name === input.value) !== -1) {
+            input.style.color = 'red';
+            input.value = 'CODE IS ALLREADY USED!';
+            setTimeout(() => {
+                input.style.color = 'black';
+                input.value = '';
+            }, 1500);
+        }
+    }
+    return false;
+}
+
+export function removePromoItem(button: HTMLElement, promoState: PromoData[]): void {
+    for (const item of promoState) {
+        if (item.name === button.id) {
+            promoState.splice(promoState.indexOf(item), 1);
+        }
+    }
+}
+
+function countPromoDiscount(promoState: PromoData[]): number {
+    let discount = 0;
+
+    for (const item of promoState) {
+        discount += item.discount;
+    }
+
+    return discount;
+}
+
+export function countTotalSum(cartState: CartData[], promoState: PromoData[]): string {
+    return countPromoDiscount(promoState) === 0
+        ? ''
+        : `${Math.floor((1 - countPromoDiscount(promoState)) * countCartTotal(cartState))}€`;
+}
+
 export function setButtons(parent: HTMLElement, button: HTMLElement, cartState: CartData[]): void {
     for (const item of cartState) {
         if (item.id === +parent.id) {
@@ -99,4 +140,8 @@ export function setButtons(parent: HTMLElement, button: HTMLElement, cartState: 
             button.textContent = 'Added';
         }
     }
+}
+
+export function setLinedSum(sumItem: HTMLElement, selector: string, promoState: PromoData[]): void {
+    promoState.length ? sumItem.classList.add(selector) : sumItem.classList.remove(selector);
 }

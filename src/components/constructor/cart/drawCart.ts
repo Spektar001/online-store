@@ -1,11 +1,11 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, CartData, PromoData, checkedQuerySelector } from '../../../types/exports';
 import { drawCartProducts } from './drawCartProducts';
 import { drawCartTopbar } from './drawTopbar';
 import { drawCartSummary } from './drawSummary';
 import './cart.css';
 
-export function drawCart(state: ProductsData[], cartState: CartData[]): void {
+export function drawCart(state: ProductsData[], cartState: CartData[], promoState: PromoData[]): void {
     const main = checkedQuerySelector(document, 'main');
     main.innerHTML = '';
 
@@ -15,7 +15,7 @@ export function drawCart(state: ProductsData[], cartState: CartData[]): void {
         appendEl(main, cartPageContainer);
         cartPageContainer.innerHTML = 'NO PRODUCTS';
     } else {
-        drawFilledCart(main, cartPageContainer, state, cartState);
+        drawFilledCart(main, cartPageContainer, state, cartState, promoState);
     }
 }
 
@@ -23,7 +23,8 @@ function drawFilledCart(
     parent: HTMLElement,
     pageContaier: HTMLElement,
     state: ProductsData[],
-    cartState: CartData[]
+    cartState: CartData[],
+    promoState: PromoData[]
 ): void {
     const cartPageLeft = createEl('cart-page__container_left', 'div');
     const cartPageRight = createEl('cart-page__container_right', 'div');
@@ -38,7 +39,7 @@ function drawFilledCart(
 
     appendEl(parent, pageContaier);
 
-    drawCartProducts(state, cartState);
+    drawCartProducts(state, cartState, promoState);
     drawCartTopbar();
-    drawCartSummary(cartState);
+    drawCartSummary(cartState, promoState);
 }

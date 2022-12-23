@@ -1,5 +1,5 @@
-import { CartData } from '../../types/exports';
+import { CartData, PromoData } from '../../types/exports';
 
-export function setStorage(cartState: CartData[]) {
-    localStorage.setItem('cartState', JSON.stringify(cartState));
+export function setStorage(name: string, state: CartData[] | PromoData[]) {
+    localStorage.setItem(name, JSON.stringify(state));
 }
