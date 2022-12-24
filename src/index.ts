@@ -8,7 +8,7 @@ let state: ProductsData[] = [];
 let curState: ProductsData[] = [];
 const cartState: ProductsData[] = [];
 
-async function setProdouctsValues() {
+export async function setProdouctsValues() {
     const result = await getProductsData();
     state = result.products;
     curState = state;
