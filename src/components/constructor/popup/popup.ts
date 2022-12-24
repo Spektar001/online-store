@@ -72,6 +72,97 @@ export function showPopUp(button: HTMLElement) {
     btnConfirm.type = 'button';
     btnConfirm.textContent = 'Confirm';
 
+    const regexName = /^[A-Z]{1}[a-z]{2,20} [A-Z]{1}[a-z]{2,10}$/gm;
+    const regexPhone = /^(?!\+.*\(.*\).*--.*$)(?!\+.*\(.*\).*-$)\+[0-9]{13}$/gm;
+    const regexAddress = /^[A-Z,a-z,0-9]{5,10} [A-Z,a-z,0-9]{5,10} [A-Z,a-z,0-9]{5,10}$/gm;
+    const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gm;
+    const regexCardNumber = /^[0-9]{4}\s[0-9]{4}\s[0-9]{4}\s[0-9]{4}$/gm;
+    const regexDate = /^[0-9]{2}\/[0-9]{2}$/gm;
+    const regexCVV = /^[0-9]+$/;
+
+    detailsInputName.addEventListener('input', () => {
+        if (detailsInputName.value.length < 7) {
+          detailsInputName.classList.add('error');
+        }
+        if (regexName.test(detailsInputName.value)) {
+            detailsInputName.classList.remove('error');
+        }
+    });
+
+    detailsInputPhone.addEventListener('input', () => {
+        detailsInputPhone.value = detailsInputPhone.value.replace(/[^\d,+]/g, '');
+        detailsInputPhone.classList.add('error');
+        if (regexPhone.test(detailsInputPhone.value)) {
+            detailsInputPhone.classList.remove('error');
+        }
+    });
+    detailsInputAddress.addEventListener('input', () => {
+        if (detailsInputAddress.value.length < 17) {
+            detailsInputAddress.classList.add('error');
+        }
+        if (regexAddress.test(detailsInputAddress.value)) {
+            detailsInputAddress.classList.remove('error');
+        }
+    });
+    detailsInputEmail.addEventListener('input', () => {
+        detailsInputEmail.classList.add('error');
+        if (regexEmail.test(detailsInputEmail.value)) {
+          detailsInputEmail.classList.remove('error');
+        }
+    });
+
+    detailsCardNumber.addEventListener('input', () => {
+        detailsCardNumber.value = detailsCardNumber.value.replace(/[^\d\s]/g, '');
+        let cardCode = detailsCardNumber.value.replace(/[^\d]/g, '').substring(0,16);
+        cardCode = cardCode != '' ? cardCode.match(/.{1,4}/g).join(' ') : '';
+        detailsCardNumber.value = cardCode;
+
+        if (detailsCardNumber.value.length < 19) {
+            detailsCardNumber.classList.add('error');
+        }
+        if (regexCardNumber.test(detailsCardNumber.value)) {
+            detailsCardNumber.classList.remove('error');
+        }
+        switch (detailsCardNumber.value[0]) {
+          case '4':
+            detailsCardImg.style.backgroundImage = 'url(../../../assets/visa.png)';
+          break;
+          case '5':
+            detailsCardImg.style.backgroundImage = 'url(../../../assets/master-card.png)';
+          break;
+          case '6':
+            detailsCardImg.style.backgroundImage = 'url(../../../assets/union-pay.png)';
+          break;
+          default:
+            detailsCardImg.style.backgroundImage = 'url(../../../assets/card-demo.png)';
+          break;
+        }
+    });
+    detailsDate.addEventListener('input', () => {
+        detailsDate.value = detailsDate.value.replace(/[^\d]/g, '');
+        let validDate = detailsDate.value.replace(/[^\d]/g, '').substring(0,4);
+        validDate = validDate != '/' ? validDate.match(/.{1,2}/g).join('/') : '/';
+        detailsDate.value = validDate;
+
+        if (detailsDate.value.length < 5) {
+          detailsDate.classList.add('error');
+        }
+        if (regexDate.test(detailsDate.value) && detailsDate.value.slice(0, 2) <= '12' && detailsDate.value.slice(-2) <= '31') {
+          detailsDate.classList.remove('error');
+        }
+    });
+    detailsCVV.addEventListener('input', () => {
+        detailsCVV.value = detailsCVV.value.replace(/[^\d]/g, '');
+        detailsCVV.classList.add('error');
+
+        if (detailsCVV.value.length > 3) {
+            detailsCVV.value = detailsCVV.value.slice(0, 3);
+        }
+        if (regexCVV.test(detailsCVV.value) === true && detailsCVV.value.length === 3) {
+            detailsCVV.classList.remove('error');
+        }
+    });
+
     btnConfirm.addEventListener('click', () => {
         const sectionOrder = createEl('section__order', 'div');
         const orderLayer = createEl('order_layer', 'div');
@@ -95,94 +186,6 @@ export function showPopUp(button: HTMLElement) {
         setTimeout(() => {
             main.children[0].remove();
         }, 1600);
-    });
-
-    const regexName = /^[A-Z]{1}[a-z]{2,10} [A-Z]{1}[a-z]{2,10}$/gm;
-    const regexPhone = /^(?!\+.*\(.*\).*--.*$)(?!\+.*\(.*\).*-$)\+[0-9]{13}$/gm;
-    const regexAddress = /^[A-Z,a-z]{5,10} [A-Z,a-z]{5,10} [A-Z,a-z]{5,10}$/gm;
-    const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gm;
-    const regexCardNumber = /^[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}$/gm;
-    const regexDate = /^[0-9]{2}\/[0-9]{2}$/gm;
-    const regexCVV = /^[0-9]+$/;
-
-    detailsInputName.addEventListener('input', () => {
-        detailsInputName.classList.add('error');
-        if (regexName.test(detailsInputName.value)) {
-            detailsInputName.classList.remove('error');
-        }
-    });
-
-    detailsInputPhone.addEventListener('input', () => {
-        detailsInputPhone.value = detailsInputPhone.value.replace(/[^\d,+]/g, '');
-        detailsInputPhone.classList.add('error');
-        if (regexPhone.test(detailsInputPhone.value)) {
-            detailsInputPhone.classList.remove('error');
-        }
-    });
-    detailsInputAddress.addEventListener('input', () => {
-        detailsInputAddress.classList.add('error');
-        if (regexAddress.test(detailsInputAddress.value)) {
-            detailsInputAddress.classList.remove('error');
-        }
-    });
-    detailsInputEmail.addEventListener('input', () => {
-        detailsInputEmail.classList.add('error');
-        if (regexEmail.test(detailsInputEmail.value)) {
-            detailsInputEmail.classList.remove('error');
-        }
-    });
-
-    detailsCardNumber.addEventListener('input', () => {
-        detailsCardNumber.value = detailsCardNumber.value.replace(/[^\d\s]/g, '');
-
-        if (detailsCardNumber.value.length < 19) {
-            detailsCardNumber.classList.add('error');
-        }
-
-        if (detailsCardNumber.value.length > 19) {
-            detailsCardNumber.value = detailsCardNumber.value.slice(0, 19);
-        }
-        if (regexCardNumber.test(detailsCardNumber.value) && detailsCardNumber.value.length === 19) {
-            detailsCardNumber.classList.remove('error');
-        }
-        if (detailsCardNumber.value[0] === '4') {
-            detailsCardImg.style.backgroundImage = 'url(../../../assets/visa.png)';
-        }
-        if (detailsCardNumber.value[0] === '5') {
-            detailsCardImg.style.backgroundImage = 'url(../../../assets/master-card.png)';
-        }
-        if (detailsCardNumber.value[0] === '6') {
-            detailsCardImg.style.backgroundImage = 'url(../../../assets/union-pay.png)';
-        }
-        if (detailsCardNumber.value.length === 0) {
-            detailsCardImg.style.backgroundImage = 'url(../../../assets/card-demo.png)';
-        }
-    });
-    detailsDate.addEventListener('input', () => {
-        detailsDate.value = detailsDate.value.replace(/[^\d]/g, '');
-        detailsDate.classList.add('error');
-
-        // if (detailsDate.value.length < 5) {
-        //   detailsDate.classList.add('error');
-        // }
-        // if (detailsDate.value[2] != '/' ) {
-        //   detailsDate.classList.add('error');
-        //   console.log(detailsDate.value[2]);
-        // }
-        // if(detailsDate.value.length > 5) {
-        //   detailsDate.value = detailsDate.value.slice(0, 5);
-        // }
-    });
-    detailsCVV.addEventListener('input', () => {
-        detailsCVV.value = detailsCVV.value.replace(/[^\d]/g, '');
-        detailsCVV.classList.add('error');
-
-        if (detailsCVV.value.length > 3) {
-            detailsCVV.value = detailsCVV.value.slice(0, 3);
-        }
-        if (regexCVV.test(detailsCVV.value) === true && detailsCVV.value.length === 3) {
-            detailsCVV.classList.remove('error');
-        }
     });
 
     document.addEventListener('click', (e) => {
