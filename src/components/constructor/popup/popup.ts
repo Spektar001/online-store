@@ -10,20 +10,20 @@ export function showPopUp(button: HTMLElement) {
     const detailsWrapper = createEl('details-wrapper', 'div');
     const details = createEl('details', 'div');
     const detailsTitle = createEl('details__title', 'h2');
-    const detailsInputName = <HTMLInputElement>createEl('details__input details__input_name', 'input');
-    const detailsInputPhone = <HTMLInputElement>createEl('details__input details__input_phone', 'input');
-    const detailsInputAddress = <HTMLInputElement>createEl('details__input details__input_address', 'input');
-    const detailsInputEmail = <HTMLInputElement>createEl('details__input details__input_email', 'input');
+    const detailsInputName = <HTMLInputElement>createEl('details__input details__input_name checked', 'input');
+    const detailsInputPhone = <HTMLInputElement>createEl('details__input details__input_phone checked', 'input');
+    const detailsInputAddress = <HTMLInputElement>createEl('details__input details__input_address checked', 'input');
+    const detailsInputEmail = <HTMLInputElement>createEl('details__input details__input_email checked', 'input');
     const detailsSubtitle = createEl('details__subtitle', 'p');
     const detailsCardBox = createEl('details__card_box', 'div');
     const detailsCard = createEl('details__card', 'div');
     const detailsCardImg = <HTMLImageElement>createEl('details__card_img', 'img');
-    const detailsCardNumber = <HTMLInputElement>createEl('details__card_number input', 'input');
+    const detailsCardNumber = <HTMLInputElement>createEl('details__card_number input checked', 'input');
     const detailsValid = createEl('details__valid', 'div');
     const detailsValidTitleVal = createEl('details__valid_title', 'p');
-    const detailsDate = <HTMLInputElement>createEl('details__date input', 'input');
+    const detailsDate = <HTMLInputElement>createEl('details__date input checked', 'input');
     const detailsValidTitleCVV = createEl('details__valid_title', 'p');
-    const detailsCVV = <HTMLInputElement>createEl('details__cvv input', 'input');
+    const detailsCVV = <HTMLInputElement>createEl('details__cvv input checked', 'input');
     const btnConfirm = <HTMLButtonElement>createEl('btn-confirm', 'button');
 
     appendEl(main, sectionDetails);
@@ -72,7 +72,7 @@ export function showPopUp(button: HTMLElement) {
     btnConfirm.type = 'button';
     btnConfirm.textContent = 'Confirm';
 
-    const regexName = /^[A-Z]{1}[a-z]{2,20} [A-Z]{1}[a-z]{2,10}$/gm;
+    const regexName = /^[A-Z]{1}[a-z]{2,10}\s[A-Z]{1}[a-z]{2,10}$/gm;
     const regexPhone = /^(?!\+.*\(.*\).*--.*$)(?!\+.*\(.*\).*-$)\+[0-9]{13}$/gm;
     const regexAddress = /^[A-Z,a-z,0-9]{5,10} [A-Z,a-z,0-9]{5,10} [A-Z,a-z,0-9]{5,10}$/gm;
     const regexEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gm;
@@ -81,89 +81,111 @@ export function showPopUp(button: HTMLElement) {
     const regexCVV = /^[0-9]+$/;
 
     detailsInputName.addEventListener('input', () => {
-        if (detailsInputName.value.length < 7) {
-          detailsInputName.classList.add('error');
+        if (detailsInputName.value.match(regexName) === null) {
+            detailsInputName.classList.add('error');
+            detailsInputName.classList.remove('check');
         }
         if (regexName.test(detailsInputName.value)) {
             detailsInputName.classList.remove('error');
+            detailsInputName.classList.add('check');
         }
     });
 
     detailsInputPhone.addEventListener('input', () => {
         detailsInputPhone.value = detailsInputPhone.value.replace(/[^\d,+]/g, '');
         detailsInputPhone.classList.add('error');
+        detailsInputPhone.classList.remove('check');
+
         if (regexPhone.test(detailsInputPhone.value)) {
             detailsInputPhone.classList.remove('error');
+            detailsInputPhone.classList.add('check');
         }
     });
     detailsInputAddress.addEventListener('input', () => {
-        if (detailsInputAddress.value.length < 17) {
+        if (detailsInputAddress.value.match(regexAddress) === null) {
             detailsInputAddress.classList.add('error');
+            detailsInputAddress.classList.remove('check');
         }
         if (regexAddress.test(detailsInputAddress.value)) {
             detailsInputAddress.classList.remove('error');
+            detailsInputAddress.classList.add('check');
         }
     });
     detailsInputEmail.addEventListener('input', () => {
         detailsInputEmail.classList.add('error');
+        detailsInputEmail.classList.remove('check');
+
         if (regexEmail.test(detailsInputEmail.value)) {
-          detailsInputEmail.classList.remove('error');
+            detailsInputEmail.classList.remove('error');
+            detailsInputEmail.classList.add('check');
         }
     });
 
     detailsCardNumber.addEventListener('input', () => {
         detailsCardNumber.value = detailsCardNumber.value.replace(/[^\d\s]/g, '');
-        let cardCode = detailsCardNumber.value.replace(/[^\d]/g, '').substring(0,16);
+        let cardCode = detailsCardNumber.value.replace(/[^\d]/g, '').substring(0, 16);
         cardCode = cardCode != '' ? cardCode.match(/.{1,4}/g).join(' ') : '';
         detailsCardNumber.value = cardCode;
 
         if (detailsCardNumber.value.length < 19) {
             detailsCardNumber.classList.add('error');
+            detailsCardNumber.classList.remove('check');
         }
         if (regexCardNumber.test(detailsCardNumber.value)) {
             detailsCardNumber.classList.remove('error');
+            detailsCardNumber.classList.add('check');
         }
         switch (detailsCardNumber.value[0]) {
-          case '4':
-            detailsCardImg.style.backgroundImage = 'url(../../../assets/visa.png)';
-          break;
-          case '5':
-            detailsCardImg.style.backgroundImage = 'url(../../../assets/master-card.png)';
-          break;
-          case '6':
-            detailsCardImg.style.backgroundImage = 'url(../../../assets/union-pay.png)';
-          break;
-          default:
-            detailsCardImg.style.backgroundImage = 'url(../../../assets/card-demo.png)';
-          break;
+            case '4':
+                detailsCardImg.style.backgroundImage = 'url(../../../assets/visa.png)';
+                break;
+            case '5':
+                detailsCardImg.style.backgroundImage = 'url(../../../assets/master-card.png)';
+                break;
+            case '6':
+                detailsCardImg.style.backgroundImage = 'url(../../../assets/union-pay.png)';
+                break;
+            default:
+                detailsCardImg.style.backgroundImage = 'url(../../../assets/card-demo.png)';
+                break;
         }
     });
     detailsDate.addEventListener('input', () => {
         detailsDate.value = detailsDate.value.replace(/[^\d]/g, '');
-        let validDate = detailsDate.value.replace(/[^\d]/g, '').substring(0,4);
+        let validDate = detailsDate.value.replace(/[^\d]/g, '').substring(0, 4);
         validDate = validDate != '/' ? validDate.match(/.{1,2}/g).join('/') : '/';
         detailsDate.value = validDate;
 
         if (detailsDate.value.length < 5) {
-          detailsDate.classList.add('error');
+            detailsDate.classList.add('error');
+            detailsDate.classList.remove('check');
         }
-        if (regexDate.test(detailsDate.value) && detailsDate.value.slice(0, 2) <= '12' && detailsDate.value.slice(-2) <= '31') {
-          detailsDate.classList.remove('error');
+        if (
+            regexDate.test(detailsDate.value) &&
+            detailsDate.value.slice(0, 2) <= '12' &&
+            detailsDate.value.slice(-2) <= '31'
+        ) {
+            detailsDate.classList.remove('error');
+            detailsDate.classList.add('check');
         }
     });
     detailsCVV.addEventListener('input', () => {
         detailsCVV.value = detailsCVV.value.replace(/[^\d]/g, '');
         detailsCVV.classList.add('error');
+        detailsCVV.classList.remove('check');
 
         if (detailsCVV.value.length > 3) {
             detailsCVV.value = detailsCVV.value.slice(0, 3);
         }
         if (regexCVV.test(detailsCVV.value) === true && detailsCVV.value.length === 3) {
             detailsCVV.classList.remove('error');
+            detailsCVV.classList.add('check');
         }
     });
 
     btnConfirm.addEventListener('click', () => {
+        console.log(123);
+
         const sectionOrder = createEl('section__order', 'div');
         const orderLayer = createEl('order_layer', 'div');
         const orderWrapper = createEl('order-wrapper', 'div');
