@@ -1,3 +1,5 @@
+import Route from 'route-parser';
+
 export interface Products {
     limit: number;
     products: ProductsData[];
@@ -26,6 +28,14 @@ export interface CartData extends ProductsData {
 export interface PromoData {
     name: string;
     discount: number;
+}
+
+export interface Paths {
+    [k: string]: string;
+}
+
+export interface Routes {
+    [k: string]: Route;
 }
 
 export function checkedQuerySelector(parent: Element | Document, selector: string): HTMLElement {

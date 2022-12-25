@@ -54,10 +54,15 @@ function getFilteredKeys(
 
         filterCheckbox.type = 'checkbox';
         filterCheckbox.id = item;
+        filterCheckbox.checked = true;
         filterLabel.textContent = item;
         filterLabel.htmlFor = item;
 
         filterCheckbox.addEventListener('change', () => {
+            const url = new URL(window.location.href);
+            url.searchParams.append('category', `${filterCheckbox.id}`);
+            console.log(url);
+            window.history.pushState(url.search, '', url);
             setFilter(filterCheckbox, state, cartState);
         });
 
