@@ -5,6 +5,7 @@ import { drawProductsPage } from '../constructor/drawProductsPage';
 import { countCartProducts, countCartTotal } from '../constructor/cart/cartControls';
 import { drawCart } from '../constructor/cart/drawCart';
 import { drawProduct } from '../constructor/pruduct/drawProduct';
+import { checkedQuerySelector } from '../../types/exports';
 
 const Paths: Paths = {
     index: '/',
@@ -15,7 +16,6 @@ const Paths: Paths = {
 export const routes: Routes = {};
 
 export const render = (path: string) => {
-    console.log(cartState);
     for (const item of Object.values(routes)) {
         if (item.match(path) && Object.values(item)[0] === `/`) {
             drawProductsPage(state, cartState);
@@ -34,7 +34,8 @@ export const render = (path: string) => {
             return;
         }
     }
-    console.log(404);
+    const main = checkedQuerySelector(document, 'main');
+    main.innerHTML = 'OH NO, ITS 404 PAGE!';
 };
 
 export const goTo = (path: string) => {
