@@ -7,6 +7,8 @@ export function drawFilters(state: ProductsData[], cartState: CartData[]): void 
     const categories: string[] = [];
     const brands: string[] = [];
     let filtered: Set<string>;
+    let min: number;
+    let max: number;
 
     for (let i = 0; i < state.length; i += 1) {
         categories.push(state[i].category);
@@ -33,7 +35,31 @@ export function drawFilters(state: ProductsData[], cartState: CartData[]): void 
         cartState
     );
 
-    drawDoubleSlider(state);
+    min = getMinPrice(state);
+    max = getMaxPrice(state);
+
+    drawDoubleSlider(
+        'values__container_min min_price__value',
+        'values__container_max max_price__value',
+        'inputs__slider_track price_track',
+        'inputs__slider_1 price__slider_1',
+        'inputs__slider_2 price__slider_2',
+        min,
+        max
+    );
+
+    min = getMinDiscount(state);
+    max = getMaxDiscount(state);
+
+    drawDoubleSlider(
+        'values__container_min min_discount__value',
+        'values__container_max max_discount__value',
+        'inputs__slider_track discount_track',
+        'inputs__slider_1 discount__slider_1',
+        'inputs__slider_2 discount__slider_2',
+        min,
+        max
+    );
 }
 
 function getFilteredKeys(
@@ -56,7 +82,6 @@ function getFilteredKeys(
 
         filterCheckbox.type = 'checkbox';
         filterCheckbox.id = item;
-        filterCheckbox.checked = true;
         filterLabel.textContent = item;
         filterLabel.htmlFor = item;
 
@@ -77,19 +102,28 @@ function getFilteredKeys(
     appendEl(filtersContainer, filterList);
 }
 
-function drawDoubleSlider(state: ProductsData[]): void {
+function drawDoubleSlider(
+    minValTextSelector: string,
+    maxValTextSelector: string,
+    sliderBarSelector: string,
+    inputSelector1: string,
+    inputSelector2: string,
+    min: number,
+    max: number
+): void {
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
-
     const sliderWrapper = createEl('slider__wrapper', 'div');
+    sliderWrapper.innerHTML = '';
+
     const sliderContainer = createEl('slider__container', 'div');
     const valuesContainer = createEl('values__container', 'div');
-    const valuesMin = createEl('values__container_min', 'span');
+    const valuesMin = createEl(minValTextSelector, 'span');
     const valuesDivider = createEl('values__container_divider', 'div');
-    const valuesMax = createEl('values__container_max', 'div');
+    const valuesMax = createEl(maxValTextSelector, 'span');
     const inputsContainer = createEl('inputs__container', 'div');
-    const inputsSlider = createEl('inputs__slider_track', 'div');
-    const inputsRange1 = <HTMLInputElement>createEl('inputs__slider_1', 'input');
-    const inputsRange2 = <HTMLInputElement>createEl('inputs__slider_2', 'input');
+    const inputsSlider = createEl(sliderBarSelector, 'div');
+    const inputsRange1 = <HTMLInputElement>createEl(inputSelector1, 'input');
+    const inputsRange2 = <HTMLInputElement>createEl(inputSelector2, 'input');
 
     appendEl(valuesContainer, valuesMin);
     appendEl(valuesContainer, valuesDivider);
@@ -105,21 +139,15 @@ function drawDoubleSlider(state: ProductsData[]): void {
     appendEl(sliderWrapper, sliderContainer);
     appendEl(filtersContainer, sliderWrapper);
 
-    console.log(state);
-
-    const min: number = state.reduce((min, item) => (item.price < min ? item.price : min), state[0].price);
-    const max: number = state.reduce((max, item) => (item.price > max ? item.price : max), state[0].price);
-    console.log(min, max);
-
     valuesDivider.textContent = '-';
     inputsRange1.type = 'range';
     inputsRange2.type = 'range';
-    inputsRange1.min = `${min}`;
-    inputsRange1.max = `${max}`;
-    inputsRange2.min = `${min}`;
-    inputsRange2.max = `${max}`;
-    inputsRange1.value = `${min}`;
-    inputsRange2.value = `${max}`;
+    inputsRange1.min = `${Math.floor(min)}`;
+    inputsRange1.max = `${Math.ceil(max)}`;
+    inputsRange2.min = `${Math.floor(min)}`;
+    inputsRange2.max = `${Math.ceil(max)}`;
+    inputsRange1.value = `${Math.floor(min)}`;
+    inputsRange2.value = `${Math.ceil(max)}`;
 
     const minGap = 0;
 
@@ -128,20 +156,17 @@ function drawDoubleSlider(state: ProductsData[]): void {
             inputsRange1.value = `${parseInt(inputsRange2.value) - minGap}`;
         }
         valuesMin.textContent = inputsRange1.value;
-        fillColor();
+        fillColor(inputsRange1, inputsRange2, inputsSlider);
     }
     function slideTwo() {
         if (parseInt(inputsRange2.value) - parseInt(inputsRange1.value) <= minGap) {
             inputsRange2.value = `${parseInt(inputsRange1.value) + minGap}`;
         }
         valuesMax.textContent = inputsRange2.value;
-        fillColor();
+        fillColor(inputsRange1, inputsRange2, inputsSlider);
     }
-    function fillColor() {
-        const percent1 = (+inputsRange1.value / +inputsRange1.max) * 100;
-        const percent2 = (+inputsRange2.value / +inputsRange1.max) * 100;
-        inputsSlider.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #F67280 ${percent1}% , #F67280 ${percent2}%, #dadae5 ${percent2}%)`;
-    }
+
+    fillColor(inputsRange1, inputsRange2, inputsSlider);
 
     inputsRange1.addEventListener('input', () => {
         slideOne();
@@ -153,4 +178,55 @@ function drawDoubleSlider(state: ProductsData[]): void {
 
     slideOne();
     slideTwo();
+}
+
+function fillColor(input1: HTMLInputElement, input2: HTMLInputElement, sliderBar: HTMLElement): void {
+    const percent1 = (+input1.value / +input1.max) * 100;
+    const percent2 = (+input2.value / +input1.max) * 100;
+    sliderBar.style.background = `linear-gradient(to right, white 0% , #F67280 ${percent1}% , #F67280 ${percent2}%, white 100%)`;
+}
+
+// export function setInputValues(
+//     minValTextSelector: string,
+//     maxValTextSelector: string,
+//     inputSelector1: string,
+//     inputSelector2: string,
+//     sliderBarSelector: string,
+//     min: number,
+//     max: number
+// ): void {
+//     const minVal = checkedQuerySelector(document, minValTextSelector);
+//     const maxVal = checkedQuerySelector(document, maxValTextSelector);
+//     const input1 = <HTMLInputElement>checkedQuerySelector(document, inputSelector1);
+//     const input2 = <HTMLInputElement>checkedQuerySelector(document, inputSelector2);
+//     const sliderBar = checkedQuerySelector(document, sliderBarSelector);
+
+//     input1.value = `${min}`;
+//     input2.value = `${max}`;
+//     minVal.textContent = `${min}`;
+//     maxVal.textContent = `${max}`;
+
+//     fillColor(input1, input2, sliderBar);
+// }
+
+export function getMinPrice(state: ProductsData[]): number {
+    return state.reduce((min, item) => (item.price < min ? item.price : min), state[0].price);
+}
+
+export function getMaxPrice(state: ProductsData[]): number {
+    return state.reduce((max, item) => (item.price > max ? item.price : max), state[0].price);
+}
+
+export function getMinDiscount(state: ProductsData[]): number {
+    return state.reduce(
+        (min, item) => (item.discountPercentage < min ? item.discountPercentage : min),
+        state[0].discountPercentage
+    );
+}
+
+export function getMaxDiscount(state: ProductsData[]): number {
+    return state.reduce(
+        (max, item) => (item.discountPercentage > max ? item.discountPercentage : max),
+        state[0].discountPercentage
+    );
 }
