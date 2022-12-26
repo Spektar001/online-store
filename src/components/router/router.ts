@@ -14,14 +14,24 @@ const Paths: Paths = {
 export const routes: Routes = {};
 
 export const render = (path: string) => {
-    if (routes.index.match(path)) {
-        drawProductsPage(state, cartState);
-        countCartProducts(cartState);
-        countCartTotal(cartState);
-        return;
-    } else if (routes.cart.match(path)) {
-        drawCart(state, cartState, promoState);
-        return;
+    for (const item of Object.values(routes)) {
+        if (item.match(path) && Object.values(item)[0] === `/`) {
+            drawProductsPage(state, cartState);
+            countCartProducts(cartState);
+            countCartTotal(cartState);
+            return;
+        } else if (item.match(path) && Object.values(item)[0] === `/cart`) {
+            drawCart(state, cartState, promoState);
+            return;
+        } else if (item.match(path)) {
+            for (const item of Object.keys(routes)) {
+                if (item.indexOf('product') >= 0) {
+                    console.log(item.slice(7));
+                }
+            }
+            console.log(path, 'Ммм, хуита!');
+            return;
+        }
     }
 };
 
