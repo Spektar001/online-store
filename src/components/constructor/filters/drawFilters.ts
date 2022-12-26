@@ -32,6 +32,8 @@ export function drawFilters(state: ProductsData[], cartState: CartData[]): void 
         state,
         cartState
     );
+
+    drawDoubleSlider(state);
 }
 
 function getFilteredKeys(
@@ -73,4 +75,82 @@ function getFilteredKeys(
     }
 
     appendEl(filtersContainer, filterList);
+}
+
+function drawDoubleSlider(state: ProductsData[]): void {
+    const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
+
+    const sliderWrapper = createEl('slider__wrapper', 'div');
+    const sliderContainer = createEl('slider__container', 'div');
+    const valuesContainer = createEl('values__container', 'div');
+    const valuesMin = createEl('values__container_min', 'span');
+    const valuesDivider = createEl('values__container_divider', 'div');
+    const valuesMax = createEl('values__container_max', 'div');
+    const inputsContainer = createEl('inputs__container', 'div');
+    const inputsSlider = createEl('inputs__slider_track', 'div');
+    const inputsRange1 = <HTMLInputElement>createEl('inputs__slider_1', 'input');
+    const inputsRange2 = <HTMLInputElement>createEl('inputs__slider_2', 'input');
+
+    appendEl(valuesContainer, valuesMin);
+    appendEl(valuesContainer, valuesDivider);
+    appendEl(valuesContainer, valuesMax);
+
+    appendEl(inputsContainer, inputsSlider);
+    appendEl(inputsContainer, inputsRange1);
+    appendEl(inputsContainer, inputsRange2);
+
+    appendEl(sliderContainer, valuesContainer);
+    appendEl(sliderContainer, inputsContainer);
+
+    appendEl(sliderWrapper, sliderContainer);
+    appendEl(filtersContainer, sliderWrapper);
+
+    console.log(state);
+
+    const min: number = state.reduce((min, item) => (item.price < min ? item.price : min), state[0].price);
+    const max: number = state.reduce((max, item) => (item.price > max ? item.price : max), state[0].price);
+    console.log(min, max);
+
+    valuesDivider.textContent = '-';
+    inputsRange1.type = 'range';
+    inputsRange2.type = 'range';
+    inputsRange1.min = `${min}`;
+    inputsRange1.max = `${max}`;
+    inputsRange2.min = `${min}`;
+    inputsRange2.max = `${max}`;
+    inputsRange1.value = `${min}`;
+    inputsRange2.value = `${max}`;
+
+    const minGap = 0;
+
+    function slideOne() {
+        if (parseInt(inputsRange2.value) - parseInt(inputsRange1.value) <= minGap) {
+            inputsRange1.value = `${parseInt(inputsRange2.value) - minGap}`;
+        }
+        valuesMin.textContent = inputsRange1.value;
+        fillColor();
+    }
+    function slideTwo() {
+        if (parseInt(inputsRange2.value) - parseInt(inputsRange1.value) <= minGap) {
+            inputsRange2.value = `${parseInt(inputsRange1.value) + minGap}`;
+        }
+        valuesMax.textContent = inputsRange2.value;
+        fillColor();
+    }
+    function fillColor() {
+        const percent1 = (+inputsRange1.value / +inputsRange1.max) * 100;
+        const percent2 = (+inputsRange2.value / +inputsRange1.max) * 100;
+        inputsSlider.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #F67280 ${percent1}% , #F67280 ${percent2}%, #dadae5 ${percent2}%)`;
+    }
+
+    inputsRange1.addEventListener('input', () => {
+        slideOne();
+    });
+
+    inputsRange2.addEventListener('input', () => {
+        slideTwo();
+    });
+
+    slideOne();
+    slideTwo();
 }
