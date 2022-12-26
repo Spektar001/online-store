@@ -138,12 +138,3 @@
     justify-content: flex-end;
     gap: 10px;
 }
-
-.product-page__button {
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-    font-size: 1.05rem;
-    font-weight: bold;
-    background-color: coral;
-}

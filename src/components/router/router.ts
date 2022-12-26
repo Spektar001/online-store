@@ -4,6 +4,7 @@ import { state, cartState, promoState } from '../..';
 import { drawProductsPage } from '../constructor/drawProductsPage';
 import { countCartProducts, countCartTotal } from '../constructor/cart/cartControls';
 import { drawCart } from '../constructor/cart/drawCart';
+import { drawProduct } from '../constructor/pruduct/drawProduct';
 
 const Paths: Paths = {
     index: '/',
@@ -24,15 +25,11 @@ export const render = (path: string) => {
             drawCart(state, cartState, promoState);
             return;
         } else if (item.match(path)) {
-            for (const item of Object.keys(routes)) {
-                if (item.indexOf('product') >= 0) {
-                    console.log(item.slice(7));
-                }
-            }
-            console.log(path, 'Ммм, хуита!');
+            drawProduct(Object.values(item)[0].slice(9), state, cartState);
             return;
         }
     }
+    console.log(404);
 };
 
 export const goTo = (path: string) => {

@@ -107,7 +107,8 @@
 
 /* buy-button------------------------------------------------- */
 
-.product__button_buy {
+.product__button_buy,
+.product__button_buy_now {
     padding: 10px;
     border-radius: 5px;
     color: white;
@@ -122,7 +123,8 @@
     pointer-events: none;
 }
 
-.product__button_buy:not(.product__button_added):hover {
+.product__button_buy:not(.product__button_added):hover,
+.product__button_buy_now:hover {
     background-color: #E23E57;
     transition: all 0.3s ease;
 }

@@ -95,7 +95,7 @@ function drawCartProduct(
     productRemoveButton.textContent = '-';
 
     productMainContaiter.addEventListener('click', () => {
-        drawProduct(productMainContaiter, state, cartState);
+        drawProduct(productMainContaiter.id, state, cartState);
     });
 
     productRemoveButton.addEventListener('click', () => {

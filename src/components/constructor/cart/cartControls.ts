@@ -1,13 +1,8 @@
 import { CartData, ProductsData, PromoData, checkedQuerySelector } from '../../../types/exports';
 
-export function addToCart(
-    button: HTMLElement,
-    product: HTMLElement,
-    state: ProductsData[],
-    cartState: CartData[]
-): void {
+export function addToCart(button: HTMLElement, index: string, state: ProductsData[], cartState: CartData[]): void {
     for (const item of state) {
-        if (item.id === +product.id) {
+        if (item.id === +index) {
             const cartItem = Object.assign(item, { amount: 1 });
             cartState.push(cartItem);
             button.textContent = 'Added!';
@@ -133,9 +128,9 @@ export function countTotalSum(cartState: CartData[], promoState: PromoData[]): s
         : `${Math.floor((1 - countPromoDiscount(promoState)) * countCartTotal(cartState))}€`;
 }
 
-export function setButtons(parent: HTMLElement, button: HTMLElement, cartState: CartData[]): void {
+export function setButtons(index: string, button: HTMLElement, cartState: CartData[]): void {
     for (const item of cartState) {
-        if (item.id === +parent.id) {
+        if (item.id === +index) {
             button.classList.add('product__button_added');
             button.textContent = 'Added';
         }
