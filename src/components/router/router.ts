@@ -15,6 +15,7 @@ const Paths: Paths = {
 export const routes: Routes = {};
 
 export const render = (path: string) => {
+    console.log(cartState);
     for (const item of Object.values(routes)) {
         if (item.match(path) && Object.values(item)[0] === `/`) {
             drawProductsPage(state, cartState);
@@ -23,9 +24,13 @@ export const render = (path: string) => {
             return;
         } else if (item.match(path) && Object.values(item)[0] === `/cart`) {
             drawCart(state, cartState, promoState);
+            countCartProducts(cartState);
+            countCartTotal(cartState);
             return;
         } else if (item.match(path)) {
             drawProduct(Object.values(item)[0].slice(9), state, cartState);
+            countCartProducts(cartState);
+            countCartTotal(cartState);
             return;
         }
     }

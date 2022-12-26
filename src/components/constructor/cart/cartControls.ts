@@ -1,4 +1,5 @@
 import { CartData, ProductsData, PromoData, checkedQuerySelector } from '../../../types/exports';
+import { setStorage } from '../../storage/setStorage';
 
 export function addToCart(button: HTMLElement, index: string, state: ProductsData[], cartState: CartData[]): void {
     for (const item of state) {
@@ -7,6 +8,7 @@ export function addToCart(button: HTMLElement, index: string, state: ProductsDat
             cartState.push(cartItem);
             button.textContent = 'Added!';
             button.classList.add('product__button_added');
+            setStorage('cartState', cartState);
         }
     }
 }
@@ -15,6 +17,7 @@ export function deleteFromCart(product: HTMLElement, cartState: CartData[]): voi
     for (const item of cartState) {
         if (item.id === +product.id && item.amount === 0) {
             cartState.splice(cartState.indexOf(item), 1);
+            setStorage('cartState', cartState);
         }
     }
 }
@@ -40,6 +43,8 @@ export function reduceAmount(
             if (item.amount < item.stock) {
                 button.classList.remove(selector);
             }
+
+            setStorage('cartState', cartState);
         }
     }
 }
@@ -55,9 +60,12 @@ export function increaseAmount(
         if (item.id === +product.id) {
             item.amount++;
             amountEl.textContent = `${item.amount}`;
+
             if (item.amount === item.stock) {
                 button.classList.add(selector);
             }
+
+            setStorage('cartState', cartState);
         }
     }
 }
@@ -91,6 +99,7 @@ export function addPromoItem(input: HTMLInputElement, promocodes: PromoData[], p
         if (input.value === promo.name && promoState.every((item) => item.name !== input.value)) {
             promoState.push(promo);
             input.value = '';
+            setStorage('promoState', promoState);
             return true;
         } else if (input.value === promo.name && promoState.findIndex((item) => item.name === input.value) !== -1) {
             input.style.color = 'red';
@@ -108,6 +117,7 @@ export function removePromoItem(button: HTMLElement, promoState: PromoData[]): v
     for (const item of promoState) {
         if (item.name === button.id) {
             promoState.splice(promoState.indexOf(item), 1);
+            setStorage('promoState', promoState);
         }
     }
 }

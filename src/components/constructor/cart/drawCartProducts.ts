@@ -1,6 +1,5 @@
 import { createEl, appendEl } from '../elements/elements';
 import { ProductsData, CartData, PromoData, checkedQuerySelector } from '../../../types/exports';
-import { drawProduct } from '../pruduct/drawProduct';
 import { drawCartSummary } from './drawSummary';
 import {
     deleteFromCart,
@@ -11,6 +10,7 @@ import {
     countCartProducts,
 } from './cartControls';
 import './cart.css';
+import { goTo } from '../../router/router';
 
 export function drawCartProducts(state: ProductsData[], cartState: CartData[], promoState: PromoData[]): void {
     const cartProductsContainer = checkedQuerySelector(document, '.cart-products__container');
@@ -95,7 +95,7 @@ function drawCartProduct(
     productRemoveButton.textContent = '-';
 
     productMainContaiter.addEventListener('click', () => {
-        drawProduct(productMainContaiter.id, state, cartState);
+        goTo(`/product/${productMainContaiter.id}`);
     });
 
     productRemoveButton.addEventListener('click', () => {
