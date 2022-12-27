@@ -1,5 +1,6 @@
 import { CartData, ProductsData, PromoData, checkedQuerySelector } from '../../../types/exports';
 import { setStorage } from '../../storage/setStorage';
+import { drawEmptyCart } from './drawCart';
 
 export function addToCart(button: HTMLElement, index: string, state: ProductsData[], cartState: CartData[]): void {
     for (const item of state) {
@@ -24,7 +25,7 @@ export function deleteFromCart(product: HTMLElement, cartState: CartData[]): voi
 
 export function checkEmptyCart(contaiter: HTMLElement, cartState: CartData[]): void {
     if (cartState.length === 0) {
-        contaiter.innerHTML = 'NO PRODUCTS';
+        drawEmptyCart();
     }
 }
 
