@@ -5,7 +5,7 @@ import { drawProductsPage } from '../constructor/drawProductsPage';
 import { countCartProducts, countCartTotal } from '../constructor/cart/cartControls';
 import { drawCart } from '../constructor/cart/drawCart';
 import { drawProduct } from '../constructor/pruduct/drawProduct';
-import { checkedQuerySelector } from '../../types/exports';
+import { draw404 } from '../constructor/404/404';
 
 const Paths: Paths = {
     index: '/',
@@ -34,8 +34,7 @@ export const render = (path: string) => {
             return;
         }
     }
-    const main = checkedQuerySelector(document, 'main');
-    main.innerHTML = 'OH NO, ITS 404 PAGE!';
+    draw404();
 };
 
 export const goTo = (path: string) => {

@@ -1,0 +1,36 @@
+.no-page__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.no-page__image {
+    width: 300px;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 22.5778 22.5778' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpath id='a' d='M-75.9051 22.6916H7.6704v58.6467h-83.5755z'/%3E%3C/defs%3E%3Cpath d='M2.9744 278.3652c-1.1042 0-2.0043.9-2.0043 2.0042v10.686c0 1.1042.9 2.0017 2.0043 2.0017h16.629c1.1042 0 2.0043-.8975 2.0042-2.0017v-10.686c0-1.1042-.9-2.0042-2.0042-2.0042zm0 .6685H4.395l.645 1.232a1.441 1.441 0 0 0 1.2745.7716h14.6254v2.0017H1.638v-2.6696c0-.7457.5906-1.3357 1.3364-1.3357zm2.1739 0h14.455c.7458 0 1.3365.59 1.3365 1.3357H6.3144a.7711.7711 0 0 1-.6829-.4141zm10.181.3326a.334.334 0 0 0 0 .668h.3353a.334.334 0 0 0 0-.668zm2.0037 0a.334.334 0 0 0 0 .668h.3333a.334.334 0 1 0 0-.668zm2.0043 0a.334.334 0 1 0 0 .668h.3326a.334.334 0 1 0 0-.668zm-16.6981 2.3395a.334.334 0 0 0 0 .668h.3352a.334.334 0 0 0 0-.668zm2.0036 0a.334.334 0 0 0 0 .668h.3352a.334.334 0 0 0 0-.668zm2.0042 0a.334.334 0 0 0 0 .668h.3353a.334.334 0 0 0 0-.668zm2.0043 0a.334.334 0 1 0 0 .668h.3326a.334.334 0 1 0 0-.668zm2.0043 0a.334.334 0 1 0 0 .668h.3326a.334.334 0 1 0 0-.668zm2.0016 0a.334.334 0 0 0 0 .668h.3353a.334.334 0 0 0 0-.668zm-11.0192 2.001h19.3018v7.3486c0 .7458-.5907 1.3364-1.3364 1.3364H2.9744c-.7458 0-1.3364-.5906-1.3364-1.3364z' style='color:%23000;font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:%23000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:%23000;solid-opacity:1;vector-effect:none;fill:%23000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:.529167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:%23000' transform='translate(0 -274.4222)'/%3E%3Ctext xml:space='preserve' transform='matrix(.26458 0 0 .26458 24.861 2.1563)' style='font-style:normal;font-weight:400;font-size:32px;line-height:1.25;font-family:sans-serif;letter-spacing:0;word-spacing:0;white-space:pre;shape-inside:url(%23a);fill:%23000;fill-opacity:1;stroke:none'%3E%3Ctspan x='-75.9043' y='52.8633'%3E%3Ctspan style='font-family:&quot;Anonymous Pro&quot;;-inkscape-font-specification:&quot;Anonymous Pro&quot;;fill:%23e23e57'%3E404%3C/tspan%3E%3C/tspan%3E%3C/text%3E%3C/svg%3E");
+}
+
+.no-page__header {
+    padding: 15px;
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 5px 0 gray;
+}
+
+.no-page__container_text {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.no-page__main_link {
+    color: #3F72AF;
+    text-decoration: underline;
+    cursor: pointer;
+}
