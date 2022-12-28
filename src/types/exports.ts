@@ -30,6 +30,16 @@ export interface PromoData {
     discount: number;
 }
 
+export interface QueryData {
+    category: string[];
+    brand: string[];
+    minPrice: string;
+    maxPrice: string;
+    minDisc: string;
+    maxDisc: string;
+    find: string;
+}
+
 export interface Paths {
     [k: string]: string;
 }

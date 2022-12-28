@@ -1,6 +1,7 @@
 import { createEl, appendEl } from '../elements/elements';
-import { checkedQuerySelector } from '../../../types/exports';
+import { QueryData, checkedQuerySelector } from '../../../types/exports';
 import './topbar.css';
+import { queryState } from '../../..';
 
 export function drawTopbar() {
     const topbarContainer = checkedQuerySelector(document, '.products__topbar');
@@ -24,6 +25,10 @@ export function drawTopbar() {
     sortSearch.placeholder = 'Type to search products...';
     productsViewButton1.textContent = '3';
     productsViewButton2.textContent = '4';
+
+    sortSearch.addEventListener('input', () => {
+        setFindSearchParams(sortSearch, queryState);
+    });
 
     appendEl(topbarContainer, sortListContainer);
     appendEl(topbarContainer, sortSearch);
@@ -57,4 +62,12 @@ function toggleSortList(sortList: HTMLElement, sortListButton: HTMLElement, sele
             sortList.classList.add(selector);
         }
     });
+}
+
+function setFindSearchParams(searchInput: HTMLInputElement, queryState: QueryData): void {
+    const url = new URL(window.location.href);
+    queryState.find = searchInput.value;
+    searchInput.value !== '' ? url.searchParams.set('find', `${searchInput.value}`) : url.searchParams.delete('find');
+    window.history.pushState(url.search, '', url);
+    console.log(queryState);
 }

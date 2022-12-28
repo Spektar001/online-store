@@ -1,9 +1,9 @@
 import { setFilter } from './filters';
-import { ProductsData, CartData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, CartData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import { createEl, appendEl } from '../elements/elements';
 import './filters.css';
 
-export function drawFilters(state: ProductsData[], cartState: CartData[]): void {
+export function drawFilters(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const categories: string[] = [];
     const brands: string[] = [];
     let filtered: Set<string>;
@@ -21,6 +21,8 @@ export function drawFilters(state: ProductsData[], cartState: CartData[]): void 
         'filter__list',
         'filter__item',
         'filter__checkbox filter__checkbox_category',
+        queryState.category,
+        'category',
         state,
         cartState
     );
@@ -31,6 +33,8 @@ export function drawFilters(state: ProductsData[], cartState: CartData[]): void 
         'filter__list',
         'filter__item',
         'filter__checkbox filter__checkbox_brand',
+        queryState.brand,
+        'brand',
         state,
         cartState
     );
@@ -45,7 +49,10 @@ export function drawFilters(state: ProductsData[], cartState: CartData[]): void 
         'inputs__slider_1 price__slider_1',
         'inputs__slider_2 price__slider_2',
         min,
-        max
+        max,
+        'minPrice',
+        'maxPrice',
+        queryState
     );
 
     min = getMinDiscount(state);
@@ -58,7 +65,10 @@ export function drawFilters(state: ProductsData[], cartState: CartData[]): void 
         'inputs__slider_1 discount__slider_1',
         'inputs__slider_2 discount__slider_2',
         min,
-        max
+        max,
+        'minDisc',
+        'maxDisc',
+        queryState
     );
 }
 
@@ -67,6 +77,8 @@ function getFilteredKeys(
     listSelector: string,
     itemSelector: string,
     checkboxSelector: string,
+    checboxArr: string[],
+    group: string,
     state: ProductsData[],
     cartState: CartData[]
 ): void {
@@ -86,10 +98,7 @@ function getFilteredKeys(
         filterLabel.htmlFor = item;
 
         filterCheckbox.addEventListener('change', () => {
-            const url = new URL(window.location.href);
-            url.searchParams.append('category', `${filterCheckbox.id}`);
-            console.log(url);
-            window.history.pushState(url.search, '', url);
+            setCheckboxSearchParams(checboxArr, filterCheckbox, group);
             setFilter(filterCheckbox, state, cartState);
         });
 
@@ -109,7 +118,10 @@ function drawDoubleSlider(
     inputSelector1: string,
     inputSelector2: string,
     min: number,
-    max: number
+    max: number,
+    minLimit: string,
+    maxLimit: string,
+    queryState: QueryData
 ): void {
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
     const sliderWrapper = createEl('slider__wrapper', 'div');
@@ -176,6 +188,7 @@ function drawDoubleSlider(
         slideTwo();
     });
 
+    setSliderSearchParams(inputsRange1, inputsRange2, minLimit, maxLimit, queryState);
     slideOne();
     slideTwo();
 }
@@ -229,4 +242,56 @@ export function getMaxDiscount(state: ProductsData[]): number {
         (max, item) => (item.discountPercentage > max ? item.discountPercentage : max),
         state[0].discountPercentage
     );
+}
+
+function setCheckboxSearchParams(checboxArr: string[], checkboxItem: HTMLInputElement, group: string): void {
+    const url = new URL(window.location.href);
+    if (checkboxItem.checked) {
+        if (!checboxArr.includes(checkboxItem.id) && checboxArr.length) {
+            checboxArr.push(checkboxItem.id);
+        } else if (!checboxArr.length) {
+            checboxArr.push(checkboxItem.id);
+        } else if (checboxArr.includes(checkboxItem.id)) {
+            console.log('СONTAINS!');
+            checboxArr.splice(checboxArr.indexOf(checkboxItem.id), 1);
+        }
+        console.log(checboxArr);
+    } else if (!checkboxItem.checked) {
+        checboxArr.splice(checboxArr.indexOf(checkboxItem.id), 1);
+        console.log(checboxArr);
+    }
+    checboxArr.length ? url.searchParams.set(group, `${checboxArr.join('-')}`) : url.searchParams.delete(group);
+    window.history.pushState(url.search, '', url);
+}
+
+function setSliderSearchParams(
+    sliderInputMin: HTMLInputElement,
+    sliderInputMax: HTMLInputElement,
+    groupMin: string,
+    groupMax: string,
+    queryState: QueryData
+): void {
+    sliderInputMin.addEventListener('change', () => {
+        const url = new URL(window.location.href);
+        groupMin === 'minPrice'
+            ? (queryState.minPrice = sliderInputMin.value)
+            : (queryState.minDisc = sliderInputMin.value);
+        sliderInputMin.value !== sliderInputMin.min
+            ? url.searchParams.set(groupMin, `${sliderInputMin.value}`)
+            : url.searchParams.delete(groupMin);
+        window.history.pushState(url.search, '', url);
+        console.log(queryState);
+    });
+
+    sliderInputMax.addEventListener('change', () => {
+        const url = new URL(window.location.href);
+        groupMax === 'maxPrice'
+            ? (queryState.maxPrice = sliderInputMax.value)
+            : (queryState.maxDisc = sliderInputMax.value);
+        sliderInputMax.value !== sliderInputMax.max
+            ? url.searchParams.set(groupMax, `${sliderInputMax.value}`)
+            : url.searchParams.delete(groupMax);
+        window.history.pushState(url.search, '', url);
+        console.log(queryState);
+    });
 }

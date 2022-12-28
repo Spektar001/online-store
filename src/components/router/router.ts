@@ -1,6 +1,6 @@
 import Route from 'route-parser';
 import { Paths, Routes } from '../../types/exports';
-import { state, cartState, promoState } from '../..';
+import { state, cartState, promoState, queryState } from '../..';
 import { drawProductsPage } from '../constructor/drawProductsPage';
 import { countCartProducts, countCartTotal } from '../constructor/cart/cartControls';
 import { drawCart } from '../constructor/cart/drawCart';
@@ -18,7 +18,7 @@ export const routes: Routes = {};
 export const render = (path: string) => {
     for (const item of Object.values(routes)) {
         if (item.match(path) && Object.values(item)[0] === `/`) {
-            drawProductsPage(state, cartState);
+            drawProductsPage(state, cartState, queryState);
             countCartProducts(cartState);
             countCartTotal(cartState);
             return;
