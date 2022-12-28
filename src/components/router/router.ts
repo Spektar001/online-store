@@ -16,6 +16,9 @@ const Paths: Paths = {
 export const routes: Routes = {};
 
 export const render = (path: string) => {
+    const url = new URL(window.location.href);
+    const queryParams = url.searchParams;
+    setQueryState(queryParams);
     for (const item of Object.values(routes)) {
         if (item.match(path) && Object.values(item)[0] === `/`) {
             drawProductsPage(state, cartState, queryState);
@@ -36,6 +39,26 @@ export const render = (path: string) => {
     }
     draw404();
 };
+
+function setQueryState(queryParams: URLSearchParams): void {
+    const brand = queryParams.get('brand')?.split('-');
+    const category = queryParams.get('category')?.split('-');
+    const minPrice = queryParams.get('minPrice');
+    const maxPrice = queryParams.get('maxPrice');
+    const minDisc = queryParams.get('minDisc');
+    const maxDisc = queryParams.get('maxDisc');
+    const find = queryParams.get('find');
+
+    brand !== undefined ? (queryState.brand = brand) : [];
+    category !== undefined ? (queryState.category = category) : [];
+    minPrice !== null ? (queryState.minPrice = minPrice) : '';
+    maxPrice !== null ? (queryState.maxPrice = maxPrice) : '';
+    minDisc !== null ? (queryState.minDisc = minDisc) : '';
+    maxDisc !== null ? (queryState.maxDisc = maxDisc) : '';
+    find !== null ? (queryState.find = find) : '';
+
+    console.log(queryState);
+}
 
 export const goTo = (path: string) => {
     window.history.pushState({ path }, path, path);
