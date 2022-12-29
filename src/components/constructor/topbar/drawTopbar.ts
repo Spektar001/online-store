@@ -1,9 +1,9 @@
 import { createEl, appendEl } from '../elements/elements';
-import { QueryData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import './topbar.css';
-import { queryState } from '../../..';
+import { setFilters } from '../filters/filters';
 
-export function drawTopbar() {
+export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
     const topbarContainer = checkedQuerySelector(document, '.products__topbar');
     const sortListContainer = createEl('sort__contaiter', 'div');
     const sortListButton = createEl('sort__list_button', 'button');
@@ -26,8 +26,10 @@ export function drawTopbar() {
     productsViewButton1.textContent = '3';
     productsViewButton2.textContent = '4';
 
+    sortSearch.value = queryState.find ? queryState.find : '';
+
     sortSearch.addEventListener('input', () => {
-        setFindSearchParams(sortSearch, queryState);
+        setFindSearchParams(sortSearch, state, queryState);
     });
 
     appendEl(topbarContainer, sortListContainer);
@@ -64,10 +66,10 @@ function toggleSortList(sortList: HTMLElement, sortListButton: HTMLElement, sele
     });
 }
 
-function setFindSearchParams(searchInput: HTMLInputElement, queryState: QueryData): void {
+function setFindSearchParams(searchInput: HTMLInputElement, state: ProductsData[], queryState: QueryData): void {
     const url = new URL(window.location.href);
     queryState.find = searchInput.value;
     searchInput.value !== '' ? url.searchParams.set('find', `${searchInput.value}`) : url.searchParams.delete('find');
     window.history.pushState(url.search, '', url);
-    console.log(queryState);
+    setFilters(state, queryState);
 }

@@ -1,4 +1,4 @@
-import { setFilter } from './filters';
+import { setFilters } from './filters';
 import { ProductsData, CartData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import { createEl, appendEl } from '../elements/elements';
 import './filters.css';
@@ -24,7 +24,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
         queryState.category,
         'category',
         state,
-        cartState
+        queryState
     );
 
     filtered = new Set(brands);
@@ -36,7 +36,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
         queryState.brand,
         'brand',
         state,
-        cartState
+        queryState
     );
 
     min = getMinPrice(state);
@@ -52,6 +52,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
         max,
         'minPrice',
         'maxPrice',
+        state,
         queryState
     );
 
@@ -68,6 +69,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
         max,
         'minDisc',
         'maxDisc',
+        state,
         queryState
     );
 }
@@ -80,7 +82,7 @@ function getFilteredKeys(
     checboxArr: string[],
     group: string,
     state: ProductsData[],
-    cartState: CartData[]
+    queryState: QueryData
 ): void {
     const filtered = new Set(data);
 
@@ -97,9 +99,17 @@ function getFilteredKeys(
         filterLabel.textContent = item;
         filterLabel.htmlFor = item;
 
+        for (const category of queryState.category) {
+            if (item === category) filterCheckbox.checked = true;
+        }
+
+        for (const brand of queryState.brand) {
+            if (item === brand) filterCheckbox.checked = true;
+        }
+
         filterCheckbox.addEventListener('change', () => {
             setCheckboxSearchParams(checboxArr, filterCheckbox, group);
-            setFilter(filterCheckbox, state, cartState);
+            setFilters(state, queryState);
         });
 
         appendEl(filterItem, filterCheckbox);
@@ -121,6 +131,7 @@ function drawDoubleSlider(
     max: number,
     minLimit: string,
     maxLimit: string,
+    state: ProductsData[],
     queryState: QueryData
 ): void {
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
@@ -188,7 +199,7 @@ function drawDoubleSlider(
         slideTwo();
     });
 
-    setSliderSearchParams(inputsRange1, inputsRange2, minLimit, maxLimit, queryState);
+    setSliderSearchParams(inputsRange1, inputsRange2, minLimit, maxLimit, state, queryState);
     slideOne();
     slideTwo();
 }
@@ -198,29 +209,6 @@ function fillColor(input1: HTMLInputElement, input2: HTMLInputElement, sliderBar
     const percent2 = (+input2.value / +input1.max) * 100;
     sliderBar.style.background = `linear-gradient(to right, white 0% , #F67280 ${percent1}% , #F67280 ${percent2}%, white 100%)`;
 }
-
-// export function setInputValues(
-//     minValTextSelector: string,
-//     maxValTextSelector: string,
-//     inputSelector1: string,
-//     inputSelector2: string,
-//     sliderBarSelector: string,
-//     min: number,
-//     max: number
-// ): void {
-//     const minVal = checkedQuerySelector(document, minValTextSelector);
-//     const maxVal = checkedQuerySelector(document, maxValTextSelector);
-//     const input1 = <HTMLInputElement>checkedQuerySelector(document, inputSelector1);
-//     const input2 = <HTMLInputElement>checkedQuerySelector(document, inputSelector2);
-//     const sliderBar = checkedQuerySelector(document, sliderBarSelector);
-
-//     input1.value = `${min}`;
-//     input2.value = `${max}`;
-//     minVal.textContent = `${min}`;
-//     maxVal.textContent = `${max}`;
-
-//     fillColor(input1, input2, sliderBar);
-// }
 
 export function getMinPrice(state: ProductsData[]): number {
     return state.reduce((min, item) => (item.price < min ? item.price : min), state[0].price);
@@ -269,6 +257,7 @@ function setSliderSearchParams(
     sliderInputMax: HTMLInputElement,
     groupMin: string,
     groupMax: string,
+    state: ProductsData[],
     queryState: QueryData
 ): void {
     sliderInputMin.addEventListener('change', () => {
@@ -280,7 +269,7 @@ function setSliderSearchParams(
             ? url.searchParams.set(groupMin, `${sliderInputMin.value}`)
             : url.searchParams.delete(groupMin);
         window.history.pushState(url.search, '', url);
-        console.log(queryState);
+        setFilters(state, queryState);
     });
 
     sliderInputMax.addEventListener('change', () => {
@@ -292,6 +281,6 @@ function setSliderSearchParams(
             ? url.searchParams.set(groupMax, `${sliderInputMax.value}`)
             : url.searchParams.delete(groupMax);
         window.history.pushState(url.search, '', url);
-        console.log(queryState);
+        setFilters(state, queryState);
     });
 }
