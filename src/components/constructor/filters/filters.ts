@@ -3,7 +3,7 @@ import { checkedQuerySelector, ProductsData, QueryData } from '../../../types/ex
 import { cartState } from '../../..';
 import { getMaxDiscount, getMaxPrice, getMinDiscount, getMinPrice } from './drawFilters';
 
-export function setFilters(state: ProductsData[], queryState: QueryData): ProductsData[] {
+export function setFilters(state: ProductsData[], queryState: QueryData): void {
     console.log(queryState);
 
     let filteredState: ProductsData[] = [];
@@ -25,13 +25,15 @@ export function setFilters(state: ProductsData[], queryState: QueryData): Produc
     }
 
     const filteredMinPrice: ProductsData[] = state.filter(
-        (product) => product.price >= +queryState.minPrice && queryState.minPrice
+        (product) => product.price >= (+queryState.minPrice || product.price >= getMinPrice(state))
     );
     const filteredMaxPrice: ProductsData[] = state.filter(
-        (product) => product.price <= +queryState.maxPrice && queryState.maxPrice
+        (product) => product.price <= (+queryState.maxPrice || product.price >= getMaxPrice(state))
     );
 
-    if (filteredMinPrice.length && filteredMaxPrice.length) {
+    if (queryState.minPrice === queryState.maxPrice) {
+        filteredPrice = state.filter((product) => product.price === +queryState.minPrice && queryState.maxPrice);
+    } else if (filteredMinPrice.length && filteredMaxPrice.length) {
         filteredPrice = getSameItems(filteredMinPrice.concat(filteredMaxPrice), 2);
     } else if (filteredMinPrice.length && !filteredMaxPrice.length) {
         filteredPrice = filteredMinPrice;
@@ -54,30 +56,44 @@ export function setFilters(state: ProductsData[], queryState: QueryData): Produc
         filteredDiscount = filteredMaxDisc;
     }
 
+    let isExist = false;
+
     for (const item of state) {
         if (queryState.find) {
             if (item.title.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
                 filteredFind.push(item);
+                isExist = true;
             } else if (item.category.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
                 filteredFind.push(item);
+                isExist = true;
             } else if (item.brand.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
                 filteredFind.push(item);
+                isExist = true;
             } else if (item.description.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
                 filteredFind.push(item);
+                isExist = true;
             } else if (item.price === +queryState.find) {
                 filteredFind.push(item);
+                isExist = true;
             } else if (
                 Math.floor(item.discountPercentage) === +queryState.find ||
                 Math.ceil(item.discountPercentage) === +queryState.find
             ) {
                 filteredFind.push(item);
+                isExist = true;
             } else if (Math.round(item.rating) === +queryState.find) {
                 filteredFind.push(item);
+                isExist = true;
             } else if (item.stock === +queryState.find) {
                 filteredFind.push(item);
+                isExist = true;
             }
         }
     }
+
+    console.log(isExist);
+
+    console.log(filteredCategory, filteredBrands, filteredPrice, filteredDiscount, filteredFind);
 
     filteredState = filteredState.concat(
         filteredCategory,
@@ -100,26 +116,26 @@ export function setFilters(state: ProductsData[], queryState: QueryData): Produc
     if (nonEmptyArrNum === 1) {
         if (
             filteredCategory.length &&
-            !queryState.find &&
+            !filteredFind.length &&
             !queryState.brand.length &&
             !queryState.minPrice &&
             !queryState.maxPrice &&
             !queryState.minDisc &&
             !queryState.maxDisc
         ) {
-            filteredState = filteredCategory;
+            if (queryState.find) filteredState = isExist ? filteredCategory : [];
         } else if (
             filteredBrands.length &&
-            !queryState.find &&
+            !filteredFind.length &&
             !queryState.category.length &&
             !queryState.minPrice &&
             !queryState.maxPrice &&
             !queryState.minDisc &&
             !queryState.maxDisc
         ) {
-            filteredState = filteredBrands;
+            if (queryState.find) filteredState = isExist ? filteredBrands : [];
         } else if (
-            queryState.find &&
+            filteredFind.length &&
             !queryState.category.length &&
             !filteredBrands.length &&
             !queryState.minPrice &&
@@ -127,27 +143,34 @@ export function setFilters(state: ProductsData[], queryState: QueryData): Produc
             !queryState.minDisc &&
             !queryState.maxDisc
         ) {
-            filteredState = filteredFind;
+            console.log(filteredFind);
+            if (queryState.find) filteredState = isExist ? filteredFind : [];
         } else if (
             (queryState.minPrice || queryState.maxPrice) &&
-            !queryState.find &&
+            !filteredFind.length &&
             !queryState.category.length &&
             !filteredBrands.length &&
             !queryState.minDisc &&
             !queryState.maxDisc
         ) {
-            filteredState = filteredPrice;
+            if (queryState.find) filteredState = isExist ? filteredPrice : [];
         } else if (
             (queryState.minDisc || queryState.maxDisc) &&
-            !queryState.find &&
+            !filteredFind.length &&
             !queryState.category.length &&
             !filteredBrands.length &&
             !queryState.minPrice &&
             !queryState.maxPrice
         ) {
-            filteredState = filteredDiscount;
+            if (queryState.find) filteredState = isExist ? filteredDiscount : [];
         }
-    } else if (nonEmptyArrNum > 1) {
+    } else if (nonEmptyArrNum > 1 && !filteredFind.length) {
+        if (queryState.find) {
+            filteredState = isExist ? getSameItems(filteredState, nonEmptyArrNum) : [];
+        } else {
+            filteredState = getSameItems(filteredState, nonEmptyArrNum);
+        }
+    } else if (nonEmptyArrNum > 1 && filteredFind.length) {
         filteredState = getSameItems(filteredState, nonEmptyArrNum);
     }
 
@@ -161,11 +184,17 @@ export function setFilters(state: ProductsData[], queryState: QueryData): Produc
         !queryState.maxDisc
     ) {
         drawProducts(state, cartState);
+        setDoubleInputsOnCheck(state, state, queryState);
+        setProductCount(state, state);
     } else {
-        filteredState.length ? drawProducts(filteredState, cartState) : drawNoMatch();
+        if (filteredState.length) {
+            drawProducts(filteredState, cartState);
+            setDoubleInputsOnCheck(state, filteredState, queryState);
+            setProductCount(state, filteredState);
+        } else {
+            drawNoMatch();
+        }
     }
-
-    return filteredState;
 }
 
 function getSameItems(state: ProductsData[], nonEmptyNum: number): ProductsData[] {
@@ -228,10 +257,10 @@ export function setDoubleInputsOnCheck(
         discTextMin.textContent = discInputMin.value;
         discTextMax.textContent = discInputMax.value;
     } else if (productsContainer.classList.contains('no-products')) {
-        priceInputMin.value = '0';
-        priceInputMax.value = '0';
-        discInputMin.value = '0';
-        discInputMax.value = '0';
+        priceInputMin.value = queryState.minPrice ? queryState.minPrice : `${Math.floor(getMinPrice(filteredState))}`;
+        priceInputMax.value = queryState.maxPrice ? queryState.maxPrice : `${Math.ceil(getMaxPrice(filteredState))}`;
+        discInputMin.value = queryState.minDisc ? queryState.minDisc : `${Math.floor(getMinDiscount(filteredState))}`;
+        discInputMax.value = queryState.maxDisc ? queryState.maxDisc : `${Math.ceil(getMaxDiscount(filteredState))}`;
 
         priceTextMin.textContent = '0';
         priceTextMax.textContent = '0';

@@ -73,7 +73,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
         queryState
     );
 
-    setProductCount(state, setFilters(state, queryState));
+    setFilters(state, queryState);
 }
 
 function getFilteredKeys(
@@ -113,8 +113,6 @@ function getFilteredKeys(
         filterCheckbox.addEventListener('change', () => {
             setCheckboxSearchParams(checboxArr, filterCheckbox, group);
             setFilters(state, queryState);
-            setDoubleInputsOnCheck(state, setFilters(state, queryState), queryState);
-            setProductCount(state, setFilters(state, queryState));
         });
 
         appendEl(filterItem, filterCheckbox);
@@ -254,13 +252,10 @@ function setCheckboxSearchParams(checboxArr: string[], checkboxItem: HTMLInputEl
         } else if (!checboxArr.length) {
             checboxArr.push(checkboxItem.id);
         } else if (checboxArr.includes(checkboxItem.id)) {
-            console.log('СONTAINS!');
             checboxArr.splice(checboxArr.indexOf(checkboxItem.id), 1);
         }
-        console.log(checboxArr);
     } else if (!checkboxItem.checked) {
         checboxArr.splice(checboxArr.indexOf(checkboxItem.id), 1);
-        console.log(checboxArr);
     }
     checboxArr.length ? url.searchParams.set(group, `${checboxArr.join('-')}`) : url.searchParams.delete(group);
     window.history.pushState(url.search, '', url);
@@ -284,8 +279,6 @@ function setSliderSearchParams(
             : url.searchParams.delete(groupMin);
         window.history.pushState(url.search, '', url);
         setFilters(state, queryState);
-        setDoubleInputsOnCheck(state, setFilters(state, queryState), queryState);
-        setProductCount(state, setFilters(state, queryState));
     });
 
     sliderInputMax.addEventListener('change', () => {
@@ -298,7 +291,5 @@ function setSliderSearchParams(
             : url.searchParams.delete(groupMax);
         window.history.pushState(url.search, '', url);
         setFilters(state, queryState);
-        setDoubleInputsOnCheck(state, setFilters(state, queryState), queryState);
-        setProductCount(state, setFilters(state, queryState));
     });
 }
