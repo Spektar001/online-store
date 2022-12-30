@@ -4,8 +4,6 @@ import { cartState } from '../../..';
 import { getMaxDiscount, getMaxPrice, getMinDiscount, getMinPrice } from './drawFilters';
 
 export function setFilters(state: ProductsData[], queryState: QueryData): void {
-    console.log(queryState);
-
     let filteredState: ProductsData[] = [];
 
     let filteredCategory: ProductsData[] = [];
@@ -31,9 +29,7 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         (product) => product.price <= (+queryState.maxPrice || getMaxPrice(state))
     );
 
-    if (queryState.minPrice === queryState.maxPrice) {
-        filteredPrice = state.filter((product) => product.price === +queryState.minPrice && queryState.maxPrice);
-    } else if (filteredMinPrice.length && filteredMaxPrice.length) {
+    if (filteredMinPrice.length && filteredMaxPrice.length) {
         filteredPrice = getSameItems(filteredMinPrice.concat(filteredMaxPrice), 2);
     } else if (filteredMinPrice.length && !filteredMaxPrice.length) {
         filteredPrice = filteredMinPrice;
@@ -90,10 +86,6 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             }
         }
     }
-
-    console.log(isExist);
-
-    console.log(filteredCategory, filteredBrands, filteredPrice, filteredDiscount, filteredFind);
 
     filteredState = filteredState.concat(
         filteredCategory,
@@ -156,7 +148,6 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredDiscount : [];
-            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         }
     } else if (nonEmptyArrNum > 1 && !filteredFind.length) {
         if (queryState.find) {

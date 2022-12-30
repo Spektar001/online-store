@@ -52,7 +52,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
         max,
         'minPrice',
         'maxPrice',
-        0,
+        30,
         state,
         queryState
     );

@@ -56,8 +56,6 @@ function setQueryState(queryParams: URLSearchParams): void {
     minDisc !== null ? (queryState.minDisc = minDisc) : '';
     maxDisc !== null ? (queryState.maxDisc = maxDisc) : '';
     find !== null ? (queryState.find = find) : '';
-
-    console.log(queryState);
 }
 
 export const goTo = (path: string) => {
