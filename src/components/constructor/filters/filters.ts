@@ -25,10 +25,10 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
     }
 
     const filteredMinPrice: ProductsData[] = state.filter(
-        (product) => product.price >= (+queryState.minPrice || product.price >= getMinPrice(state))
+        (product) => product.price >= (+queryState.minPrice || getMinPrice(state))
     );
     const filteredMaxPrice: ProductsData[] = state.filter(
-        (product) => product.price <= (+queryState.maxPrice || product.price >= getMaxPrice(state))
+        (product) => product.price <= (+queryState.maxPrice || getMaxPrice(state))
     );
 
     if (queryState.minPrice === queryState.maxPrice) {
@@ -42,10 +42,10 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
     }
 
     const filteredMinDisc: ProductsData[] = state.filter(
-        (product) => product.discountPercentage >= +queryState.minDisc && queryState.minDisc
+        (product) => product.discountPercentage >= (+queryState.minDisc || getMinDiscount(state))
     );
     const filteredMaxDisc: ProductsData[] = state.filter(
-        (product) => product.discountPercentage <= +queryState.maxDisc && queryState.maxDisc
+        (product) => product.discountPercentage <= (+queryState.maxDisc || getMaxDiscount(state))
     );
 
     if (filteredMinDisc.length && filteredMaxDisc.length) {
@@ -111,56 +111,48 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
     if (filteredDiscount.length) nonEmptyArrNum++;
     if (filteredFind.length) nonEmptyArrNum++;
 
-    console.log(filteredCategory, filteredBrands, filteredDiscount, filteredPrice, filteredFind, nonEmptyArrNum);
-
     if (nonEmptyArrNum === 1) {
         if (
             filteredCategory.length &&
             !filteredFind.length &&
-            !queryState.brand.length &&
-            !queryState.minPrice &&
-            !queryState.maxPrice &&
-            !queryState.minDisc &&
-            !queryState.maxDisc
+            !filteredBrands.length &&
+            !filteredPrice.length &&
+            !filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredCategory : [];
+            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         } else if (
-            filteredBrands.length &&
+            !filteredCategory.length &&
             !filteredFind.length &&
-            !queryState.category.length &&
-            !queryState.minPrice &&
-            !queryState.maxPrice &&
-            !queryState.minDisc &&
-            !queryState.maxDisc
+            filteredBrands.length &&
+            !filteredPrice.length &&
+            !filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredBrands : [];
+            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         } else if (
+            !filteredCategory.length &&
             filteredFind.length &&
-            !queryState.category.length &&
             !filteredBrands.length &&
-            !queryState.minPrice &&
-            !queryState.maxPrice &&
-            !queryState.minDisc &&
-            !queryState.maxDisc
+            !filteredPrice.length &&
+            !filteredDiscount.length
         ) {
-            console.log(filteredFind);
             if (queryState.find) filteredState = isExist ? filteredFind : [];
+            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         } else if (
-            (queryState.minPrice || queryState.maxPrice) &&
+            !filteredCategory.length &&
             !filteredFind.length &&
-            !queryState.category.length &&
             !filteredBrands.length &&
-            !queryState.minDisc &&
-            !queryState.maxDisc
+            filteredPrice.length &&
+            !filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredPrice : [];
         } else if (
-            (queryState.minDisc || queryState.maxDisc) &&
+            !filteredCategory.length &&
             !filteredFind.length &&
-            !queryState.category.length &&
             !filteredBrands.length &&
-            !queryState.minPrice &&
-            !queryState.maxPrice
+            !filteredPrice.length &&
+            filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredDiscount : [];
         }
@@ -193,6 +185,8 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             setProductCount(state, filteredState);
         } else {
             drawNoMatch();
+            setDoubleInputsOnCheck(state, state, queryState);
+            setProductCount(state, filteredState);
         }
     }
 }
@@ -231,42 +225,27 @@ export function setDoubleInputsOnCheck(
     const discTextMin = checkedQuerySelector(document, '.min_discount__value');
     const discTextMax = checkedQuerySelector(document, '.max_discount__value');
 
-    if (priceInputMin.value === `${Math.floor(getMinPrice(state))}`) queryState.minPrice = '';
-    if (priceInputMax.value === `${Math.ceil(getMaxPrice(state))}`) queryState.maxPrice = '';
-    if (discInputMin.value === `${Math.floor(getMinDiscount(state))}`) queryState.minDisc = '';
-    if (discInputMax.value === `${Math.ceil(getMaxDiscount(state))}`) queryState.maxDisc = '';
-
-    if (filteredState.length) {
+    if (filteredState.length && !productsContainer.classList.contains('no-products')) {
         priceInputMin.value = queryState.minPrice ? queryState.minPrice : `${Math.floor(getMinPrice(filteredState))}`;
         priceInputMax.value = queryState.maxPrice ? queryState.maxPrice : `${Math.ceil(getMaxPrice(filteredState))}`;
         discInputMin.value = queryState.minDisc ? queryState.minDisc : `${Math.floor(getMinDiscount(filteredState))}`;
         discInputMax.value = queryState.maxDisc ? queryState.maxDisc : `${Math.ceil(getMaxDiscount(filteredState))}`;
-
-        priceTextMin.textContent = priceInputMin.value;
-        priceTextMax.textContent = priceInputMax.value;
-        discTextMin.textContent = discInputMin.value;
-        discTextMax.textContent = discInputMax.value;
-    } else if (!productsContainer.classList.contains('no-products')) {
+    } else if (!filteredState.length && !productsContainer.classList.contains('no-products')) {
         priceInputMin.value = `${Math.floor(getMinPrice(state))}`;
         priceInputMax.value = `${Math.ceil(getMaxPrice(state))}`;
         discInputMin.value = `${Math.floor(getMinDiscount(state))}`;
         discInputMax.value = `${Math.ceil(getMaxDiscount(state))}`;
-
-        priceTextMin.textContent = priceInputMin.value;
-        priceTextMax.textContent = priceInputMax.value;
-        discTextMin.textContent = discInputMin.value;
-        discTextMax.textContent = discInputMax.value;
     } else if (productsContainer.classList.contains('no-products')) {
         priceInputMin.value = queryState.minPrice ? queryState.minPrice : `${Math.floor(getMinPrice(filteredState))}`;
         priceInputMax.value = queryState.maxPrice ? queryState.maxPrice : `${Math.ceil(getMaxPrice(filteredState))}`;
         discInputMin.value = queryState.minDisc ? queryState.minDisc : `${Math.floor(getMinDiscount(filteredState))}`;
         discInputMax.value = queryState.maxDisc ? queryState.maxDisc : `${Math.ceil(getMaxDiscount(filteredState))}`;
-
-        priceTextMin.textContent = '0';
-        priceTextMax.textContent = '0';
-        discTextMin.textContent = '0';
-        discTextMax.textContent = '0';
     }
+
+    priceTextMin.textContent = priceInputMin.value;
+    priceTextMax.textContent = priceInputMax.value;
+    discTextMin.textContent = discInputMin.value;
+    discTextMax.textContent = discInputMax.value;
 }
 
 export function setProductCount(state: ProductsData[], filteredState: ProductsData[]): void {
