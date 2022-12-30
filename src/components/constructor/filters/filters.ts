@@ -112,7 +112,6 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             !filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredCategory : [];
-            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         } else if (
             !filteredCategory.length &&
             !filteredFind.length &&
@@ -121,7 +120,6 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             !filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredBrands : [];
-            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         } else if (
             !filteredCategory.length &&
             filteredFind.length &&
@@ -130,7 +128,6 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             !filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredFind : [];
-            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         } else if (
             !filteredCategory.length &&
             !filteredFind.length &&
@@ -139,7 +136,6 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             !filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredPrice : [];
-            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         } else if (
             !filteredCategory.length &&
             !filteredFind.length &&
@@ -148,16 +144,17 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredDiscount : [];
-            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         }
     } else if (nonEmptyArrNum > 1 && !filteredFind.length) {
         if (queryState.find) {
             filteredState = isExist ? getSameItems(filteredState, nonEmptyArrNum) : [];
         } else {
             filteredState = getSameItems(filteredState, nonEmptyArrNum);
+            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         }
     } else if (nonEmptyArrNum > 1 && filteredFind.length) {
         filteredState = getSameItems(filteredState, nonEmptyArrNum);
+        if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
     }
 
     if (
