@@ -1,4 +1,4 @@
-import { setDoubleInputsOnCheck, setFilters } from './filters';
+import { setDoubleInputsOnCheck, setFilters, setProductCount } from './filters';
 import { ProductsData, CartData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import { createEl, appendEl } from '../elements/elements';
 import './filters.css';
@@ -19,7 +19,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     getFilteredKeys(
         filtered,
         'filter__list',
-        'filter__item',
+        'filter__item filter__item_category',
         'filter__checkbox filter__checkbox_category',
         queryState.category,
         'category',
@@ -31,7 +31,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     getFilteredKeys(
         filtered,
         'filter__list',
-        'filter__item',
+        'filter__item filter__item_brand',
         'filter__checkbox filter__checkbox_brand',
         queryState.brand,
         'brand',
@@ -72,6 +72,8 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
         state,
         queryState
     );
+
+    setProductCount(state, setFilters(state, queryState));
 }
 
 function getFilteredKeys(
@@ -84,7 +86,7 @@ function getFilteredKeys(
     state: ProductsData[],
     queryState: QueryData
 ): void {
-    const filtered = new Set(data);
+    const filtered = Array.from(data);
 
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
     const filterList = createEl(listSelector, 'ul');
@@ -93,6 +95,7 @@ function getFilteredKeys(
         const filterItem = createEl(itemSelector, 'li');
         const filterCheckbox = <HTMLInputElement>createEl(checkboxSelector, 'input');
         const filterLabel = <HTMLLabelElement>createEl('filter__label', 'label');
+        const filterProductCount = createEl('filter__product_counter', 'div');
 
         filterCheckbox.type = 'checkbox';
         filterCheckbox.id = item;
@@ -111,10 +114,12 @@ function getFilteredKeys(
             setCheckboxSearchParams(checboxArr, filterCheckbox, group);
             setFilters(state, queryState);
             setDoubleInputsOnCheck(state, setFilters(state, queryState), queryState);
+            setProductCount(state, setFilters(state, queryState));
         });
 
         appendEl(filterItem, filterCheckbox);
         appendEl(filterItem, filterLabel);
+        appendEl(filterItem, filterProductCount);
 
         appendEl(filterList, filterItem);
     }
@@ -201,15 +206,10 @@ function drawDoubleSlider(
     fillColor(inputsRange1, inputsRange2, inputsSlider);
 
     inputsRange1.addEventListener('input', () => {
-        if (inputsRange1.value === `${Math.floor(min)}` && minLimit === 'minPrice') queryState.minPrice = '';
-        if (inputsRange1.value === `${Math.floor(min)}` && minLimit === 'minDisc') queryState.minDisc = '';
-        console.log(inputsRange1.value === `${Math.floor(min)}` && minLimit === 'minPrice');
         slideOne();
     });
 
     inputsRange2.addEventListener('input', () => {
-        if (inputsRange2.value === `${Math.ceil(max)}` && minLimit === 'minPrice') queryState.maxPrice = '';
-        if (inputsRange2.value === `${Math.ceil(max)}` && minLimit === 'minDisc') queryState.maxDisc = '';
         slideTwo();
     });
 
@@ -284,6 +284,8 @@ function setSliderSearchParams(
             : url.searchParams.delete(groupMin);
         window.history.pushState(url.search, '', url);
         setFilters(state, queryState);
+        setDoubleInputsOnCheck(state, setFilters(state, queryState), queryState);
+        setProductCount(state, setFilters(state, queryState));
     });
 
     sliderInputMax.addEventListener('change', () => {
@@ -297,5 +299,6 @@ function setSliderSearchParams(
         window.history.pushState(url.search, '', url);
         setFilters(state, queryState);
         setDoubleInputsOnCheck(state, setFilters(state, queryState), queryState);
+        setProductCount(state, setFilters(state, queryState));
     });
 }

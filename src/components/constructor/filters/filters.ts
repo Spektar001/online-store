@@ -189,7 +189,7 @@ function getSameItems(state: ProductsData[], nonEmptyNum: number): ProductsData[
 
 export function setDoubleInputsOnCheck(
     state: ProductsData[],
-    filtererdState: ProductsData[],
+    filteredState: ProductsData[],
     queryState: QueryData
 ): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
@@ -207,11 +207,11 @@ export function setDoubleInputsOnCheck(
     if (discInputMin.value === `${Math.floor(getMinDiscount(state))}`) queryState.minDisc = '';
     if (discInputMax.value === `${Math.ceil(getMaxDiscount(state))}`) queryState.maxDisc = '';
 
-    if (filtererdState.length) {
-        priceInputMin.value = queryState.minPrice ? queryState.minPrice : `${Math.floor(getMinPrice(filtererdState))}`;
-        priceInputMax.value = queryState.maxPrice ? queryState.maxPrice : `${Math.ceil(getMaxPrice(filtererdState))}`;
-        discInputMin.value = queryState.minDisc ? queryState.minDisc : `${Math.floor(getMinDiscount(filtererdState))}`;
-        discInputMax.value = queryState.maxDisc ? queryState.maxDisc : `${Math.ceil(getMaxDiscount(filtererdState))}`;
+    if (filteredState.length) {
+        priceInputMin.value = queryState.minPrice ? queryState.minPrice : `${Math.floor(getMinPrice(filteredState))}`;
+        priceInputMax.value = queryState.maxPrice ? queryState.maxPrice : `${Math.ceil(getMaxPrice(filteredState))}`;
+        discInputMin.value = queryState.minDisc ? queryState.minDisc : `${Math.floor(getMinDiscount(filteredState))}`;
+        discInputMax.value = queryState.maxDisc ? queryState.maxDisc : `${Math.ceil(getMaxDiscount(filteredState))}`;
 
         priceTextMin.textContent = priceInputMin.value;
         priceTextMax.textContent = priceInputMax.value;
@@ -237,5 +237,53 @@ export function setDoubleInputsOnCheck(
         priceTextMax.textContent = '0';
         discTextMin.textContent = '0';
         discTextMax.textContent = '0';
+    }
+}
+
+export function setProductCount(state: ProductsData[], filteredState: ProductsData[]): void {
+    const productsContainer = checkedQuerySelector(document, '.products__container');
+    const countProductCategory = Array.from(document.querySelectorAll('.filter__item_category'));
+    const countProductBrand = Array.from(document.querySelectorAll('.filter__item_brand'));
+
+    if (filteredState.length) {
+        for (const item of countProductCategory) {
+            const checkbox = checkedQuerySelector(item, '.filter__checkbox_category');
+            const counter = checkedQuerySelector(item, '.filter__product_counter');
+            counter.textContent = filteredState.length
+                ? `${filteredState.filter((item) => item.category === checkbox.id).length}`
+                : '0';
+        }
+
+        for (const item of countProductBrand) {
+            const checkbox = checkedQuerySelector(item, '.filter__checkbox_brand');
+            const counter = checkedQuerySelector(item, '.filter__product_counter');
+            counter.textContent = filteredState.length
+                ? `${filteredState.filter((item) => item.brand === checkbox.id).length}`
+                : '0';
+        }
+    } else if (!productsContainer.classList.contains('no-products')) {
+        for (const item of countProductCategory) {
+            const checkbox = checkedQuerySelector(item, '.filter__checkbox_category');
+            const counter = checkedQuerySelector(item, '.filter__product_counter');
+            counter.textContent = state.length
+                ? `${state.filter((item) => item.category === checkbox.id).length}`
+                : '0';
+        }
+
+        for (const item of countProductBrand) {
+            const checkbox = checkedQuerySelector(item, '.filter__checkbox_brand');
+            const counter = checkedQuerySelector(item, '.filter__product_counter');
+            counter.textContent = state.length ? `${state.filter((item) => item.brand === checkbox.id).length}` : '0';
+        }
+    } else if (productsContainer.classList.contains('no-products')) {
+        for (const item of countProductCategory) {
+            const counter = checkedQuerySelector(item, '.filter__product_counter');
+            counter.textContent = '0';
+        }
+
+        for (const item of countProductBrand) {
+            const counter = checkedQuerySelector(item, '.filter__product_counter');
+            counter.textContent = '0';
+        }
     }
 }
