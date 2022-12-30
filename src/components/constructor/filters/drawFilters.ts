@@ -1,4 +1,4 @@
-import { setDoubleInputsOnCheck, setFilters, setProductCount } from './filters';
+import { setFilters } from './filters';
 import { ProductsData, CartData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import { createEl, appendEl } from '../elements/elements';
 import './filters.css';
@@ -52,6 +52,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
         max,
         'minPrice',
         'maxPrice',
+        0,
         state,
         queryState
     );
@@ -69,6 +70,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
         max,
         'minDisc',
         'maxDisc',
+        1,
         state,
         queryState
     );
@@ -93,6 +95,7 @@ function getFilteredKeys(
 
     for (const item of filtered) {
         const filterItem = createEl(itemSelector, 'li');
+        const filterCheckboxContainer = createEl('filter__checkbox_container', 'div');
         const filterCheckbox = <HTMLInputElement>createEl(checkboxSelector, 'input');
         const filterLabel = <HTMLLabelElement>createEl('filter__label', 'label');
         const filterProductCount = createEl('filter__product_counter', 'div');
@@ -115,8 +118,9 @@ function getFilteredKeys(
             setFilters(state, queryState);
         });
 
-        appendEl(filterItem, filterCheckbox);
-        appendEl(filterItem, filterLabel);
+        appendEl(filterCheckboxContainer, filterCheckbox);
+        appendEl(filterCheckboxContainer, filterLabel);
+        appendEl(filterItem, filterCheckboxContainer);
         appendEl(filterItem, filterProductCount);
 
         appendEl(filterList, filterItem);
@@ -135,6 +139,7 @@ function drawDoubleSlider(
     max: number,
     minLimit: string,
     maxLimit: string,
+    gap: number,
     state: ProductsData[],
     queryState: QueryData
 ): void {
@@ -184,18 +189,16 @@ function drawDoubleSlider(
         inputsRange2.value = queryState.maxDisc ? queryState.maxDisc : `${Math.ceil(max)}`;
     }
 
-    const minGap = 0;
-
     function slideOne() {
-        if (parseInt(inputsRange2.value) - parseInt(inputsRange1.value) <= minGap) {
-            inputsRange1.value = `${parseInt(inputsRange2.value) - minGap}`;
+        if (parseInt(inputsRange2.value) - parseInt(inputsRange1.value) <= gap) {
+            inputsRange1.value = `${parseInt(inputsRange2.value) - gap}`;
         }
         valuesMin.textContent = inputsRange1.value;
         fillColor(inputsRange1, inputsRange2, inputsSlider);
     }
     function slideTwo() {
-        if (parseInt(inputsRange2.value) - parseInt(inputsRange1.value) <= minGap) {
-            inputsRange2.value = `${parseInt(inputsRange1.value) + minGap}`;
+        if (parseInt(inputsRange2.value) - parseInt(inputsRange1.value) <= gap) {
+            inputsRange2.value = `${parseInt(inputsRange1.value) + gap}`;
         }
         valuesMax.textContent = inputsRange2.value;
         fillColor(inputsRange1, inputsRange2, inputsSlider);

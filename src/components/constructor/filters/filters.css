@@ -10,13 +10,28 @@
 
 .filter__item {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
     padding: 5px 0;
+}
+
+.filter__checkbox_container {
+    display: flex;
+    gap: 10px;
 }
 
 .filter__checkbox:hover,
 .filter__label:hover {
     cursor: pointer;
+}
+
+.filter__product_counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 25px;
+    border-left: 1px solid grey;
 }
 
 .slider__wrapper {
