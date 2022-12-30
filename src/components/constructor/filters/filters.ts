@@ -147,6 +147,7 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             !filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredPrice : [];
+            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         } else if (
             !filteredCategory.length &&
             !filteredFind.length &&
@@ -155,6 +156,7 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             filteredDiscount.length
         ) {
             if (queryState.find) filteredState = isExist ? filteredDiscount : [];
+            if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
         }
     } else if (nonEmptyArrNum > 1 && !filteredFind.length) {
         if (queryState.find) {
