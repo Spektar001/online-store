@@ -117,6 +117,7 @@ a:before, a:after, a > span:before, a > span:after {
 }
 #cart-count {
   font-size: 1.3rem;
+  font-weight: 400;
 }
 
 /**FOOTER***************************************************************************************/

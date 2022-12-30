@@ -51,11 +51,11 @@
 
 .details {
   transition: top 1s;
-  top: 15%;
+  top: 13%;
   z-index: 3;
   position: fixed;
   width: 30%;
-  height: 55%;
+  /* height: 55%; */
   background: #F9F7F7;
   border-radius: 10px;
   display: flex;
@@ -110,7 +110,7 @@
   box-shadow: 0px 0px 10px rgba(13, 96, 111, 0.5);
 }
 .details__input_email {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 .details__subtitle {
   font-size: 20px;
@@ -141,7 +141,7 @@
   height: 2rem;
 }
 .details__card {
-	display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -157,16 +157,16 @@
   background-repeat: no-repeat;
 }
 .details__card_number {
-	width: 80%;
+  width: 80%;
 }
 .details__valid {
-	display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
 .details__valid_title {
-	color: #FFFFFF;
+  color: #FFFFFF;
   font-size: 1rem;
   text-transform: uppercase;
   margin-right: 5px;
@@ -176,10 +176,10 @@
   margin-right: 2.5rem;
 }
 .details__cvv {
-	width: 30%;
+  width: 30%;
 }
 .btn-confirm {
-	width: 80%;
+  width: 80%;
   height: 3.5rem;
   background: #F67280;
   box-shadow: 0px 0px 3px rgba(13, 96, 111, 0.08), 0px 2px 3px rgba(13, 96, 111, 0.16);
@@ -191,18 +191,21 @@
   text-transform: uppercase;
 }
 .btn-confirm:hover {
-	background: #E23E57;
+  background: #E23E57;
   transition: all 0.3s ease;
 }
+.btn-confirm:disabled {
+  background: rgba(226, 62, 87, 0.3);
+}
 .error {
-	border: 2px solid #E23E57;
-	color: #E23E57;
-	box-shadow: 0px 0px 10px rgba(226, 62, 87, 1);
+  border: 2px solid #E23E57;
+  color: #E23E57;
+  box-shadow: 0px 0px 10px rgba(226, 62, 87, 1);
 }
 .error:focus {
-	box-shadow: 0px 0px 10px rgba(226, 62, 87, 1);
+  box-shadow: 0px 0px 10px rgba(226, 62, 87, 1);
 }
 .check {
-	background-color: #E8F0FE;
-	box-shadow: 0px 0px 10px rgba(13, 96, 111, 0.7);
+  background-color: #E8F0FE;
+  box-shadow: 0px 0px 10px rgba(13, 96, 111, 0.7);
 }

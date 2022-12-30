@@ -27,7 +27,7 @@
     width: 100%;
     height: fit-content;
     font-size: 1.2rem;
-		text-align: center;
+    text-align: center;
 }
 
 .product-page__container_images,
@@ -64,11 +64,17 @@
 
 .product-page__image {
     width: 24%;
+    border-radius: 5px;
+    box-shadow: 0 0px 5px 0 grey;
+}
+.product-page__image:hover {
+    cursor: pointer;
 }
 
 .product-page__images_main {
     width: 100%;
     border-radius: 10px;
+    box-shadow: 0 0px 5px 0 grey;
 }
 
 /* description------------------------------------------------- */
