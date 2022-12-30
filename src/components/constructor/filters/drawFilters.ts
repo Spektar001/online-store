@@ -1,4 +1,4 @@
-import { setFilters } from './filters';
+import { setDoubleInputsOnCheck, setFilters } from './filters';
 import { ProductsData, CartData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import { createEl, appendEl } from '../elements/elements';
 import './filters.css';
@@ -110,6 +110,7 @@ function getFilteredKeys(
         filterCheckbox.addEventListener('change', () => {
             setCheckboxSearchParams(checboxArr, filterCheckbox, group);
             setFilters(state, queryState);
+            setDoubleInputsOnCheck(state, setFilters(state, queryState), queryState);
         });
 
         appendEl(filterItem, filterCheckbox);
@@ -169,8 +170,16 @@ function drawDoubleSlider(
     inputsRange1.max = `${Math.ceil(max)}`;
     inputsRange2.min = `${Math.floor(min)}`;
     inputsRange2.max = `${Math.ceil(max)}`;
-    inputsRange1.value = `${Math.floor(min)}`;
-    inputsRange2.value = `${Math.ceil(max)}`;
+
+    if (minLimit === 'minPrice') {
+        inputsRange1.value = queryState.minPrice ? queryState.minPrice : `${Math.floor(min)}`;
+        inputsRange2.value = queryState.maxPrice ? queryState.maxPrice : `${Math.ceil(max)}`;
+    }
+
+    if (minLimit === 'minDisc') {
+        inputsRange1.value = queryState.minDisc ? queryState.minDisc : `${Math.floor(min)}`;
+        inputsRange2.value = queryState.maxDisc ? queryState.maxDisc : `${Math.ceil(max)}`;
+    }
 
     const minGap = 0;
 
@@ -192,10 +201,15 @@ function drawDoubleSlider(
     fillColor(inputsRange1, inputsRange2, inputsSlider);
 
     inputsRange1.addEventListener('input', () => {
+        if (inputsRange1.value === `${Math.floor(min)}` && minLimit === 'minPrice') queryState.minPrice = '';
+        if (inputsRange1.value === `${Math.floor(min)}` && minLimit === 'minDisc') queryState.minDisc = '';
+        console.log(inputsRange1.value === `${Math.floor(min)}` && minLimit === 'minPrice');
         slideOne();
     });
 
     inputsRange2.addEventListener('input', () => {
+        if (inputsRange2.value === `${Math.ceil(max)}` && minLimit === 'minPrice') queryState.maxPrice = '';
+        if (inputsRange2.value === `${Math.ceil(max)}` && minLimit === 'minDisc') queryState.maxDisc = '';
         slideTwo();
     });
 
@@ -282,5 +296,6 @@ function setSliderSearchParams(
             : url.searchParams.delete(groupMax);
         window.history.pushState(url.search, '', url);
         setFilters(state, queryState);
+        setDoubleInputsOnCheck(state, setFilters(state, queryState), queryState);
     });
 }

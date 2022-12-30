@@ -6,6 +6,7 @@ import { goTo } from '../../router/router';
 
 export function drawProducts(state: ProductsData[], cartState: CartData[]): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
+    productsContainer.classList.remove('no-products');
     productsContainer.innerHTML = '';
 
     for (const item of state) {
@@ -69,6 +70,7 @@ export function drawProducts(state: ProductsData[], cartState: CartData[]): void
 
 export function drawNoMatch(): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
+    productsContainer.classList.add('no-products');
     productsContainer.innerHTML = '';
 
     const noMatchEl = createEl('no-match', 'div');

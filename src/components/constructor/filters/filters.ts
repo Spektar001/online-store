@@ -1,12 +1,9 @@
 import { drawProducts, drawNoMatch } from '../products/drawProducts';
-import { ProductsData, QueryData } from '../../../types/exports';
+import { checkedQuerySelector, ProductsData, QueryData } from '../../../types/exports';
 import { cartState } from '../../..';
+import { getMaxDiscount, getMaxPrice, getMinDiscount, getMinPrice } from './drawFilters';
 
-// let filterState: ProductsData[] = [];
-// let filteredBrands: ProductsData[] = [];
-// let filtered: ProductsData[] = [];
-
-export function setFilters(state: ProductsData[], queryState: QueryData): void {
+export function setFilters(state: ProductsData[], queryState: QueryData): ProductsData[] {
     console.log(queryState);
 
     let filteredState: ProductsData[] = [];
@@ -26,8 +23,6 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         const filteredState: ProductsData[] = state.filter((product) => product.brand === item);
         filteredBrands = filteredBrands.concat(filteredState);
     }
-
-    console.log(filteredBrands);
 
     const filteredMinPrice: ProductsData[] = state.filter(
         (product) => product.price >= +queryState.minPrice && queryState.minPrice
@@ -91,8 +86,6 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         filteredDiscount,
         filteredFind
     );
-
-    console.log(filteredState);
 
     let nonEmptyArrNum = 0;
 
@@ -171,6 +164,8 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
     } else {
         filteredState.length ? drawProducts(filteredState, cartState) : drawNoMatch();
     }
+
+    return filteredState;
 }
 
 function getSameItems(state: ProductsData[], nonEmptyNum: number): ProductsData[] {
@@ -190,4 +185,57 @@ function getSameItems(state: ProductsData[], nonEmptyNum: number): ProductsData[
     }
 
     return result;
+}
+
+export function setDoubleInputsOnCheck(
+    state: ProductsData[],
+    filtererdState: ProductsData[],
+    queryState: QueryData
+): void {
+    const productsContainer = checkedQuerySelector(document, '.products__container');
+    const priceInputMin = <HTMLInputElement>checkedQuerySelector(document, '.price__slider_1');
+    const priceInputMax = <HTMLInputElement>checkedQuerySelector(document, '.price__slider_2');
+    const discInputMin = <HTMLInputElement>checkedQuerySelector(document, '.discount__slider_1');
+    const discInputMax = <HTMLInputElement>checkedQuerySelector(document, '.discount__slider_2');
+    const priceTextMin = checkedQuerySelector(document, '.min_price__value');
+    const priceTextMax = checkedQuerySelector(document, '.max_price__value');
+    const discTextMin = checkedQuerySelector(document, '.min_discount__value');
+    const discTextMax = checkedQuerySelector(document, '.max_discount__value');
+
+    if (priceInputMin.value === `${Math.floor(getMinPrice(state))}`) queryState.minPrice = '';
+    if (priceInputMax.value === `${Math.ceil(getMaxPrice(state))}`) queryState.maxPrice = '';
+    if (discInputMin.value === `${Math.floor(getMinDiscount(state))}`) queryState.minDisc = '';
+    if (discInputMax.value === `${Math.ceil(getMaxDiscount(state))}`) queryState.maxDisc = '';
+
+    if (filtererdState.length) {
+        priceInputMin.value = queryState.minPrice ? queryState.minPrice : `${Math.floor(getMinPrice(filtererdState))}`;
+        priceInputMax.value = queryState.maxPrice ? queryState.maxPrice : `${Math.ceil(getMaxPrice(filtererdState))}`;
+        discInputMin.value = queryState.minDisc ? queryState.minDisc : `${Math.floor(getMinDiscount(filtererdState))}`;
+        discInputMax.value = queryState.maxDisc ? queryState.maxDisc : `${Math.ceil(getMaxDiscount(filtererdState))}`;
+
+        priceTextMin.textContent = priceInputMin.value;
+        priceTextMax.textContent = priceInputMax.value;
+        discTextMin.textContent = discInputMin.value;
+        discTextMax.textContent = discInputMax.value;
+    } else if (!productsContainer.classList.contains('no-products')) {
+        priceInputMin.value = `${Math.floor(getMinPrice(state))}`;
+        priceInputMax.value = `${Math.ceil(getMaxPrice(state))}`;
+        discInputMin.value = `${Math.floor(getMinDiscount(state))}`;
+        discInputMax.value = `${Math.ceil(getMaxDiscount(state))}`;
+
+        priceTextMin.textContent = priceInputMin.value;
+        priceTextMax.textContent = priceInputMax.value;
+        discTextMin.textContent = discInputMin.value;
+        discTextMax.textContent = discInputMax.value;
+    } else if (productsContainer.classList.contains('no-products')) {
+        priceInputMin.value = '0';
+        priceInputMax.value = '0';
+        discInputMin.value = '0';
+        discInputMax.value = '0';
+
+        priceTextMin.textContent = '0';
+        priceTextMax.textContent = '0';
+        discTextMin.textContent = '0';
+        discTextMax.textContent = '0';
+    }
 }
