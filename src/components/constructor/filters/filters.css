@@ -9,6 +9,27 @@
     color: #ffffff;
 }
 
+.filter__button_copy,
+.filter__button_reset {
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.05rem;
+    font-weight: bold;
+    background-color: #F67280;
+    box-shadow: 0 4px 5px 0 gray;
+}
+
+.filter__button_copy:not(.filter__button_copy_pressed):hover,
+.filter__button_reset:not(.filter__button_copy_pressed):hover {
+    background-color: #E23E57;
+    transition: all 0.3s ease;
+}
+
+.filter__button_copy_pressed {
+    background-color: #3F72AF;
+}
+
 .filter__list {
     display: flex;
     flex-direction: column;

@@ -3,6 +3,7 @@ import { getProductsData } from './components/api/products';
 import { setStorage } from './components/storage/setStorage';
 import './global.css';
 import initRouter, { goTo } from './components/router/router';
+import { resetFilters } from './components/constructor/filters/filters';
 
 export let state: ProductsData[] = [];
 export const cartState: CartData[] =
@@ -27,7 +28,10 @@ async function setProdouctsValues() {
 
 setProdouctsValues();
 checkedQuerySelector(document, '.header__cart').addEventListener('click', () => goTo('/cart'));
-checkedQuerySelector(document, '.header__logo').addEventListener('click', () => goTo('/'));
+checkedQuerySelector(document, '.header__logo').addEventListener('click', () => {
+    resetFilters(queryState);
+    goTo('/');
+});
 
 window.addEventListener('beforeunload', () => {
     setStorage('cartState', cartState);

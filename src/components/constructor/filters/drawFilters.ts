@@ -1,7 +1,9 @@
-import { setFilters } from './filters';
+import { resetFilters, setFilters } from './filters';
 import { ProductsData, CartData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import { createEl, appendEl } from '../elements/elements';
 import './filters.css';
+import { queryState } from '../../..';
+import { goTo } from '../../router/router';
 
 export function drawFilters(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const categories: string[] = [];
@@ -11,6 +13,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     let max: number;
 
     drawProductsFound();
+    drawFilterButtons();
 
     for (let i = 0; i < state.length; i += 1) {
         categories.push(state[i].category);
@@ -85,6 +88,24 @@ function drawProductsFound() {
     const filterProdoctsFound = createEl('products_found__total', 'div');
 
     appendEl(filtersContainer, filterProdoctsFound);
+}
+
+function drawFilterButtons(): void {
+    const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
+    const filterCopyButton = createEl('filter__button_copy button', 'button');
+    const filterResetButton = createEl('filter__button_reset button', 'button');
+
+    appendEl(filtersContainer, filterCopyButton);
+    appendEl(filtersContainer, filterResetButton);
+
+    filterCopyButton.textContent = 'Copy link';
+    filterResetButton.textContent = 'Reset filters';
+
+    filterCopyButton.addEventListener('click', () => copyLink(filterCopyButton));
+    filterResetButton.addEventListener('click', () => {
+        resetFilters(queryState);
+        goTo('/');
+    });
 }
 
 function getFilteredKeys(
@@ -304,4 +325,18 @@ function setSliderSearchParams(
         window.history.pushState(url.search, '', url);
         setFilters(state, queryState);
     });
+}
+
+function copyLink(button: HTMLElement): void {
+    const url = window.location.href;
+
+    button.classList.add('filter__button_copy_pressed');
+    button.textContent = 'Link copied!';
+
+    setTimeout(() => {
+        button.classList.remove('filter__button_copy_pressed');
+        button.textContent = 'Copy link';
+    }, 1500);
+
+    navigator.clipboard.writeText(url);
 }

@@ -293,3 +293,25 @@ function setProductCount(state: ProductsData[], filteredState: ProductsData[]): 
         }
     }
 }
+
+export function resetFilters(queryState: QueryData): void {
+    queryState.brand = [];
+    queryState.category = [];
+    queryState.find = '';
+    queryState.minPrice = '';
+    queryState.maxPrice = '';
+    queryState.minDisc = '';
+    queryState.maxDisc = '';
+
+    const url = new URL(window.location.href);
+
+    url.searchParams.delete('brand');
+    url.searchParams.delete('category');
+    url.searchParams.delete('find');
+    url.searchParams.delete('minPrice');
+    url.searchParams.delete('maxPrice');
+    url.searchParams.delete('minDisc');
+    url.searchParams.delete('maxDisc');
+
+    window.history.pushState(url.search, '', url);
+}
