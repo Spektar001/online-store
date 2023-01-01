@@ -170,14 +170,14 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         !queryState.maxDisc
     ) {
         setSortParams(state, queryState);
-        drawProducts(state, cartState);
+        drawProducts(state, cartState, queryState);
         setTotalProducts(state);
         setDoubleInputsOnCheck(state, state, queryState);
         setProductCount(state, state);
     } else {
         if (filteredState.length) {
             setSortParams(filteredState, queryState);
-            drawProducts(filteredState, cartState);
+            drawProducts(filteredState, cartState, queryState);
             setTotalProducts(filteredState);
             setDoubleInputsOnCheck(state, filteredState, queryState);
             setProductCount(state, filteredState);

@@ -1,10 +1,10 @@
-import { CartData, checkedQuerySelector, ProductsData } from '../../../types/exports';
+import { CartData, checkedQuerySelector, ProductsData, QueryData } from '../../../types/exports';
 import { appendEl, createEl } from '../elements/elements';
 import { addToCart, countCartTotal, countCartProducts, setButtons, removeFromCart } from '../cart/cartControls';
 import './products.css';
 import { goTo } from '../../router/router';
 
-export function drawProducts(state: ProductsData[], cartState: CartData[]): void {
+export function drawProducts(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
     productsContainer.classList.remove('no-products');
     productsContainer.innerHTML = '';
@@ -24,6 +24,10 @@ export function drawProducts(state: ProductsData[], cartState: CartData[]): void
         const productTopBox = createEl('product__contaiter product__contaiter_top', 'div');
         const productMidBox = createEl('product__contaiter product__contaiter_mid', 'div');
         const productBotBox = createEl('product__contaiter product__contaiter_bot', 'div');
+
+        queryState.view === 'column'
+            ? productItem.classList.add('product__item_column')
+            : productItem.classList.remove('product__item_column');
 
         productItem.id = `${item.id}`;
         productRating.textContent = `${item.rating.toFixed(1)}`;

@@ -19,6 +19,7 @@ export const queryState: QueryData = {
     maxDisc: '',
     find: '',
     sortBy: '',
+    view: '',
 };
 
 async function setProdouctsValues() {

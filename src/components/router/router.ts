@@ -49,6 +49,7 @@ function setQueryState(queryParams: URLSearchParams): void {
     const maxDisc = queryParams.get('maxDisc');
     const find = queryParams.get('find');
     const sortBy = queryParams.get('sortBy');
+    const view = queryParams.get('view');
 
     brand !== undefined ? (queryState.brand = brand) : [];
     category !== undefined ? (queryState.category = category) : [];
@@ -58,6 +59,7 @@ function setQueryState(queryParams: URLSearchParams): void {
     maxDisc !== null ? (queryState.maxDisc = maxDisc) : '';
     find !== null ? (queryState.find = find) : '';
     sortBy !== null ? (queryState.sortBy = sortBy) : '';
+    view !== null ? (queryState.view = view) : 'row';
 }
 
 export const goTo = (path: string) => {
