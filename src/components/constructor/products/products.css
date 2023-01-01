@@ -117,14 +117,17 @@
     background-color: #F67280;
 }
 
-.product__button_added {
-    background-color: #3F72AF;
-    cursor: default;
-    pointer-events: none;
-}
-
-.product__button_buy:not(.product__button_added):hover,
+.product__button_buy:hover,
 .product__button_buy_now:hover {
     background-color: #E23E57;
+    transition: all 0.3s ease;
+}
+
+.product__button_added {
+    background-color: #3F72AF;
+}
+
+.product__button_added:hover {
+    background-color: #112D4E;
     transition: all 0.3s ease;
 }

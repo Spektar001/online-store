@@ -1,6 +1,6 @@
 import { createEl, appendEl } from '../elements/elements';
 import { checkedQuerySelector, ProductsData, CartData } from '../../../types/exports';
-import { addToCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
+import { addToCart, removeFromCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
 import './product.css';
 
 export function drawProduct(index: string, state: ProductsData[], cartState: CartData[]): void {
@@ -85,9 +85,15 @@ export function drawProduct(index: string, state: ProductsData[], cartState: Car
     setButtons(index, productCartButton, cartState);
 
     productCartButton.addEventListener('click', () => {
-        addToCart(productCartButton, index, state, cartState);
-        countCartProducts(cartState);
-        countCartTotal(cartState);
+        if (productCartButton.classList.contains('product__button_added')) {
+            removeFromCart(productCartButton, index, state, cartState);
+            countCartProducts(cartState);
+            countCartTotal(cartState);
+        } else {
+            addToCart(productCartButton, index, state, cartState);
+            countCartProducts(cartState);
+            countCartTotal(cartState);
+        }
     });
 
     appendEl(productPageContainer, productContainer);

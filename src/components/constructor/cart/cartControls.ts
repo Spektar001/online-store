@@ -7,8 +7,20 @@ export function addToCart(button: HTMLElement, index: string, state: ProductsDat
         if (item.id === +index) {
             const cartItem = Object.assign(item, { amount: 1 });
             cartState.push(cartItem);
-            button.textContent = 'Added!';
+            button.textContent = 'Remove from cart';
             button.classList.add('product__button_added');
+            setStorage('cartState', cartState);
+        }
+    }
+}
+
+export function removeFromCart(button: HTMLElement, index: string, state: ProductsData[], cartState: CartData[]): void {
+    for (const item of state) {
+        if (item.id === +index) {
+            const cartItem = Object.assign(item, { amount: 0 });
+            cartState.splice(cartState.indexOf(cartItem), 1);
+            button.textContent = 'Add to card';
+            button.classList.remove('product__button_added');
             setStorage('cartState', cartState);
         }
     }
@@ -143,7 +155,7 @@ export function setButtons(index: string, button: HTMLElement, cartState: CartDa
     for (const item of cartState) {
         if (item.id === +index) {
             button.classList.add('product__button_added');
-            button.textContent = 'Added';
+            button.textContent = 'Remove from cart';
         }
     }
 }
