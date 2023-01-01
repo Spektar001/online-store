@@ -10,6 +10,8 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     let min: number;
     let max: number;
 
+    drawProductsFound();
+
     for (let i = 0; i < state.length; i += 1) {
         categories.push(state[i].category);
         brands.push(state[i].brand);
@@ -76,6 +78,13 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     );
 
     setFilters(state, queryState);
+}
+
+function drawProductsFound() {
+    const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
+    const filterProdoctsFound = createEl('products_found__total', 'div');
+
+    appendEl(filtersContainer, filterProdoctsFound);
 }
 
 function getFilteredKeys(

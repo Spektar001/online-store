@@ -169,15 +169,18 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         !queryState.maxDisc
     ) {
         drawProducts(state, cartState);
+        setTotalProducts(state);
         setDoubleInputsOnCheck(state, state, queryState);
         setProductCount(state, state);
     } else {
         if (filteredState.length) {
             drawProducts(filteredState, cartState);
+            setTotalProducts(filteredState);
             setDoubleInputsOnCheck(state, filteredState, queryState);
             setProductCount(state, filteredState);
         } else {
             drawNoMatch();
+            setTotalProducts(filteredState);
             setDoubleInputsOnCheck(state, state, queryState);
             setProductCount(state, filteredState);
         }
@@ -203,11 +206,13 @@ function getSameItems(state: ProductsData[], nonEmptyNum: number): ProductsData[
     return result;
 }
 
-export function setDoubleInputsOnCheck(
-    state: ProductsData[],
-    filteredState: ProductsData[],
-    queryState: QueryData
-): void {
+function setTotalProducts(state: ProductsData[]): void {
+    const filterProdoctsFound = checkedQuerySelector(document, '.products_found__total');
+
+    filterProdoctsFound.textContent = `FOUND: ${state.length}`;
+}
+
+function setDoubleInputsOnCheck(state: ProductsData[], filteredState: ProductsData[], queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
     const priceInputMin = <HTMLInputElement>checkedQuerySelector(document, '.price__slider_1');
     const priceInputMax = <HTMLInputElement>checkedQuerySelector(document, '.price__slider_2');
@@ -241,7 +246,7 @@ export function setDoubleInputsOnCheck(
     discTextMax.textContent = discInputMax.value;
 }
 
-export function setProductCount(state: ProductsData[], filteredState: ProductsData[]): void {
+function setProductCount(state: ProductsData[], filteredState: ProductsData[]): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
     const countProductCategory = Array.from(document.querySelectorAll('.filter__item_category'));
     const countProductBrand = Array.from(document.querySelectorAll('.filter__item_brand'));
