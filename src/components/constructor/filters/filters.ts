@@ -2,6 +2,7 @@ import { drawProducts, drawNoMatch } from '../products/drawProducts';
 import { checkedQuerySelector, ProductsData, QueryData } from '../../../types/exports';
 import { cartState } from '../../..';
 import { getMaxDiscount, getMaxPrice, getMinDiscount, getMinPrice } from './drawFilters';
+import { goTo } from '../../router/router';
 
 export function setFilters(state: ProductsData[], queryState: QueryData): void {
     let filteredState: ProductsData[] = [];
@@ -168,12 +169,14 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         !queryState.minDisc &&
         !queryState.maxDisc
     ) {
+        setSortParams(state, queryState);
         drawProducts(state, cartState);
         setTotalProducts(state);
         setDoubleInputsOnCheck(state, state, queryState);
         setProductCount(state, state);
     } else {
         if (filteredState.length) {
+            setSortParams(filteredState, queryState);
             drawProducts(filteredState, cartState);
             setTotalProducts(filteredState);
             setDoubleInputsOnCheck(state, filteredState, queryState);
@@ -246,6 +249,25 @@ function setDoubleInputsOnCheck(state: ProductsData[], filteredState: ProductsDa
     discTextMax.textContent = discInputMax.value;
 }
 
+function setSortParams(state: ProductsData[], queryState: QueryData): void {
+    if (queryState.sortBy) {
+        switch (queryState.sortBy) {
+            case 'Min Price':
+                state.sort((item1, item2) => item1.price - item2.price);
+                break;
+            case 'Max Price':
+                state.sort((item1, item2) => item2.price - item1.price);
+                break;
+            case 'Min Discount':
+                state.sort((item1, item2) => item1.discountPercentage - item2.discountPercentage);
+                break;
+            case 'Max Discount':
+                state.sort((item1, item2) => item2.discountPercentage - item1.discountPercentage);
+                break;
+        }
+    }
+}
+
 function setProductCount(state: ProductsData[], filteredState: ProductsData[]): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
     const countProductCategory = Array.from(document.querySelectorAll('.filter__item_category'));
@@ -313,5 +335,5 @@ export function resetFilters(queryState: QueryData): void {
     url.searchParams.delete('minDisc');
     url.searchParams.delete('maxDisc');
 
-    window.history.pushState(url.search, '', url);
+    goTo(`/${url.search}`);
 }

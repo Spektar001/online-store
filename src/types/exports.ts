@@ -38,6 +38,7 @@ export interface QueryData {
     minDisc: string;
     maxDisc: string;
     find: string;
+    sortBy: string;
 }
 
 export interface Paths {

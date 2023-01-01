@@ -18,14 +18,13 @@ export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
     appendEl(viewButtonsContainer, productsViewButton1);
     appendEl(viewButtonsContainer, productsViewButton2);
 
-    setSortList(sortListContainer, sortListButton);
+    setSortList(state, queryState, sortListContainer, sortListButton);
 
-    sortListButton.textContent = 'Sort by...';
+    sortListButton.textContent = queryState.sortBy ? `Sorted by ${queryState.sortBy}` : 'Sort by...';
     sortSearch.type = 'search';
     sortSearch.placeholder = 'Type to search products...';
     productsViewButton1.textContent = '3';
     productsViewButton2.textContent = '4';
-
     sortSearch.value = queryState.find ? queryState.find : '';
 
     sortSearch.addEventListener('input', () => {
@@ -37,15 +36,28 @@ export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
     appendEl(topbarContainer, viewButtonsContainer);
 }
 
-function setSortList(sortListContainer: HTMLElement, sortListButton: HTMLElement): void {
+function setSortList(
+    state: ProductsData[],
+    queryState: QueryData,
+    sortListContainer: HTMLElement,
+    sortListButton: HTMLElement
+): void {
     const sortListItemsVals = ['Min Price', 'Max Price', 'Min Discount', 'Max Discount'];
     const sortList = createEl('sort__list sort__list_hidden', 'ul');
 
     for (const item of sortListItemsVals) {
         const sortListItem = createEl('sort__list_item', 'li');
+
         sortListItem.textContent = item;
         sortListItem.addEventListener('click', () => {
+            const url = new URL(window.location.href);
+
             sortListButton.textContent = `Sorted by ${item}`;
+            queryState.sortBy = item;
+            url.searchParams.set('sortBy', item);
+            window.history.pushState(url.search, '', url);
+
+            setFilters(state, queryState);
         });
         appendEl(sortList, sortListItem);
     }

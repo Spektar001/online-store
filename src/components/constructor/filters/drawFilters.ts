@@ -3,7 +3,6 @@ import { ProductsData, CartData, QueryData, checkedQuerySelector } from '../../.
 import { createEl, appendEl } from '../elements/elements';
 import './filters.css';
 import { queryState } from '../../..';
-import { goTo } from '../../router/router';
 
 export function drawFilters(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const categories: string[] = [];
@@ -104,7 +103,6 @@ function drawFilterButtons(): void {
     filterCopyButton.addEventListener('click', () => copyLink(filterCopyButton));
     filterResetButton.addEventListener('click', () => {
         resetFilters(queryState);
-        goTo('/');
     });
 }
 

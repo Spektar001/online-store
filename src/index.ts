@@ -18,6 +18,7 @@ export const queryState: QueryData = {
     minDisc: '',
     maxDisc: '',
     find: '',
+    sortBy: '',
 };
 
 async function setProdouctsValues() {
@@ -30,7 +31,6 @@ setProdouctsValues();
 checkedQuerySelector(document, '.header__cart').addEventListener('click', () => goTo('/cart'));
 checkedQuerySelector(document, '.header__logo').addEventListener('click', () => {
     resetFilters(queryState);
-    goTo('/');
 });
 
 window.addEventListener('beforeunload', () => {

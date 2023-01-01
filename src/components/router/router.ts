@@ -17,8 +17,8 @@ export const routes: Routes = {};
 
 export const render = (path: string) => {
     const url = new URL(window.location.href);
-    const queryParams = url.searchParams;
-    setQueryState(queryParams);
+    setQueryState(url.searchParams);
+
     for (const item of Object.values(routes)) {
         if (item.match(path) && Object.values(item)[0] === `/`) {
             drawProductsPage(state, cartState, queryState);
@@ -48,6 +48,7 @@ function setQueryState(queryParams: URLSearchParams): void {
     const minDisc = queryParams.get('minDisc');
     const maxDisc = queryParams.get('maxDisc');
     const find = queryParams.get('find');
+    const sortBy = queryParams.get('sortBy');
 
     brand !== undefined ? (queryState.brand = brand) : [];
     category !== undefined ? (queryState.category = category) : [];
@@ -56,6 +57,7 @@ function setQueryState(queryParams: URLSearchParams): void {
     minDisc !== null ? (queryState.minDisc = minDisc) : '';
     maxDisc !== null ? (queryState.maxDisc = maxDisc) : '';
     find !== null ? (queryState.find = find) : '';
+    sortBy !== null ? (queryState.sortBy = sortBy) : '';
 }
 
 export const goTo = (path: string) => {
