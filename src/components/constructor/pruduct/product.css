@@ -1,0 +1,142 @@
+.product-page__container {
+    display: flex;
+    gap: 15px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.product__container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* containers------------------------------------------------- */
+
+.product-page__bread-crumbs,
+.product-page__container_images,
+.product-page__container_desc {
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 5px 0 gray;
+}
+
+.product-page__bread-crumbs {
+    width: 100%;
+    height: fit-content;
+    font-size: 1.2rem;
+}
+
+.product-page__container_images,
+.product-page__container_desc {
+    display: flex;
+    width: 49%;
+}
+
+.product-page__container_images {
+    flex-direction: column;
+    gap: 15px;
+    height: 500px;
+}
+
+.product-page__container_desc {
+    flex-direction: column;
+    gap: 5px;
+    height: fit-content;
+}
+
+/* images------------------------------------------------- */
+
+.product-page__images {
+    display: flex;
+    gap: 5px;
+}
+
+.product-page__image,
+.product-page__images_main {
+    aspect-ratio: 1/1;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.product-page__image {
+    width: 24%;
+}
+
+.product-page__images_main {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* description------------------------------------------------- */
+
+.product-page__desc_el {
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+.product-page__title {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.product-page__description {
+    margin-bottom: 5px;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+.product-page__category,
+.product-page__brand {
+    width: fit-content;
+    padding: 2px 5px;
+    color: white;
+    border-radius: 5px;
+}
+
+.product-page__category {
+    background-color: rgb(137, 126, 236);
+    border: 1px solid rgb(137, 126, 236);
+}
+
+.product-page__brand {
+    background-color: cornflowerblue;
+    border: 1px solid cornflowerblue;
+}
+
+/* price------------------------------------------------- */
+
+.product-page__container_price {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.product-page__price,
+.product-page__price_disc {
+    width: fit-content;
+    font-weight: bold;
+}
+
+.product-page__price {
+    color: gray;
+    font-size: 1.5rem;
+    text-decoration: line-through;
+}
+
+.product-page__price_disc {
+    font-size: 2.5rem;
+}
+
+/* buttons------------------------------------------------- */
+
+.product-page__container_buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}

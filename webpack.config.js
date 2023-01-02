@@ -32,7 +32,7 @@ const baseConfig = {
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '',
+        publicPath: '/',
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -41,14 +41,14 @@ const baseConfig = {
         }),
         new CleanWebpackPlugin(),
         new ESLintPlugin({ extensions: ['ts', 'js'] }),
-        new CopyPlugin({
-            patterns: [
-                {
-                    from: path.resolve(__dirname, 'src', 'assets'),
-                    to: path.resolve(__dirname, 'dist', 'assets'),
-                },
-            ],
-        }),
+        // new CopyPlugin({
+        //     patterns: [
+        //         {
+        //             from: path.resolve(__dirname, 'src', 'assets'),
+        //             to: path.resolve(__dirname, 'dist', 'assets'),
+        //         },
+        //     ],
+        // }),
     ],
 };
 

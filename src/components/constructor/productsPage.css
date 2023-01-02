@@ -1,0 +1,21 @@
+.products-page__container {
+    display: flex;
+    gap: 15px;
+		max-width: 1240px;
+		padding: 0 20px;
+		margin: 0 auto;
+}
+
+.products-page__container_left {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 20%;
+}
+
+.products-page__container_right {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 80%;
+}
