@@ -1,13 +1,15 @@
-import { checkedQuerySelector, ProductsData } from '../../../types/exports';
+import { CartData, checkedQuerySelector, ProductsData, QueryData } from '../../../types/exports';
 import { appendEl, createEl } from '../elements/elements';
-import { drawProduct } from '../pruduct/drawProduct';
+import { addToCart, countCartTotal, countCartProducts, setButtons, removeFromCart } from '../cart/cartControls';
 import './products.css';
+import { goTo } from '../../router/router';
 
-export function drawProducts(data: ProductsData[], state: ProductsData[]): void {
+export function drawProducts(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
+    productsContainer.classList.remove('no-products');
     productsContainer.innerHTML = '';
 
-    for (let i = 0; i < data.length; i += 1) {
+    for (const item of state) {
         const productItem = createEl('product__item', 'div');
         const productRating = createEl('product__label product__rating', 'span');
         const productDiscount = createEl('product__label product__discount', 'span');
@@ -23,20 +25,41 @@ export function drawProducts(data: ProductsData[], state: ProductsData[]): void 
         const productMidBox = createEl('product__contaiter product__contaiter_mid', 'div');
         const productBotBox = createEl('product__contaiter product__contaiter_bot', 'div');
 
-        productItem.id = `${data[i].id}`;
-        productRating.textContent = `${data[i].rating.toFixed(1)}`;
-        productDiscount.textContent = `-${data[i].discountPercentage}%`;
-        productImage.style.backgroundImage = `url(${data[i].thumbnail}`;
-        productTitle.textContent = `${data[i].title}`;
-        productCategory.textContent = `${data[i].category}`;
-        productBrand.textContent = `${data[i].brand}`;
-        productDiscPrice.textContent = `${Math.floor(data[i].price * ((100 - data[i].discountPercentage) / 100))}€`;
-        productPrice.textContent = `${data[i].price}€`;
+        queryState.view === 'column'
+            ? productItem.classList.add('product__item_column')
+            : productItem.classList.remove('product__item_column');
+
+        productItem.id = `${item.id}`;
+        productRating.textContent = `${item.rating.toFixed(1)}`;
+        productDiscount.textContent = `-${item.discountPercentage}%`;
+        productImage.style.backgroundImage = `url(${item.thumbnail}`;
+        productTitle.textContent = `${item.title}`;
+        productCategory.textContent = `${item.category}`;
+        productBrand.textContent = `${item.brand}`;
+        productDiscPrice.textContent = `${Math.floor(item.price * ((100 - item.discountPercentage) / 100))}€`;
+        productPrice.textContent = `${item.price}€`;
         buyButton.textContent = `Add to cart`;
 
-        productItem.addEventListener('click', () => {
-            drawProduct(productItem, state);
+        productItem.addEventListener('click', (e) => {
+            const target = e.target;
+            if (target !== buyButton) {
+                goTo(`/product/${productItem.id}`);
+            }
         });
+
+        buyButton.addEventListener('click', () => {
+            if (buyButton.classList.contains('product__button_added')) {
+                removeFromCart(buyButton, productItem.id, state, cartState);
+                countCartProducts(cartState);
+                countCartTotal(cartState);
+            } else {
+                addToCart(buyButton, productItem.id, state, cartState);
+                countCartProducts(cartState);
+                countCartTotal(cartState);
+            }
+        });
+
+        setButtons(productItem.id, buyButton, cartState);
 
         appendEl(productTopBox, productRating);
         appendEl(productTopBox, productDiscount);
@@ -57,6 +80,7 @@ export function drawProducts(data: ProductsData[], state: ProductsData[]): void 
 
 export function drawNoMatch(): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
+    productsContainer.classList.add('no-products');
     productsContainer.innerHTML = '';
 
     const noMatchEl = createEl('no-match', 'div');

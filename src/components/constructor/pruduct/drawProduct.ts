@@ -1,9 +1,10 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, checkedQuerySelector } from '../../../types/exports';
 import { showPopUp } from '../../constructor/popup/popup';
+import { checkedQuerySelector, ProductsData, CartData } from '../../../types/exports';
+import { addToCart, removeFromCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
 import './product.css';
 
-export function drawProduct(product: HTMLElement, data: ProductsData[]): void {
+export function drawProduct(index: string, state: ProductsData[], cartState: CartData[]): void {
     const main = checkedQuerySelector(document, 'main');
     main.innerHTML = '';
     const productPageContainer = createEl('product-page__container', 'div');
@@ -26,8 +27,8 @@ export function drawProduct(product: HTMLElement, data: ProductsData[]): void {
     const productDiscPrice = createEl('product-page__desc_el product-page__price_disc', 'span');
     const productPrice = createEl('product-page__desc_el product-page__price', 'span');
     const productButtonsContainer = createEl('product-page__container_buttons', 'div');
-    const productCartButton = createEl('product-page__button_cart product-page__button', 'button');
-    const productBuyButton = createEl('product-page__button_buy product-page__button', 'button');
+    const productCartButton = createEl('product__button_buy', 'button');
+    const productBuyButton = createEl('product__button_buy_now', 'button');
 
     appendEl(productImageContainer, productMainImage);
     appendEl(productImageContainer, productImages);
@@ -54,8 +55,8 @@ export function drawProduct(product: HTMLElement, data: ProductsData[]): void {
     appendEl(productContainer, productImageContainer);
     appendEl(productContainer, productDescriptionContainer);
 
-    for (const item of data) {
-        if (item.id === +product.id) {
+    for (const item of state) {
+        if (item.id === +index) {
             productBreadCrumbs.textContent = `Store / ${item.category} / ${item.brand} / ${item.title}`;
             for (let i = 0; i < item.images.length; i++) {
                 const productImage = createEl('product-page__image', 'div');
@@ -81,6 +82,20 @@ export function drawProduct(product: HTMLElement, data: ProductsData[]): void {
             productBuyButton.textContent = `Buy now`;
         }
     }
+
+    setButtons(index, productCartButton, cartState);
+
+    productCartButton.addEventListener('click', () => {
+        if (productCartButton.classList.contains('product__button_added')) {
+            removeFromCart(productCartButton, index, state, cartState);
+            countCartProducts(cartState);
+            countCartTotal(cartState);
+        } else {
+            addToCart(productCartButton, index, state, cartState);
+            countCartProducts(cartState);
+            countCartTotal(cartState);
+        }
+    });
 
     appendEl(productPageContainer, productContainer);
     appendEl(main, productPageContainer);

@@ -1,8 +1,8 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, checkedQuerySelector } from '../../../types/exports';
+import { checkedQuerySelector } from '../../../types/exports';
 import './cart.css';
 
-export function drawCartTopbar(data: ProductsData[]): void {
+export function drawCartTopbar(): void {
     const cartTopbar = checkedQuerySelector(document, '.cart-products__topbar');
 
     const topbarMainText = createEl('cart-topbar__text_main', 'span');

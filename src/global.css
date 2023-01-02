@@ -47,10 +47,8 @@ html, body {
 .wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   min-height: 100%;
   overflow: hidden;
-  gap: 15px;
   background-color: #F9F7F7;
 }
 .container {
@@ -61,22 +59,22 @@ html, body {
 
 /**HEADER***************************************************************************************/
 .header {
+  height: 100px;
   background-color: #3F72AF;
-  padding-top: 25px;
-  padding-bottom: 25px;
 }
 .header__body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100px;
 }
-a, a > span {
+.header__logo, .header__logo > span {
   position: relative;
   color: inherit;
   text-decoration: none;
   line-height: 24px;
 }
-a:before, a:after, a > span:before, a > span:after {
+.header__logo:before, .header__logo:after, .header__logo > span:before, .header__logo > span:after {
   content: '';
   position: absolute;
   transition: transform .5s ease;
@@ -90,6 +88,7 @@ a:before, a:after, a > span:before, a > span:after {
   padding-top: 10px;
   padding-bottom: 7px;
   overflow: hidden;
+  cursor: pointer;
 }
 .header__logo:before {
   left: 0;
@@ -114,22 +113,28 @@ a:before, a:after, a > span:before, a > span:after {
   color: #FFFFFF;
   font-size: 16px;
   font-weight: 500;
+  cursor: pointer;
 }
 #cart-count {
   font-size: 1.3rem;
   font-weight: 400;
 }
 
+main {
+  min-height: calc(100vh - 200px);
+  padding: 15px 0;
+}
+
 /**FOOTER***************************************************************************************/
 .footer {
+  height: 100px;
   background-color: #112D4E;
-  padding-top: 15px;
-  padding-bottom: 15px;
 }
 .footer__body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 100px;
 }
 .footer__github-link:hover svg{
   fill: #E23E57;
