@@ -88,6 +88,7 @@
     min-width: 2rem;
     height: 2rem;
     border: 1px solid gray;
+    border-radius: 5px;
 }
 
 .cart-product__image {
@@ -96,6 +97,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    border-radius: 5px;
 }
 
 .cart-product__container_desc {
@@ -115,7 +117,7 @@
 
 .cart-product__label {
     padding: 3px;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .cart-product__category {
@@ -143,7 +145,7 @@
 .cart-product__container_amount {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     gap: 5px;
     width: 15%;
     border-left: 1px solid gray;
@@ -188,7 +190,7 @@
 .cart-summary__text_main {
     padding: 5px;
     color: white;
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-align: center;
     background-color: #112D4E;
     border-radius: 5px;

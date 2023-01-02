@@ -1,4 +1,5 @@
 import { createEl, appendEl } from '../elements/elements';
+import { showPopUp } from '../../constructor/popup/popup';
 import { checkedQuerySelector, ProductsData, CartData } from '../../../types/exports';
 import { addToCart, removeFromCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
 import './product.css';
@@ -98,4 +99,9 @@ export function drawProduct(index: string, state: ProductsData[], cartState: Car
 
     appendEl(productPageContainer, productContainer);
     appendEl(main, productPageContainer);
+
+    productBuyButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        showPopUp(productBuyButton);
+    });
 }

@@ -1,4 +1,5 @@
 import { createEl, appendEl } from '../elements/elements';
+import { showPopUp } from '../../constructor/popup/popup';
 import { CartData, PromoData, checkedQuerySelector } from '../../../types/exports';
 import {
     countCartTotal,
@@ -52,7 +53,7 @@ export function drawCartSummary(cartState: CartData[], promoState: PromoData[]):
     summarySumm.textContent = `${countCartTotal(cartState)}€`;
     summaryTooltip.textContent = 'Test: RSSCHOOL or DISC10';
     summaryItemsInput.type = 'text';
-    summaryItemsInput.placeholder = 'Enter your promocode..';
+    summaryItemsInput.placeholder = 'Enter your promocode...';
     summaryBuyButton.textContent = 'BUY NOW';
 
     summaryItemsInput.addEventListener('input', () => {
@@ -61,7 +62,11 @@ export function drawCartSummary(cartState: CartData[], promoState: PromoData[]):
             drawCartSummary(cartState, promoState);
         }
     });
-
+    
+    summaryBuyButton.addEventListener('click', () => {
+        showPopUp(summaryBuyButton);
+    });
+    
     setLinedSum(summarySumm, 'cart-summary__summ_lined', promoState);
     drawCartPromos(summaryPromoContainer, cartState, promoState);
 }

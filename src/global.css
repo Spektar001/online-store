@@ -60,7 +60,6 @@ html, body {
 /**HEADER***************************************************************************************/
 .header {
   height: 100px;
-  background-color: #FF5722;
   background-color: #3F72AF;
 }
 .header__body {
@@ -110,7 +109,6 @@ html, body {
 }
 .header__cart {
   display: flex;
-  /* align-items: center; */
   justify-content: flex-end;
   color: #FFFFFF;
   font-size: 16px;
@@ -119,6 +117,7 @@ html, body {
 }
 #cart-count {
   font-size: 1.3rem;
+  font-weight: 400;
 }
 
 main {
@@ -128,7 +127,6 @@ main {
 
 /**FOOTER***************************************************************************************/
 .footer {
-  /* background-color: #FF5722; */
   height: 100px;
   background-color: #112D4E;
 }
@@ -152,7 +150,7 @@ main {
   width: 50px;
   height: 50px;
 }
-.footer__rs-link:hover g{
+.footer__rs-link:hover g {
   fill: #E23E57;
   transition: all 0.3s ease;
 }

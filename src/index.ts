@@ -22,7 +22,7 @@ export const queryState: QueryData = {
     view: '',
 };
 
-async function setProdouctsValues() {
+export async function setProdouctsValues() {
     const result = await getProductsData();
     state = result.products;
     initRouter();

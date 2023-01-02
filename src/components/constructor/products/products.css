@@ -67,7 +67,7 @@
 .product__label {
     width: fit-content;
     padding: 2px 5px;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .product__item_column .product__label {
