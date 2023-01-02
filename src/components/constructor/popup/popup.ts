@@ -139,10 +139,12 @@ export function showPopUp(button: HTMLElement): void {
     });
 
     detailsCardNumber.addEventListener('input', () => {
-        detailsCardNumber.value = detailsCardNumber.value.replace(/[^\d\s]/g, '');
-        let cardCode = detailsCardNumber.value.replace(/[^\d]/g, '').substring(0, 16);
-        cardCode = cardCode !== '' ? cardCode.match(/.{1,4}/g).join(' ') : '';
-        detailsCardNumber.value = cardCode;
+        const cardCode = detailsCardNumber.value.replace(/[^\d]/g, '').substring(0, 16);
+
+        detailsCardNumber.value =
+            detailsCardNumber.value.length < 19
+                ? matcher(cardCode, /.{1,4}/g, ' ')
+                : matcher(cardCode, /.{1,4}/g, ' ').substring(0, 19);
 
         if (detailsCardNumber.value.length < 19) {
             detailsCardNumber.classList.add('error');
@@ -170,10 +172,12 @@ export function showPopUp(button: HTMLElement): void {
         }
     });
     detailsDate.addEventListener('input', () => {
-        detailsDate.value = detailsDate.value.replace(/[^\d]/g, '');
-        let validDate = detailsDate.value.replace(/[^\d]/g, '').substring(0, 4);
-        validDate = validDate !== '/' ? validDate.match(/.{1,2}/g).join('/') : '/';
-        detailsDate.value = validDate;
+        const validDate = detailsDate.value.replace(/[^\d]/g, '').substring(0, 4);
+
+        detailsDate.value =
+            detailsDate.value.length < 5
+                ? matcher(validDate, /.{1,2}/g, '/')
+                : matcher(validDate, /.{1,2}/g, '/').substring(0, 5);
 
         if (detailsDate.value.length < 5) {
             detailsDate.classList.add('error');
@@ -258,5 +262,15 @@ function isFormDetailsSelected(form: HTMLElement, btn: HTMLButtonElement): void 
     }
     if (!x.every((item) => item.classList.contains('check'))) {
         btn.disabled = true;
+    }
+}
+
+function matcher(string: string, regexp: RegExp, joiner: string): string {
+    const stringMatches: string[] | null = string.match(regexp);
+
+    if (stringMatches) {
+        return stringMatches.join(joiner);
+    } else {
+        return '';
     }
 }
