@@ -1,9 +1,9 @@
 import { createEl, appendEl } from '../elements/elements';
 import { checkedQuerySelector } from '../../../types/exports';
-import { setProdouctsValues } from '../../../index';
+import { goTo } from '../../router/router';
 import './popup.css';
 
-export function showPopUp(button: HTMLElement) {
+export function showPopUp(button: HTMLElement): void {
     const main = checkedQuerySelector(document, 'main');
     const sectionDetails = createEl('section__details', 'div');
     const bgLayer = createEl('bg_layer', 'div');
@@ -212,22 +212,25 @@ export function showPopUp(button: HTMLElement) {
         const orderWrapper = createEl('order-wrapper', 'div');
         const order = createEl('order', 'p');
         const orderTitle = createEl('order__title', 'h2');
+
         appendEl(main, sectionOrder);
         appendEl(sectionOrder, orderLayer);
         appendEl(sectionOrder, orderWrapper);
         appendEl(orderWrapper, order);
         appendEl(order, orderTitle);
+
         orderTitle.style.fontSize = '2rem';
         orderTitle.style.color = '#112D4E';
         orderTitle.textContent = 'Thank you for order!';
+
         sectionDetails.remove();
+
         setTimeout(() => {
-            main.children[0].innerHTML = '';
             sectionOrder.remove();
-            setProdouctsValues();
         }, 1500);
+
         setTimeout(() => {
-            main.children[0].remove();
+            goTo('/');
         }, 1600);
     });
 

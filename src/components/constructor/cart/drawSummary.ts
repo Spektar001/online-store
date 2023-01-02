@@ -62,11 +62,11 @@ export function drawCartSummary(cartState: CartData[], promoState: PromoData[]):
             drawCartSummary(cartState, promoState);
         }
     });
-    
+
     summaryBuyButton.addEventListener('click', () => {
         showPopUp(summaryBuyButton);
     });
-    
+
     setLinedSum(summarySumm, 'cart-summary__summ_lined', promoState);
     drawCartPromos(summaryPromoContainer, cartState, promoState);
 }

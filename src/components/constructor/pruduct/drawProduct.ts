@@ -3,6 +3,7 @@ import { showPopUp } from '../../constructor/popup/popup';
 import { checkedQuerySelector, ProductsData, CartData } from '../../../types/exports';
 import { addToCart, removeFromCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
 import './product.css';
+import { goTo } from '../../router/router';
 
 export function drawProduct(index: string, state: ProductsData[], cartState: CartData[]): void {
     const main = checkedQuerySelector(document, 'main');
@@ -102,6 +103,7 @@ export function drawProduct(index: string, state: ProductsData[], cartState: Car
 
     productBuyButton.addEventListener('click', (e) => {
         e.preventDefault();
+        goTo('/cart');
         showPopUp(productBuyButton);
     });
 }
