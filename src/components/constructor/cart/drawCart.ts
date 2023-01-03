@@ -5,6 +5,7 @@ import { drawCartTopbar } from './drawTopbar';
 import { drawCartSummary } from './drawSummary';
 import { goTo } from '../../router/router';
 import './cart.css';
+import { queryState } from '../../..';
 
 export function drawCart(state: ProductsData[], cartState: CartData[], promoState: PromoData[]): void {
     const main = checkedQuerySelector(document, 'main');
@@ -39,8 +40,8 @@ function drawFilledCart(
 
     appendEl(parent, pageContaier);
 
-    drawCartProducts(state, cartState, promoState);
-    drawCartTopbar();
+    drawCartTopbar(state, cartState, queryState);
+    drawCartProducts(state, cartState, promoState, queryState);
     drawCartSummary(cartState, promoState);
 }
 

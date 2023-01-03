@@ -1,8 +1,10 @@
 import { createEl, appendEl } from '../elements/elements';
-import { checkedQuerySelector } from '../../../types/exports';
+import { CartData, checkedQuerySelector, ProductsData, QueryData } from '../../../types/exports';
 import './cart.css';
+import { drawCartProducts } from './drawCartProducts';
+import { promoState } from '../../..';
 
-export function drawCartTopbar(): void {
+export function drawCartTopbar(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const cartTopbar = checkedQuerySelector(document, '.cart-products__topbar');
 
     const topbarMainText = createEl('cart-topbar__text_main', 'span');
@@ -13,9 +15,9 @@ export function drawCartTopbar(): void {
     const topbarPagesContainer = createEl('cart-topbar__container_pages', 'div');
     const topbarPagesText = createEl('cart-topbar__text_pages', 'span');
     const topbarButtonsContainer = createEl('cart-topbar__container_buttons', 'div');
-    const topbarAddButton = createEl('cart-topbar__button cart-topbar__button_add', 'button');
-    const topbarBuyAmount = createEl('cart-topbar__amount', 'span');
-    const topbarRemoveButton = createEl('cart-topbar__button cart-topbar__button_remove', 'button');
+    const topbarNextPage = createEl('cart-topbar__button cart-topbar__button_add', 'button');
+    const topbarCurrentPage = createEl('cart-topbar__amount', 'span');
+    const topbarPrevPage = createEl('cart-topbar__button cart-topbar__button_remove', 'button');
 
     appendEl(cartTopbar, topbarMainText);
 
@@ -26,9 +28,9 @@ export function drawCartTopbar(): void {
 
     appendEl(topbarPagesContainer, topbarPagesText);
 
-    appendEl(topbarButtonsContainer, topbarRemoveButton);
-    appendEl(topbarButtonsContainer, topbarBuyAmount);
-    appendEl(topbarButtonsContainer, topbarAddButton);
+    appendEl(topbarButtonsContainer, topbarPrevPage);
+    appendEl(topbarButtonsContainer, topbarCurrentPage);
+    appendEl(topbarButtonsContainer, topbarNextPage);
 
     appendEl(topbarPagesContainer, topbarButtonsContainer);
 
@@ -42,9 +44,85 @@ export function drawCartTopbar(): void {
     topbarItemsInput.min = '1';
     topbarItemsInput.max = `10`;
     topbarItemsInput.maxLength = 2;
-    topbarItemsInput.value = '10';
+    topbarItemsInput.value = queryState.limitPerPage;
+
+    let page = +queryState.page || 1;
+
+    console.log(queryState.limitPerPage);
+
+    +queryState.page <= 1
+        ? topbarPrevPage.classList.add('cart-product__button_disabled')
+        : topbarPrevPage.classList.remove('cart-product__button_disabled');
+
+    cartState.length <= +queryState.page * +queryState.limitPerPage
+        ? topbarNextPage.classList.add('cart-product__button_disabled')
+        : topbarNextPage.classList.remove('cart-product__button_disabled');
+
     topbarPagesText.textContent = 'Page:';
-    topbarAddButton.textContent = '+';
-    topbarBuyAmount.textContent = '1';
-    topbarRemoveButton.textContent = '-';
+    topbarNextPage.textContent = '+';
+    topbarCurrentPage.textContent = `${page}`;
+    topbarPrevPage.textContent = '-';
+
+    let currentValue = topbarItemsInput.value;
+
+    topbarItemsInput.addEventListener('input', () => {
+        queryState.limitPerPage = topbarItemsInput.value === '' ? currentValue : topbarItemsInput.value;
+
+        +queryState.page <= 1
+            ? topbarPrevPage.classList.add('cart-product__button_disabled')
+            : topbarPrevPage.classList.remove('cart-product__button_disabled');
+
+        cartState.length <= +queryState.page * +queryState.limitPerPage
+            ? topbarNextPage.classList.add('cart-product__button_disabled')
+            : topbarNextPage.classList.remove('cart-product__button_disabled');
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('limitPerPage', queryState.limitPerPage);
+        window.history.pushState(url.search, '', url);
+        currentValue = topbarItemsInput.value;
+
+        drawCartProducts(state, cartState, promoState, queryState);
+    });
+
+    topbarNextPage.addEventListener('click', () => {
+        page++;
+
+        topbarCurrentPage.textContent = `${page}`;
+        queryState.page = `${page}`;
+
+        +queryState.page <= 1
+            ? topbarPrevPage.classList.add('cart-product__button_disabled')
+            : topbarPrevPage.classList.remove('cart-product__button_disabled');
+
+        cartState.length <= +queryState.page * +queryState.limitPerPage
+            ? topbarNextPage.classList.add('cart-product__button_disabled')
+            : topbarNextPage.classList.remove('cart-product__button_disabled');
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', `${page}`);
+        window.history.pushState(url.search, '', url);
+
+        drawCartProducts(state, cartState, promoState, queryState);
+    });
+
+    topbarPrevPage.addEventListener('click', () => {
+        page--;
+
+        topbarCurrentPage.textContent = `${page}`;
+        queryState.page = `${page}`;
+
+        +queryState.page <= 1
+            ? topbarPrevPage.classList.add('cart-product__button_disabled')
+            : topbarPrevPage.classList.remove('cart-product__button_disabled');
+
+        cartState.length <= +queryState.page * +queryState.limitPerPage
+            ? topbarNextPage.classList.add('cart-product__button_disabled')
+            : topbarNextPage.classList.remove('cart-product__button_disabled');
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', `${page}`);
+        window.history.pushState(url.search, '', url);
+
+        drawCartProducts(state, cartState, promoState, queryState);
+    });
 }

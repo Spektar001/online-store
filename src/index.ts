@@ -20,6 +20,8 @@ export const queryState: QueryData = {
     find: '',
     sortBy: '',
     view: '',
+    page: '1',
+    limitPerPage: '5',
 };
 
 export async function setProdouctsValues() {
@@ -29,7 +31,9 @@ export async function setProdouctsValues() {
 }
 
 setProdouctsValues();
-checkedQuerySelector(document, '.header__cart').addEventListener('click', () => goTo('/cart'));
+checkedQuerySelector(document, '.header__cart').addEventListener('click', () => {
+    goTo('/cart');
+});
 checkedQuerySelector(document, '.header__logo').addEventListener('click', () => {
     resetFilters(queryState);
 });

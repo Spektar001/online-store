@@ -324,6 +324,8 @@ export function resetFilters(queryState: QueryData): void {
     queryState.maxPrice = '';
     queryState.minDisc = '';
     queryState.maxDisc = '';
+    queryState.page = '1';
+    queryState.limitPerPage = '5';
 
     const url = new URL(window.location.href);
 
@@ -334,6 +336,8 @@ export function resetFilters(queryState: QueryData): void {
     url.searchParams.delete('maxPrice');
     url.searchParams.delete('minDisc');
     url.searchParams.delete('maxDisc');
+    url.searchParams.delete('page');
+    url.searchParams.delete('limitPerPage');
 
     goTo(`/${url.search}`);
 }

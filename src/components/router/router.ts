@@ -6,6 +6,7 @@ import { countCartProducts, countCartTotal } from '../constructor/cart/cartContr
 import { drawCart } from '../constructor/cart/drawCart';
 import { drawProduct } from '../constructor/pruduct/drawProduct';
 import { draw404 } from '../constructor/404/404';
+import { setStorage } from '../storage/setStorage';
 
 const Paths: Paths = {
     index: '/',
@@ -16,6 +17,8 @@ const Paths: Paths = {
 export const routes: Routes = {};
 
 export const render = (path: string) => {
+    setStorage('cartState', cartState);
+
     const url = new URL(window.location.href);
     setQueryState(url.searchParams);
 
@@ -50,6 +53,8 @@ function setQueryState(queryParams: URLSearchParams): void {
     const find = queryParams.get('find');
     const sortBy = queryParams.get('sortBy');
     const view = queryParams.get('view');
+    const page = queryParams.get('page');
+    const limitPerPage = queryParams.get('limitPerPage');
 
     brand !== undefined ? (queryState.brand = brand) : [];
     category !== undefined ? (queryState.category = category) : [];
@@ -60,6 +65,8 @@ function setQueryState(queryParams: URLSearchParams): void {
     find !== null ? (queryState.find = find) : '';
     sortBy !== null ? (queryState.sortBy = sortBy) : '';
     view !== null ? (queryState.view = view) : 'row';
+    page !== null ? (queryState.page = page) : '1';
+    limitPerPage !== null ? (queryState.limitPerPage = limitPerPage) : '5';
 }
 
 export const goTo = (path: string) => {
