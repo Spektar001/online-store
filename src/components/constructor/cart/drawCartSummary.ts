@@ -1,5 +1,5 @@
 import { createEl, appendEl } from '../elements/elements';
-import { showPopUp } from '../../constructor/popup/popup';
+import { showPopUp } from '../popup/popup';
 import { CartData, PromoData, checkedQuerySelector } from '../../../types/exports';
 import {
     countCartTotal,

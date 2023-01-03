@@ -4,8 +4,9 @@ import { state, cartState, promoState, queryState } from '../..';
 import { drawProductsPage } from '../constructor/drawProductsPage';
 import { countCartProducts, countCartTotal } from '../constructor/cart/cartControls';
 import { drawCart } from '../constructor/cart/drawCart';
-import { drawProduct } from '../constructor/pruduct/drawProduct';
+import { drawProduct } from '../constructor/product/drawProduct';
 import { draw404 } from '../constructor/404/404';
+import { setStorage } from '../storage/setStorage';
 
 const Paths: Paths = {
     index: '/',
@@ -15,18 +16,20 @@ const Paths: Paths = {
 
 export const routes: Routes = {};
 
-export const render = (path: string) => {
+export function render(path: string): void {
+    setStorage('cartState', cartState);
+
     const url = new URL(window.location.href);
     setQueryState(url.searchParams);
 
     for (const item of Object.values(routes)) {
         if (item.match(path) && Object.values(item)[0] === `/`) {
-            drawProductsPage(state, cartState, queryState);
+            drawProductsPage(state, queryState);
             countCartProducts(cartState);
             countCartTotal(cartState);
             return;
         } else if (item.match(path) && Object.values(item)[0] === `/cart`) {
-            drawCart(state, cartState, promoState);
+            drawCart(state, cartState, promoState, queryState);
             countCartProducts(cartState);
             countCartTotal(cartState);
             return;
@@ -38,36 +41,14 @@ export const render = (path: string) => {
         }
     }
     draw404();
-};
-
-function setQueryState(queryParams: URLSearchParams): void {
-    const brand = queryParams.get('brand')?.split('-');
-    const category = queryParams.get('category')?.split('-');
-    const minPrice = queryParams.get('minPrice');
-    const maxPrice = queryParams.get('maxPrice');
-    const minDisc = queryParams.get('minDisc');
-    const maxDisc = queryParams.get('maxDisc');
-    const find = queryParams.get('find');
-    const sortBy = queryParams.get('sortBy');
-    const view = queryParams.get('view');
-
-    brand !== undefined ? (queryState.brand = brand) : [];
-    category !== undefined ? (queryState.category = category) : [];
-    minPrice !== null ? (queryState.minPrice = minPrice) : '';
-    maxPrice !== null ? (queryState.maxPrice = maxPrice) : '';
-    minDisc !== null ? (queryState.minDisc = minDisc) : '';
-    maxDisc !== null ? (queryState.maxDisc = maxDisc) : '';
-    find !== null ? (queryState.find = find) : '';
-    sortBy !== null ? (queryState.sortBy = sortBy) : '';
-    view !== null ? (queryState.view = view) : 'row';
 }
 
-export const goTo = (path: string) => {
+export function goTo(path: string): void {
     window.history.pushState({ path }, path, path);
     render(path);
-};
+}
 
-const initRouter = () => {
+export function initRouter(): void {
     for (let i = 0; i < state.length; i++) {
         const key = `product${i + 1}`;
         const value = `/product/${i + 1}`;
@@ -80,6 +61,30 @@ const initRouter = () => {
         render(new URL(window.location.href).pathname);
     });
     render(new URL(window.location.href).pathname);
-};
+}
 
-export default initRouter;
+function setQueryState(queryParams: URLSearchParams): void {
+    const brand = queryParams.get('brand')?.split('-');
+    const category = queryParams.get('category')?.split('-');
+    const minPrice = queryParams.get('minPrice');
+    const maxPrice = queryParams.get('maxPrice');
+    const minDisc = queryParams.get('minDisc');
+    const maxDisc = queryParams.get('maxDisc');
+    const find = queryParams.get('find');
+    const sortBy = queryParams.get('sortBy');
+    const view = queryParams.get('view');
+    const page = queryParams.get('page');
+    const limitPerPage = queryParams.get('limitPerPage');
+
+    brand !== undefined ? (queryState.brand = brand) : [];
+    category !== undefined ? (queryState.category = category) : [];
+    minPrice !== null ? (queryState.minPrice = minPrice) : '';
+    maxPrice !== null ? (queryState.maxPrice = maxPrice) : '';
+    minDisc !== null ? (queryState.minDisc = minDisc) : '';
+    maxDisc !== null ? (queryState.maxDisc = maxDisc) : '';
+    find !== null ? (queryState.find = find) : '';
+    sortBy !== null ? (queryState.sortBy = sortBy) : '';
+    view !== null ? (queryState.view = view) : 'row';
+    page !== null ? (queryState.page = page) : '1';
+    limitPerPage !== null ? (queryState.limitPerPage = limitPerPage) : '5';
+}

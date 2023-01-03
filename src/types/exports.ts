@@ -40,6 +40,8 @@ export interface QueryData {
     find: string;
     sortBy: string;
     view: string;
+    page: string;
+    limitPerPage: string;
 }
 
 export interface Paths {
