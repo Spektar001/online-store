@@ -79,6 +79,7 @@
     display: flex;
     gap: 15px;
     width: 80%;
+    cursor: pointer;
 }
 
 .cart-product__number {

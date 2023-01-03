@@ -54,6 +54,11 @@
     position: absolute;
 }
 
+.product__item_column .product__contaiter_top {
+    justify-content: center;
+
+}
+
 .product__item_column .product__contaiter_mid {
     bottom: 10px;
 }
@@ -151,7 +156,7 @@
 }
 
 .product__item_column .product__price {
-    font-size: 2.3rem;
+    font-size: 2rem;
     text-align: end;
 }
 
@@ -160,7 +165,8 @@
 }
 
 .product__item_column .product__price_disc {
-    font-size: 3rem;
+    font-size: 2.5rem;
+    font-weight: 700;
     text-align: end;
 }
 
@@ -171,8 +177,8 @@
     padding: 10px;
     border-radius: 5px;
     color: white;
-    font-size: 1.05rem;
-    font-weight: bold;
+    font-size: 1.1rem;
+    font-weight: 500;
     background-color: #F67280;
 }
 

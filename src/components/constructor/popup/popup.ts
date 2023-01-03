@@ -256,11 +256,11 @@ export function showPopUp(button: HTMLElement): void {
 }
 
 function isFormDetailsSelected(form: HTMLElement, btn: HTMLButtonElement): void {
-    const x = Array.from(form.querySelectorAll('.checked'));
-    if (x.every((item) => item.classList.contains('check'))) {
+    const arrInputs = Array.from(form.querySelectorAll('.checked'));
+    if (arrInputs.every((item) => item.classList.contains('check'))) {
         btn.disabled = false;
     }
-    if (!x.every((item) => item.classList.contains('check'))) {
+    if (!arrInputs.every((item) => item.classList.contains('check'))) {
         btn.disabled = true;
     }
 }
