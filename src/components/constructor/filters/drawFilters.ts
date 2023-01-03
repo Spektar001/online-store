@@ -1,10 +1,10 @@
 import { resetFilters, setFilters } from './filters';
-import { ProductsData, CartData, QueryData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import { createEl, appendEl } from '../elements/elements';
+import { goTo } from '../../router/router';
 import './filters.css';
-import { queryState } from '../../..';
 
-export function drawFilters(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
+export function drawFilters(state: ProductsData[], queryState: QueryData): void {
     const categories: string[] = [];
     const brands: string[] = [];
     let filtered: Set<string>;
@@ -12,7 +12,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     let max: number;
 
     drawProductsFound();
-    drawFilterButtons();
+    drawFilterButtons(queryState);
 
     for (let i = 0; i < state.length; i += 1) {
         categories.push(state[i].category);
@@ -89,7 +89,7 @@ function drawProductsFound() {
     appendEl(filtersContainer, filterProdoctsFound);
 }
 
-function drawFilterButtons(): void {
+function drawFilterButtons(queryState: QueryData): void {
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
     const filterCopyButton = createEl('filter__button_copy button', 'button');
     const filterResetButton = createEl('filter__button_reset button', 'button');
@@ -102,7 +102,7 @@ function drawFilterButtons(): void {
 
     filterCopyButton.addEventListener('click', () => copyLink(filterCopyButton));
     filterResetButton.addEventListener('click', () => {
-        resetFilters(queryState);
+        goTo(`/${resetFilters(queryState)}`);
     });
 }
 

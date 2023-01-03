@@ -1,9 +1,9 @@
 import { createEl, appendEl } from '../elements/elements';
-import { showPopUp } from '../../constructor/popup/popup';
+import { showPopUp } from '../popup/popup';
 import { checkedQuerySelector, ProductsData, CartData } from '../../../types/exports';
 import { addToCart, removeFromCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
-import './product.css';
 import { goTo } from '../../router/router';
+import './product.css';
 
 export function drawProduct(index: string, state: ProductsData[], cartState: CartData[]): void {
     const main = checkedQuerySelector(document, 'main');

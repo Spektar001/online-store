@@ -4,7 +4,7 @@ import { state, cartState, promoState, queryState } from '../..';
 import { drawProductsPage } from '../constructor/drawProductsPage';
 import { countCartProducts, countCartTotal } from '../constructor/cart/cartControls';
 import { drawCart } from '../constructor/cart/drawCart';
-import { drawProduct } from '../constructor/pruduct/drawProduct';
+import { drawProduct } from '../constructor/product/drawProduct';
 import { draw404 } from '../constructor/404/404';
 import { setStorage } from '../storage/setStorage';
 
@@ -16,7 +16,7 @@ const Paths: Paths = {
 
 export const routes: Routes = {};
 
-export const render = (path: string) => {
+export function render(path: string): void {
     setStorage('cartState', cartState);
 
     const url = new URL(window.location.href);
@@ -24,12 +24,12 @@ export const render = (path: string) => {
 
     for (const item of Object.values(routes)) {
         if (item.match(path) && Object.values(item)[0] === `/`) {
-            drawProductsPage(state, cartState, queryState);
+            drawProductsPage(state, queryState);
             countCartProducts(cartState);
             countCartTotal(cartState);
             return;
         } else if (item.match(path) && Object.values(item)[0] === `/cart`) {
-            drawCart(state, cartState, promoState);
+            drawCart(state, cartState, promoState, queryState);
             countCartProducts(cartState);
             countCartTotal(cartState);
             return;
@@ -41,7 +41,27 @@ export const render = (path: string) => {
         }
     }
     draw404();
-};
+}
+
+export function goTo(path: string): void {
+    window.history.pushState({ path }, path, path);
+    render(path);
+}
+
+export function initRouter(): void {
+    for (let i = 0; i < state.length; i++) {
+        const key = `product${i + 1}`;
+        const value = `/product/${i + 1}`;
+        Paths[key] = value;
+    }
+    for (const key of Object.keys(Paths)) {
+        routes[key] = new Route(Paths[key]);
+    }
+    window.addEventListener('popstate', () => {
+        render(new URL(window.location.href).pathname);
+    });
+    render(new URL(window.location.href).pathname);
+}
 
 function setQueryState(queryParams: URLSearchParams): void {
     const brand = queryParams.get('brand')?.split('-');
@@ -68,25 +88,3 @@ function setQueryState(queryParams: URLSearchParams): void {
     page !== null ? (queryState.page = page) : '1';
     limitPerPage !== null ? (queryState.limitPerPage = limitPerPage) : '5';
 }
-
-export const goTo = (path: string) => {
-    window.history.pushState({ path }, path, path);
-    render(path);
-};
-
-const initRouter = () => {
-    for (let i = 0; i < state.length; i++) {
-        const key = `product${i + 1}`;
-        const value = `/product/${i + 1}`;
-        Paths[key] = value;
-    }
-    for (const key of Object.keys(Paths)) {
-        routes[key] = new Route(Paths[key]);
-    }
-    window.addEventListener('popstate', () => {
-        render(new URL(window.location.href).pathname);
-    });
-    render(new URL(window.location.href).pathname);
-};
-
-export default initRouter;

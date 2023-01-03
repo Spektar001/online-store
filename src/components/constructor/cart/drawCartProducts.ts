@@ -1,6 +1,6 @@
 import { createEl, appendEl } from '../elements/elements';
 import { ProductsData, CartData, PromoData, checkedQuerySelector, QueryData } from '../../../types/exports';
-import { drawCartSummary } from './drawSummary';
+import { drawCartSummary } from './drawCartSummary';
 import {
     deleteFromCart,
     checkEmptyCart,
@@ -9,9 +9,9 @@ import {
     countCartTotal,
     countCartProducts,
 } from './cartControls';
-import './cart.css';
 import { goTo } from '../../router/router';
-import { queryState } from '../../..';
+import { resetFilters } from '../filters/filters';
+import './cart.css';
 
 export function drawCartProducts(
     state: ProductsData[],
@@ -29,7 +29,7 @@ export function drawCartProducts(
 
     if (currentPageState.length) {
         for (let i = 0; i < currentPageState.length; i++) {
-            drawCartProduct(state, currentPageState[i], cartState, promoState);
+            drawCartProduct(state, currentPageState[i], cartState, promoState, queryState);
         }
 
         cartState.length <= +queryState.page * +queryState.limitPerPage
@@ -38,15 +38,23 @@ export function drawCartProducts(
                   'cart-product__button_disabled'
               );
     } else {
-        const url = new URL(window.location.href);
         queryState.page = `${+queryState.page - 1}`;
+
+        const url = new URL(window.location.href);
         url.searchParams.set('page', `${+queryState.page}`);
         window.history.pushState(url.search, '', url);
+
         goTo(`/cart${url.search}`);
     }
 }
 
-function drawCartProduct(state: ProductsData[], item: CartData, cartState: CartData[], promoState: PromoData[]): void {
+function drawCartProduct(
+    state: ProductsData[],
+    item: CartData,
+    cartState: CartData[],
+    promoState: PromoData[],
+    queryState: QueryData
+): void {
     const cartContainer = checkedQuerySelector(document, '.cart-page__container');
     const cartProductsContainer = checkedQuerySelector(document, '.cart-products__container');
 
@@ -114,6 +122,7 @@ function drawCartProduct(state: ProductsData[], item: CartData, cartState: CartD
     productRemoveButton.textContent = '-';
 
     productMainContaiter.addEventListener('click', () => {
+        resetFilters(queryState);
         goTo(`/product/${productMainContaiter.id}`);
     });
 

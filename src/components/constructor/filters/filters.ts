@@ -2,7 +2,6 @@ import { drawProducts, drawNoMatch } from '../products/drawProducts';
 import { checkedQuerySelector, ProductsData, QueryData } from '../../../types/exports';
 import { cartState } from '../../..';
 import { getMaxDiscount, getMaxPrice, getMinDiscount, getMinPrice } from './drawFilters';
-import { goTo } from '../../router/router';
 
 export function setFilters(state: ProductsData[], queryState: QueryData): void {
     let filteredState: ProductsData[] = [];
@@ -316,7 +315,7 @@ function setProductCount(state: ProductsData[], filteredState: ProductsData[]): 
     }
 }
 
-export function resetFilters(queryState: QueryData): void {
+export function resetFilters(queryState: QueryData): string {
     queryState.brand = [];
     queryState.category = [];
     queryState.find = '';
@@ -339,5 +338,5 @@ export function resetFilters(queryState: QueryData): void {
     url.searchParams.delete('page');
     url.searchParams.delete('limitPerPage');
 
-    goTo(`/${url.search}`);
+    return url.search;
 }

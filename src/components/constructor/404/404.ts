@@ -1,7 +1,7 @@
 import { appendEl, createEl } from '../elements/elements';
 import { checkedQuerySelector } from '../../../types/exports';
-import './404.css';
 import { goTo } from '../../router/router';
+import './404.css';
 
 export function draw404(): void {
     const main = checkedQuerySelector(document, 'main');

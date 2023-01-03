@@ -1,13 +1,17 @@
 import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, CartData, PromoData, checkedQuerySelector } from '../../../types/exports';
+import { ProductsData, CartData, PromoData, checkedQuerySelector, QueryData } from '../../../types/exports';
 import { drawCartProducts } from './drawCartProducts';
-import { drawCartTopbar } from './drawTopbar';
-import { drawCartSummary } from './drawSummary';
+import { drawCartTopbar } from './drawCartTopbar';
+import { drawCartSummary } from './drawCartSummary';
 import { goTo } from '../../router/router';
 import './cart.css';
-import { queryState } from '../../..';
 
-export function drawCart(state: ProductsData[], cartState: CartData[], promoState: PromoData[]): void {
+export function drawCart(
+    state: ProductsData[],
+    cartState: CartData[],
+    promoState: PromoData[],
+    queryState: QueryData
+): void {
     const main = checkedQuerySelector(document, 'main');
     main.innerHTML = '';
 
@@ -16,7 +20,7 @@ export function drawCart(state: ProductsData[], cartState: CartData[], promoStat
     if (!cartState.length) {
         drawEmptyCart();
     } else {
-        drawFilledCart(main, cartPageContainer, state, cartState, promoState);
+        drawFilledCart(main, cartPageContainer, state, cartState, promoState, queryState);
     }
 }
 
@@ -25,7 +29,8 @@ function drawFilledCart(
     pageContaier: HTMLElement,
     state: ProductsData[],
     cartState: CartData[],
-    promoState: PromoData[]
+    promoState: PromoData[],
+    queryState: QueryData
 ): void {
     const cartPageLeft = createEl('cart-page__container_left', 'div');
     const cartPageRight = createEl('cart-page__container_right', 'div');
@@ -40,7 +45,7 @@ function drawFilledCart(
 
     appendEl(parent, pageContaier);
 
-    drawCartTopbar(state, cartState, queryState);
+    drawCartTopbar(state, cartState, promoState, queryState);
     drawCartProducts(state, cartState, promoState, queryState);
     drawCartSummary(cartState, promoState);
 }
