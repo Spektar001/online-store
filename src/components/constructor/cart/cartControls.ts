@@ -14,6 +14,16 @@ export function addToCart(button: HTMLElement, index: string, state: ProductsDat
     }
 }
 
+export function addToCartAndBuy(button: HTMLElement, state: ProductsData[], cartState: CartData[]): void {
+    for (const item of state) {
+        if (item.id === +button.id) {
+            const cartItem = Object.assign(item, { amount: 1 });
+            cartState.push(cartItem);
+            setStorage('cartState', cartState);
+        }
+    }
+}
+
 export function removeFromCart(button: HTMLElement, index: string, state: ProductsData[], cartState: CartData[]): void {
     for (const item of state) {
         if (item.id === +index) {

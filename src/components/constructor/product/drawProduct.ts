@@ -1,7 +1,14 @@
 import { createEl, appendEl } from '../elements/elements';
 import { showPopUp } from '../popup/popup';
 import { checkedQuerySelector, ProductsData, CartData } from '../../../types/exports';
-import { addToCart, removeFromCart, countCartTotal, countCartProducts, setButtons } from '../cart/cartControls';
+import {
+    addToCart,
+    removeFromCart,
+    countCartTotal,
+    countCartProducts,
+    setButtons,
+    addToCartAndBuy,
+} from '../cart/cartControls';
 import { goTo } from '../../router/router';
 import './product.css';
 
@@ -81,6 +88,7 @@ export function drawProduct(index: string, state: ProductsData[], cartState: Car
             productPrice.textContent = `${item.price}€`;
             productCartButton.textContent = `Add to cart`;
             productBuyButton.textContent = `Buy now`;
+            productBuyButton.id = `${item.id}`;
         }
     }
 
@@ -101,8 +109,13 @@ export function drawProduct(index: string, state: ProductsData[], cartState: Car
     appendEl(productPageContainer, productContainer);
     appendEl(main, productPageContainer);
 
-    productBuyButton.addEventListener('click', (e) => {
-        e.preventDefault();
+    productBuyButton.addEventListener('click', () => {
+        if (!productCartButton.classList.contains('product__button_added')) {
+            addToCartAndBuy(productBuyButton, state, cartState);
+            countCartProducts(cartState);
+            countCartTotal(cartState);
+        }
+
         goTo('/cart');
         showPopUp(productBuyButton);
     });
