@@ -73,10 +73,10 @@ export function showPopUp(
     detailsCardNumber.placeholder = 'Card number';
     detailsValidTitleVal.textContent = 'Valid:';
     detailsDate.type = 'text';
-    detailsDate.placeholder = 'Valid Thru';
+    detailsDate.placeholder = 'MM/YY';
     detailsValidTitleCVV.textContent = 'CVV:';
     detailsCVV.type = 'text';
-    detailsCVV.placeholder = 'Code';
+    detailsCVV.placeholder = '123';
     btnConfirm.type = 'button';
     btnConfirm.textContent = 'Confirm';
     btnConfirm.disabled = true;
@@ -266,11 +266,11 @@ export function showPopUp(
 }
 
 function isFormDetailsSelected(form: HTMLElement, btn: HTMLButtonElement): void {
-    const x = Array.from(form.querySelectorAll('.checked'));
-    if (x.every((item) => item.classList.contains('check'))) {
+    const arrInputs = Array.from(form.querySelectorAll('.checked'));
+    if (arrInputs.every((item) => item.classList.contains('check'))) {
         btn.disabled = false;
     }
-    if (!x.every((item) => item.classList.contains('check'))) {
+    if (!arrInputs.every((item) => item.classList.contains('check'))) {
         btn.disabled = true;
     }
 }

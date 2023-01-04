@@ -3,10 +3,12 @@ import { appendEl, createEl } from '../elements/elements';
 import { addToCart, countCartTotal, countCartProducts, setButtons, removeFromCart } from '../cart/cartControls';
 import './products.css';
 import { goTo } from '../../router/router';
+import { resetFilters } from '../filters/filters';
 
 export function drawProducts(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
     productsContainer.classList.remove('no-products');
+    productsContainer.classList.remove('no-match');
     productsContainer.innerHTML = '';
 
     for (const item of state) {
@@ -78,13 +80,34 @@ export function drawProducts(state: ProductsData[], cartState: CartData[], query
     }
 }
 
-export function drawNoMatch(): void {
+export function drawNoMatch(queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
     productsContainer.classList.add('no-products');
+    productsContainer.classList.add('no-match');
     productsContainer.innerHTML = '';
 
-    const noMatchEl = createEl('no-match', 'div');
-    noMatchEl.textContent = `NO MATCHES`;
+    const noMatchEl = createEl('no-match__container', 'div');
+    const noMatchElImage = createEl('no-match__image', 'div');
+    const noMatchElHeader = createEl('no-match__header', 'h2');
+    const noMatchElTextContainer = createEl('no-match__container_text', 'div');
+    const noMatchElText = createEl('no-match__text', 'span');
+    const noMatchElText2 = createEl('no-match__text', 'span');
+    const noMatchElLink = createEl('no-match__main_link', 'span');
 
     appendEl(productsContainer, noMatchEl);
+    appendEl(noMatchEl, noMatchElImage);
+    appendEl(noMatchEl, noMatchElHeader);
+
+    appendEl(noMatchEl, noMatchElTextContainer);
+    appendEl(noMatchElTextContainer, noMatchElText);
+    appendEl(noMatchElTextContainer, noMatchElLink);
+    appendEl(noMatchElTextContainer, noMatchElText2);
+
+    noMatchElHeader.textContent = 'Oops! No products found!';
+    noMatchElText.textContent = `You may have entered the wrong url or there are no matches for your search parameters. Try to `;
+    noMatchElLink.textContent = 'reset the filters ';
+    noMatchElText2.textContent = `and start over!`;
+    noMatchElLink.addEventListener('click', () => {
+        goTo(`/${resetFilters(queryState)}`);
+    });
 }

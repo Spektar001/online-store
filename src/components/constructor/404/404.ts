@@ -23,7 +23,7 @@ export function draw404(): void {
 
     appendEl(main, noPageContainer);
 
-    noPageHeader.textContent = 'Oops! there is no such page!';
+    noPageHeader.textContent = 'Oops! There is no such page!';
     noPageText.textContent = `You may find many other great products if you `;
     noPageMainLink.textContent = 'return to the store.';
 
