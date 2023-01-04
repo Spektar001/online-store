@@ -244,9 +244,6 @@ export function showPopUp(
 
         setTimeout(() => {
             sectionOrder.remove();
-        }, 1500);
-
-        setTimeout(() => {
             goTo('/');
         }, 3000);
     });
