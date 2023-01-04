@@ -14,6 +14,16 @@ export function addToCart(button: HTMLElement, index: string, state: ProductsDat
     }
 }
 
+export function addToCartAndBuy(button: HTMLElement, state: ProductsData[], cartState: CartData[]): void {
+    for (const item of state) {
+        if (item.id === +button.id) {
+            const cartItem = Object.assign(item, { amount: 1 });
+            cartState.push(cartItem);
+            setStorage('cartState', cartState);
+        }
+    }
+}
+
 export function removeFromCart(button: HTMLElement, index: string, state: ProductsData[], cartState: CartData[]): void {
     for (const item of state) {
         if (item.id === +index) {
@@ -33,6 +43,13 @@ export function deleteFromCart(product: HTMLElement, cartState: CartData[]): voi
             setStorage('cartState', cartState);
         }
     }
+}
+
+export function clearCart(cartState: CartData[], promoState: PromoData[]): void {
+    cartState.splice(0);
+    promoState.splice(0);
+    setStorage('cartState', cartState);
+    setStorage('promoState', promoState);
 }
 
 export function checkEmptyCart(contaiter: HTMLElement, cartState: CartData[]): void {
