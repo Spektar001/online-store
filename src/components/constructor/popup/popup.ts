@@ -1,9 +1,17 @@
 import { createEl, appendEl } from '../elements/elements';
-import { checkedQuerySelector } from '../../../types/exports';
+import { CartData, checkedQuerySelector, ProductsData, PromoData, QueryData } from '../../../types/exports';
+import { drawCart } from '../cart/drawCart';
+import { clearCart, countCartProducts, countCartTotal } from '../cart/cartControls';
 import { goTo } from '../../router/router';
 import './popup.css';
 
-export function showPopUp(button: HTMLElement): void {
+export function showPopUp(
+    button: HTMLElement,
+    state: ProductsData[],
+    cartState: CartData[],
+    promoState: PromoData[],
+    queryState: QueryData
+): void {
     const main = checkedQuerySelector(document, 'main');
     const sectionDetails = createEl('section__details', 'div');
     const bgLayer = createEl('bg_layer', 'div');
@@ -211,6 +219,11 @@ export function showPopUp(button: HTMLElement): void {
     });
 
     btnConfirm.addEventListener('click', () => {
+        clearCart(cartState, promoState);
+        drawCart(state, cartState, promoState, queryState);
+        countCartProducts(cartState);
+        countCartTotal(cartState);
+
         const sectionOrder = createEl('section__order', 'div');
         const orderLayer = createEl('order_layer', 'div');
         const orderWrapper = createEl('order-wrapper', 'div');
@@ -231,11 +244,8 @@ export function showPopUp(button: HTMLElement): void {
 
         setTimeout(() => {
             sectionOrder.remove();
-        }, 1500);
-
-        setTimeout(() => {
             goTo('/');
-        }, 1600);
+        }, 3000);
     });
 
     document.addEventListener('click', (e) => {
