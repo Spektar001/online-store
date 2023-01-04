@@ -34,3 +34,6 @@
     text-decoration: underline;
     cursor: pointer;
 }
+.no-page__main_link:hover {
+    text-decoration: none;
+}

@@ -65,10 +65,10 @@ export function showPopUp(button: HTMLElement): void {
     detailsCardNumber.placeholder = 'Card number';
     detailsValidTitleVal.textContent = 'Valid:';
     detailsDate.type = 'text';
-    detailsDate.placeholder = 'Valid Thru';
+    detailsDate.placeholder = 'MM/YY';
     detailsValidTitleCVV.textContent = 'CVV:';
     detailsCVV.type = 'text';
-    detailsCVV.placeholder = 'Code';
+    detailsCVV.placeholder = '123';
     btnConfirm.type = 'button';
     btnConfirm.textContent = 'Confirm';
     btnConfirm.disabled = true;

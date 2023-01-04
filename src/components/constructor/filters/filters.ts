@@ -181,7 +181,7 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             setDoubleInputsOnCheck(state, filteredState, queryState);
             setProductCount(state, filteredState);
         } else {
-            drawNoMatch();
+            drawNoMatch(queryState);
             setTotalProducts(filteredState);
             setDoubleInputsOnCheck(state, state, queryState);
             setProductCount(state, filteredState);
