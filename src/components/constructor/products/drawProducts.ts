@@ -91,6 +91,7 @@ export function drawNoMatch(queryState: QueryData): void {
     const noMatchElHeader = createEl('no-match__header', 'h2');
     const noMatchElTextContainer = createEl('no-match__container_text', 'div');
     const noMatchElText = createEl('no-match__text', 'span');
+    const noMatchElText2 = createEl('no-match__text', 'span');
     const noMatchElLink = createEl('no-match__main_link', 'span');
 
     appendEl(productsContainer, noMatchEl);
@@ -100,11 +101,12 @@ export function drawNoMatch(queryState: QueryData): void {
     appendEl(noMatchEl, noMatchElTextContainer);
     appendEl(noMatchElTextContainer, noMatchElText);
     appendEl(noMatchElTextContainer, noMatchElLink);
+    appendEl(noMatchElTextContainer, noMatchElText2);
 
-    noMatchElHeader.textContent = 'Oops! No product found!';
-    noMatchElText.textContent = `Or you made a mistake in the request, please `;
-    noMatchElLink.textContent = 'try again.';
-
+    noMatchElHeader.textContent = 'Oops! No products found!';
+    noMatchElText.textContent = `You may have entered the wrong url or there are no matches for your search parameters. Try to `;
+    noMatchElLink.textContent = 'reset the filters ';
+    noMatchElText2.textContent = `and start over!`;
     noMatchElLink.addEventListener('click', () => {
         goTo(`/${resetFilters(queryState)}`);
     });
