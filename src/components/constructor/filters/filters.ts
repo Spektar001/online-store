@@ -159,7 +159,7 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
     }
 
-    if (checkQueryParams(state, queryState)) {
+    if (checkStoreQueryParams(state, queryState)) {
         if (
             !queryState.find &&
             !queryState.category.length &&
@@ -189,7 +189,11 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
             }
         }
     } else {
+        filteredState = [];
         drawNoMatch();
+        setTotalProducts(filteredState);
+        setDoubleInputsOnCheck(state, state, queryState);
+        setProductCount(state, filteredState);
     }
 }
 
@@ -331,6 +335,7 @@ export function resetFilters(queryState: QueryData): string {
     queryState.limitPerPage = '5';
 
     const url = new URL(window.location.href);
+    url.search = '';
 
     url.searchParams.delete('brand');
     url.searchParams.delete('category');
@@ -345,7 +350,7 @@ export function resetFilters(queryState: QueryData): string {
     return url.search;
 }
 
-function checkQueryParams(state: ProductsData[], queryState: QueryData) {
+export function checkStoreQueryParams(state: ProductsData[], queryState: QueryData) {
     let result = true;
     const url = new URL(window.location.href);
     let str = url.search;
@@ -355,7 +360,78 @@ function checkQueryParams(state: ProductsData[], queryState: QueryData) {
 
     for (let i = 0; i < state.length; i += 1) {
         categories.push(state[i].category);
-        brands.push(state[i].brand);
+        brands.push(state[i].brand.split(' ').join('+').replace('&', '%26'));
+    }
+
+    if (url.search && str.indexOf('=') === -1) result = false;
+
+    const equallyAmount = str.split('=').length;
+    const andAmount = str.split('&').length;
+
+    if (url.search && equallyAmount - 1 !== andAmount) result = false;
+
+    if (
+        url.search &&
+        (str.indexOf('=') === 0 ||
+            str.indexOf('=') === str.length - 1 ||
+            str.indexOf('&') === 0 ||
+            str.indexOf('&') === str.length - 1)
+    )
+        result = false;
+
+    if (queryState.sortBy) {
+        if (
+            queryState.sortBy.toString() !== 'Min Price' &&
+            queryState.sortBy.toString() !== 'Max Price' &&
+            queryState.sortBy.toString() !== 'Min Discount' &&
+            queryState.sortBy.toString() !== 'Max Discount'
+        )
+            result = false;
+    }
+
+    if (queryState.maxPrice) {
+        if (+queryState.maxPrice > getMaxPrice(state) || +queryState.maxPrice < getMinPrice(state)) {
+            result = false;
+        }
+    }
+
+    if (str.lastIndexOf('minPrice') !== -1 && queryState.minPrice === '') result = false;
+
+    if (queryState.minPrice) {
+        if (+queryState.minPrice > getMaxPrice(state) || +queryState.minPrice < getMinPrice(state)) {
+            result = false;
+        }
+    }
+
+    if (queryState.maxPrice && queryState.minPrice) {
+        if (+queryState.minPrice > +queryState.maxPrice) result = false;
+    }
+
+    if (str.lastIndexOf('maxDisc') !== -1 && queryState.maxDisc === '') result = false;
+
+    if (queryState.maxDisc) {
+        if (
+            +queryState.maxDisc > Math.ceil(getMaxDiscount(state)) ||
+            +queryState.maxDisc < Math.floor(getMinDiscount(state))
+        ) {
+            console.log(1);
+            result = false;
+        }
+    }
+
+    if (str.lastIndexOf('minDisc') !== -1 && queryState.minDisc === '') result = false;
+
+    if (queryState.minDisc) {
+        if (
+            +queryState.minDisc > Math.ceil(getMaxDiscount(state)) ||
+            +queryState.minDisc < Math.floor(getMinDiscount(state))
+        ) {
+            result = false;
+        }
+    }
+
+    if (queryState.maxDisc && queryState.minDisc) {
+        if (+queryState.minDisc > +queryState.maxDisc) result = false;
     }
 
     for (const item of Object.keys(queryState)) {
@@ -370,24 +446,13 @@ function checkQueryParams(state: ProductsData[], queryState: QueryData) {
         str = str.replace(item, '');
     }
 
+    str = str
+        .replace(/[&?+=-]/g, '')
+        .replace(/Min|Max|Price|Discount|column|row/g, '')
+        .replace(/[0-9]/g, '');
     console.log(str);
 
-    if (queryState.maxPrice || queryState.minPrice) {
-        if (+queryState.maxPrice > getMaxPrice(state) || +queryState.minPrice < getMinPrice(state)) {
-            console.log(false);
-            result = false;
-        }
-    }
-
-    if (queryState.maxDisc || queryState.minDisc) {
-        if (+queryState.maxDisc > getMaxDiscount(state) || +queryState.minDisc < getMinDiscount(state)) {
-            console.log(false);
-            result = false;
-        }
-    }
+    if (str.length) result = false;
 
     return result;
-
-    // if (queryState.maxPrice && (+queryState.maxDisc > getMaxDiscount(state) || +queryState.minDisc < getMinDiscount(state))) console.log(false);
-    // console.log(Object.keys(queryState));
 }

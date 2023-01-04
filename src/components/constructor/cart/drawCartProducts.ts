@@ -135,10 +135,10 @@ function drawCartProduct(
             cartState
         );
         deleteFromCart(productMainContaiter, cartState);
+        drawCartSummary(cartState, promoState);
         drawCartProducts(state, cartState, promoState, queryState);
         countCartProducts(cartState);
         countCartTotal(cartState);
-        drawCartSummary(cartState, promoState);
         checkEmptyCart(cartContainer, cartState);
         productDiscPrice.textContent = `
             ${Math.floor(item.price * ((100 - item.discountPercentage) / 100)) * item.amount}€
@@ -153,9 +153,9 @@ function drawCartProduct(
             productBuyAmount,
             cartState
         );
+        drawCartSummary(cartState, promoState);
         countCartProducts(cartState);
         countCartTotal(cartState);
-        drawCartSummary(cartState, promoState);
         productDiscPrice.textContent = `
             ${Math.floor(item.price * ((100 - item.discountPercentage) / 100)) * item.amount}€
         `;
