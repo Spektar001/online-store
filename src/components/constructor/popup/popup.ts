@@ -248,7 +248,7 @@ export function showPopUp(
 
         setTimeout(() => {
             goTo('/');
-        }, 1600);
+        }, 3000);
     });
 
     document.addEventListener('click', (e) => {
