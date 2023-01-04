@@ -19,6 +19,11 @@
     border-radius: 5px;
     border: 1px solid gray;
 }
+.sort__list_button:focus,
+.sort__list_button:hover {
+    box-shadow: 0 0 5px 1px #3f72af;
+    border: none;
+}
 
 .sort__list {
     position: absolute;
@@ -54,6 +59,11 @@
     border-radius: 5px;
     border: 1px solid gray;
 }
+.sort__search:focus {
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px 1px #3f72af;
+}
 
 .products__view {
     display: flex;
@@ -70,7 +80,21 @@
     transition: 0.3s;
 }
 
+.view__button_1,
+.view__button_2 {
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.view__button_1:hover,
+.view__button_2:hover {
+    box-shadow: 0 0 5px 1px #3f72af;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.3s ease;
+}
 .view__button_selected {
     color: white;
-    background-color: #3F72AF;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 5px 1px #3F72AF;
 }

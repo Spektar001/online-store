@@ -17,6 +17,9 @@
     box-shadow: 0 4px 5px 0 gray;
     cursor: pointer;
 }
+.product__item:hover {
+    box-shadow: 0 0 7px 1px #3F72AF;
+}
 
 .product__item_column {
     position: relative;
@@ -25,6 +28,9 @@
     gap: 15px;
     width: 100%;
     height: 180px;
+}
+.product__item_column:hover {
+    box-shadow: 0 0 7px 1px #3F72AF;
 }
 
 .product__contaiter {
@@ -52,11 +58,7 @@
 .product__item_column .product__contaiter_top,
 .product__item_column .product__contaiter_mid {
     position: absolute;
-}
-
-.product__item_column .product__contaiter_top {
-    justify-content: center;
-
+    display: none;
 }
 
 .product__item_column .product__contaiter_mid {

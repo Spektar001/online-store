@@ -33,8 +33,8 @@ export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
     sortListButton.textContent = queryState.sortBy ? `Sorted by ${queryState.sortBy}` : 'Sort by...';
     sortSearch.type = 'search';
     sortSearch.placeholder = 'Type to search products...';
-    productsViewButton1.textContent = '3';
-    productsViewButton2.textContent = '4';
+    productsViewButton1.style.backgroundImage = 'url(../../../assets/circled.png)';
+    productsViewButton2.style.backgroundImage = 'url(../../../assets/burger.png)';
     sortSearch.value = queryState.find ? queryState.find : '';
 
     sortSearch.addEventListener('input', () => {

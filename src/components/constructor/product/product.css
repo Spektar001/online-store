@@ -53,7 +53,7 @@
 
 .product-page__images {
     display: flex;
-    gap: 5px;
+    gap: 10px;
 }
 
 .product-page__image,
@@ -68,9 +68,10 @@
     width: 24%;
     border-radius: 5px;
     box-shadow: 0 0px 5px 0 grey;
+    cursor: pointer;
 }
 .product-page__image:hover {
-    cursor: pointer;
+    box-shadow: 0 0 7px 1px #3F72AF;
 }
 
 .product-page__images_main {

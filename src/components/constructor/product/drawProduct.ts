@@ -62,9 +62,11 @@ export function drawProduct(index: string, state: ProductsData[], cartState: Car
             for (let i = 0; i < item.images.length; i++) {
                 const productImage = createEl('product-page__image', 'div');
                 productImage.style.backgroundImage = `url(${item.images[i]})`;
+                // productImage.style.boxShadow = '0 0 7px 1px #3F72AF';
 
                 productImage.addEventListener('click', () => {
                     productMainImage.style.backgroundImage = productImage.style.backgroundImage;
+                    // productImage.style.boxShadow = '0 0 7px 1px #3F72AF';
                 });
 
                 appendEl(productImages, productImage);
