@@ -135,7 +135,7 @@ function drawCartProduct(
             cartState
         );
         deleteFromCart(productMainContaiter, cartState);
-        drawCartSummary(cartState, promoState);
+        drawCartSummary(state, cartState, promoState, queryState);
         drawCartProducts(state, cartState, promoState, queryState);
         countCartProducts(cartState);
         countCartTotal(cartState);
@@ -153,7 +153,7 @@ function drawCartProduct(
             productBuyAmount,
             cartState
         );
-        drawCartSummary(cartState, promoState);
+        drawCartSummary(state, cartState, promoState, queryState);
         countCartProducts(cartState);
         countCartTotal(cartState);
         productDiscPrice.textContent = `

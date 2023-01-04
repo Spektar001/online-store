@@ -1,6 +1,6 @@
 import { createEl, appendEl } from '../elements/elements';
 import { showPopUp } from '../popup/popup';
-import { checkedQuerySelector, ProductsData, CartData } from '../../../types/exports';
+import { checkedQuerySelector, ProductsData, CartData, PromoData, QueryData } from '../../../types/exports';
 import {
     addToCart,
     removeFromCart,
@@ -12,7 +12,13 @@ import {
 import { goTo } from '../../router/router';
 import './product.css';
 
-export function drawProduct(index: string, state: ProductsData[], cartState: CartData[]): void {
+export function drawProduct(
+    index: string,
+    state: ProductsData[],
+    cartState: CartData[],
+    promoState: PromoData[],
+    queryState: QueryData
+): void {
     const main = checkedQuerySelector(document, 'main');
     main.innerHTML = '';
     const productPageContainer = createEl('product-page__container', 'div');
@@ -117,6 +123,6 @@ export function drawProduct(index: string, state: ProductsData[], cartState: Car
         }
 
         goTo('/cart');
-        showPopUp(productBuyButton);
+        showPopUp(productBuyButton, state, cartState, promoState, queryState);
     });
 }

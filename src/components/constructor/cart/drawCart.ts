@@ -47,7 +47,7 @@ function drawFilledCart(
 
     drawCartTopbar(state, cartState, promoState, queryState);
     drawCartProducts(state, cartState, promoState, queryState);
-    drawCartSummary(cartState, promoState);
+    drawCartSummary(state, cartState, promoState, queryState);
 }
 
 export function drawEmptyCart(): void {

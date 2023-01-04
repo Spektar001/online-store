@@ -18,6 +18,7 @@ export const routes: Routes = {};
 
 export function render(path: string): void {
     setStorage('cartState', cartState);
+    console.log(cartState);
 
     const url = new URL(window.location.href);
     setQueryState(url.searchParams);
@@ -34,7 +35,7 @@ export function render(path: string): void {
             countCartTotal(cartState);
             return;
         } else if (item.match(path)) {
-            drawProduct(Object.values(item)[0].slice(9), state, cartState);
+            drawProduct(Object.values(item)[0].slice(9), state, cartState, promoState, queryState);
             countCartProducts(cartState);
             countCartTotal(cartState);
             return;

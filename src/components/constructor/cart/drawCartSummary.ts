@@ -1,6 +1,6 @@
 import { createEl, appendEl } from '../elements/elements';
 import { showPopUp } from '../popup/popup';
-import { CartData, PromoData, checkedQuerySelector } from '../../../types/exports';
+import { CartData, PromoData, checkedQuerySelector, QueryData, ProductsData } from '../../../types/exports';
 import {
     countCartTotal,
     countCartProducts,
@@ -12,7 +12,12 @@ import {
 import { promocodes } from '../../promocodes/promocodes';
 import './cart.css';
 
-export function drawCartSummary(cartState: CartData[], promoState: PromoData[]): void {
+export function drawCartSummary(
+    state: ProductsData[],
+    cartState: CartData[],
+    promoState: PromoData[],
+    queryState: QueryData
+): void {
     const cartSummary = checkedQuerySelector(document, '.cart-page__container_right');
     cartSummary.innerHTML = '';
 
@@ -58,20 +63,26 @@ export function drawCartSummary(cartState: CartData[], promoState: PromoData[]):
 
     summaryItemsInput.addEventListener('input', () => {
         if (addPromoItem(summaryItemsInput, promocodes, promoState)) {
-            drawCartPromos(summaryPromoContainer, cartState, promoState);
-            drawCartSummary(cartState, promoState);
+            drawCartPromos(summaryPromoContainer, state, cartState, promoState, queryState);
+            drawCartSummary(state, cartState, promoState, queryState);
         }
     });
 
     summaryBuyButton.addEventListener('click', () => {
-        showPopUp(summaryBuyButton);
+        showPopUp(summaryBuyButton, state, cartState, promoState, queryState);
     });
 
     setLinedSum(summarySumm, 'cart-summary__summ_lined', promoState);
-    drawCartPromos(summaryPromoContainer, cartState, promoState);
+    drawCartPromos(summaryPromoContainer, state, cartState, promoState, queryState);
 }
 
-function drawCartPromos(parent: HTMLElement, cartState: CartData[], promoState: PromoData[]): void {
+function drawCartPromos(
+    parent: HTMLElement,
+    state: ProductsData[],
+    cartState: CartData[],
+    promoState: PromoData[],
+    queryState: QueryData
+): void {
     parent.innerHTML = '';
 
     for (const item of promoState) {
@@ -94,8 +105,8 @@ function drawCartPromos(parent: HTMLElement, cartState: CartData[], promoState: 
 
         summaryPromoRemove.addEventListener('click', () => {
             removePromoItem(summaryPromoRemove, promoState);
-            drawCartPromos(parent, cartState, promoState);
-            drawCartSummary(cartState, promoState);
+            drawCartPromos(parent, state, cartState, promoState, queryState);
+            drawCartSummary(state, cartState, promoState, queryState);
         });
 
         appendEl(parent, summaryPromoItemContainer);

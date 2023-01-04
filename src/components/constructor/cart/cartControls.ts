@@ -45,6 +45,13 @@ export function deleteFromCart(product: HTMLElement, cartState: CartData[]): voi
     }
 }
 
+export function clearCart(cartState: CartData[], promoState: PromoData[]): void {
+    cartState.splice(0);
+    promoState.splice(0);
+    setStorage('cartState', cartState);
+    setStorage('promoState', promoState);
+}
+
 export function checkEmptyCart(contaiter: HTMLElement, cartState: CartData[]): void {
     if (cartState.length === 0) {
         drawEmptyCart();
