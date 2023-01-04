@@ -159,33 +159,37 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
     }
 
-    if (
-        !queryState.find &&
-        !queryState.category.length &&
-        !queryState.brand.length &&
-        !queryState.minPrice &&
-        !queryState.maxPrice &&
-        !queryState.minDisc &&
-        !queryState.maxDisc
-    ) {
-        setSortParams(state, queryState);
-        drawProducts(state, cartState, queryState);
-        setTotalProducts(state);
-        setDoubleInputsOnCheck(state, state, queryState);
-        setProductCount(state, state);
-    } else {
-        if (filteredState.length) {
-            setSortParams(filteredState, queryState);
-            drawProducts(filteredState, cartState, queryState);
-            setTotalProducts(filteredState);
-            setDoubleInputsOnCheck(state, filteredState, queryState);
-            setProductCount(state, filteredState);
-        } else {
-            drawNoMatch();
-            setTotalProducts(filteredState);
+    if (checkQueryParams(state, queryState)) {
+        if (
+            !queryState.find &&
+            !queryState.category.length &&
+            !queryState.brand.length &&
+            !queryState.minPrice &&
+            !queryState.maxPrice &&
+            !queryState.minDisc &&
+            !queryState.maxDisc
+        ) {
+            setSortParams(state, queryState);
+            drawProducts(state, cartState, queryState);
+            setTotalProducts(state);
             setDoubleInputsOnCheck(state, state, queryState);
-            setProductCount(state, filteredState);
+            setProductCount(state, state);
+        } else {
+            if (filteredState.length) {
+                setSortParams(filteredState, queryState);
+                drawProducts(filteredState, cartState, queryState);
+                setTotalProducts(filteredState);
+                setDoubleInputsOnCheck(state, filteredState, queryState);
+                setProductCount(state, filteredState);
+            } else {
+                drawNoMatch();
+                setTotalProducts(filteredState);
+                setDoubleInputsOnCheck(state, state, queryState);
+                setProductCount(state, filteredState);
+            }
         }
+    } else {
+        drawNoMatch();
     }
 }
 
@@ -339,4 +343,51 @@ export function resetFilters(queryState: QueryData): string {
     url.searchParams.delete('limitPerPage');
 
     return url.search;
+}
+
+function checkQueryParams(state: ProductsData[], queryState: QueryData) {
+    let result = true;
+    const url = new URL(window.location.href);
+    let str = url.search;
+
+    const categories: string[] = [];
+    const brands: string[] = [];
+
+    for (let i = 0; i < state.length; i += 1) {
+        categories.push(state[i].category);
+        brands.push(state[i].brand);
+    }
+
+    for (const item of Object.keys(queryState)) {
+        str = str.replace(item, '');
+    }
+
+    for (const item of categories) {
+        str = str.replace(item, '');
+    }
+
+    for (const item of brands) {
+        str = str.replace(item, '');
+    }
+
+    console.log(str);
+
+    if (queryState.maxPrice || queryState.minPrice) {
+        if (+queryState.maxPrice > getMaxPrice(state) || +queryState.minPrice < getMinPrice(state)) {
+            console.log(false);
+            result = false;
+        }
+    }
+
+    if (queryState.maxDisc || queryState.minDisc) {
+        if (+queryState.maxDisc > getMaxDiscount(state) || +queryState.minDisc < getMinDiscount(state)) {
+            console.log(false);
+            result = false;
+        }
+    }
+
+    return result;
+
+    // if (queryState.maxPrice && (+queryState.maxDisc > getMaxDiscount(state) || +queryState.minDisc < getMinDiscount(state))) console.log(false);
+    // console.log(Object.keys(queryState));
 }
