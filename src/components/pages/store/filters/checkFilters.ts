@@ -23,11 +23,7 @@ function checkEmptyStr(str: string, state: ProductsData[], queryState: QueryData
     }
 
     for (const item of Object.keys(queryState)) {
-        str = str.replace(item, '');
-    }
-
-    for (const item of Object.keys(queryState)) {
-        str = str.replace(item, '');
+        if (item !== 'find') str = str.replace(item, '');
     }
 
     for (const item of categories) {
@@ -38,14 +34,20 @@ function checkEmptyStr(str: string, state: ProductsData[], queryState: QueryData
         str = str.replace(item, '');
     }
 
+    let findStr = str;
+
     str = str
         .replace(/[&?+=-]/g, '')
         .replace(/Min|Max|Price|Discount|column|row/g, '')
         .replace(/[0-9]/g, '');
 
+    if (queryState.find) {
+        findStr = findStr.replace(/[&?+=-]/g, '').replace(/Min|Max|Price|Discount|column|row/g, '');
+    }
+
     if (queryState.find === '') {
         return !str.length;
-    } else if (!(str === queryState.find)) {
+    } else if (!(findStr === `find${queryState.find}`)) {
         return false;
     } else return true;
 }
