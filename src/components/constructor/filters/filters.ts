@@ -283,18 +283,38 @@ function setProductCount(state: ProductsData[], filteredState: ProductsData[]): 
     if (filteredState.length) {
         for (const item of countProductCategory) {
             const checkbox = checkedQuerySelector(item, '.filter__checkbox_category');
+            const label = checkedQuerySelector(item, '.filter__label');
             const counter = checkedQuerySelector(item, '.filter__product_counter');
             counter.textContent = filteredState.length
                 ? `${filteredState.filter((item) => item.category === checkbox.id).length}`
                 : '0';
+            if (counter.textContent === '0') {
+                checkbox.style.opacity = '0.5';
+                label.style.opacity = '0.5';
+                counter.style.opacity = '0.5';
+            } else {
+                checkbox.style.opacity = '1';
+                label.style.opacity = '1';
+                counter.style.opacity = '1';
+            }
         }
 
         for (const item of countProductBrand) {
             const checkbox = checkedQuerySelector(item, '.filter__checkbox_brand');
+            const label = checkedQuerySelector(item, '.filter__label');
             const counter = checkedQuerySelector(item, '.filter__product_counter');
             counter.textContent = filteredState.length
                 ? `${filteredState.filter((item) => item.brand === checkbox.id).length}`
                 : '0';
+            if (counter.textContent === '0') {
+                checkbox.style.opacity = '0.5';
+                label.style.opacity = '0.5';
+                counter.style.opacity = '0.5';
+            } else {
+                checkbox.style.opacity = '1';
+                label.style.opacity = '1';
+                counter.style.opacity = '1';
+            }
         }
     } else if (!productsContainer.classList.contains('no-products')) {
         for (const item of countProductCategory) {
