@@ -21,69 +21,19 @@ export function setFilters(state: ProductsData[], cartState: CartData[], querySt
         filteredFind
     );
 
-    let nonEmptyArrNum = 0;
-
-    if (filteredCategory.length) nonEmptyArrNum++;
-    if (filteredBrands.length) nonEmptyArrNum++;
-    if (filteredPrice.length) nonEmptyArrNum++;
-    if (filteredDiscount.length) nonEmptyArrNum++;
-    if (filteredFind.length) nonEmptyArrNum++;
-
-    if (nonEmptyArrNum === 1) {
-        if (filteredCategory.length) {
-            if (queryState.find) filteredState = isExist ? filteredCategory : [];
-        } else if (filteredBrands.length) {
-            if (queryState.find) filteredState = isExist ? filteredBrands : [];
-        } else if (filteredFind.length) {
-            if (queryState.find) filteredState = isExist ? filteredFind : [];
-        } else if (filteredPrice.length) {
-            if (queryState.find) filteredState = isExist ? filteredPrice : [];
-        } else if (filteredDiscount.length) {
-            if (queryState.find) filteredState = isExist ? filteredDiscount : [];
-        }
-
-        if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
-    } else if (nonEmptyArrNum > 1 && !filteredFind.length) {
-        if (queryState.find) {
-            filteredState = isExist ? getSameItems(filteredState, nonEmptyArrNum) : [];
-        } else {
-            filteredState = getSameItems(filteredState, nonEmptyArrNum);
-        }
-        if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
-    } else if (nonEmptyArrNum > 1 && filteredFind.length) {
-        filteredState = getSameItems(filteredState, nonEmptyArrNum);
-        if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
-    }
+    filteredState = getFilteredState(
+        filteredCategory,
+        filteredBrands,
+        filteredPrice,
+        filteredDiscount,
+        filteredFind,
+        filteredState,
+        isExist,
+        queryState
+    );
 
     if (checkStoreQueryParams(state, queryState)) {
-        if (
-            !queryState.find &&
-            !queryState.category.length &&
-            !queryState.brand.length &&
-            !queryState.minPrice &&
-            !queryState.maxPrice &&
-            !queryState.minDisc &&
-            !queryState.maxDisc
-        ) {
-            setSortParams(state, queryState);
-            drawProducts(state, cartState, queryState);
-            setTotalProducts(state);
-            setDoubleInputsOnCheck(state, state, queryState);
-            setProductCount(state, state);
-        } else {
-            if (filteredState.length) {
-                setSortParams(filteredState, queryState);
-                drawProducts(filteredState, cartState, queryState);
-                setTotalProducts(filteredState);
-                setDoubleInputsOnCheck(state, filteredState, queryState);
-                setProductCount(state, filteredState);
-            } else {
-                drawNoMatch(queryState);
-                setTotalProducts(filteredState);
-                setDoubleInputsOnCheck(state, state, queryState);
-                setProductCount(state, filteredState);
-            }
-        }
+        drawFilteredProducts(state, filteredState, cartState, queryState);
     } else {
         filteredState = [];
         drawNoMatch(queryState);
@@ -155,7 +105,7 @@ function getFilteredDiscount(state: ProductsData[], queryState: QueryData): Prod
     return filteredDiscount;
 }
 
-function getFilteredFind(filteredFind: ProductsData[], state: ProductsData[], queryState: QueryData) {
+function getFilteredFind(filteredFind: ProductsData[], state: ProductsData[], queryState: QueryData): boolean {
     let isExist = false;
 
     for (const item of state) {
@@ -192,6 +142,89 @@ function getFilteredFind(filteredFind: ProductsData[], state: ProductsData[], qu
     }
 
     return isExist;
+}
+
+function getFilteredState(
+    filteredCategory: ProductsData[],
+    filteredBrands: ProductsData[],
+    filteredPrice: ProductsData[],
+    filteredDiscount: ProductsData[],
+    filteredFind: ProductsData[],
+    filteredState: ProductsData[],
+    isExist: boolean,
+    queryState: QueryData
+): ProductsData[] {
+    let nonEmptyArrNum = 0;
+
+    if (filteredCategory.length) nonEmptyArrNum++;
+    if (filteredBrands.length) nonEmptyArrNum++;
+    if (filteredPrice.length) nonEmptyArrNum++;
+    if (filteredDiscount.length) nonEmptyArrNum++;
+    if (filteredFind.length) nonEmptyArrNum++;
+
+    if (nonEmptyArrNum === 1) {
+        if (filteredCategory.length) {
+            if (queryState.find) filteredState = isExist ? filteredCategory : [];
+        } else if (filteredBrands.length) {
+            if (queryState.find) filteredState = isExist ? filteredBrands : [];
+        } else if (filteredFind.length) {
+            if (queryState.find) filteredState = isExist ? filteredFind : [];
+        } else if (filteredPrice.length) {
+            if (queryState.find) filteredState = isExist ? filteredPrice : [];
+        } else if (filteredDiscount.length) {
+            if (queryState.find) filteredState = isExist ? filteredDiscount : [];
+        }
+
+        if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
+    } else if (nonEmptyArrNum > 1 && !filteredFind.length) {
+        if (queryState.find) {
+            filteredState = isExist ? getSameItems(filteredState, nonEmptyArrNum) : [];
+        } else {
+            filteredState = getSameItems(filteredState, nonEmptyArrNum);
+        }
+        if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
+    } else if (nonEmptyArrNum > 1 && filteredFind.length) {
+        filteredState = getSameItems(filteredState, nonEmptyArrNum);
+        if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
+    }
+
+    return filteredState;
+}
+
+function drawFilteredProducts(
+    state: ProductsData[],
+    filteredState: ProductsData[],
+    cartState: CartData[],
+    queryState: QueryData
+): void {
+    if (
+        !queryState.find &&
+        !queryState.category.length &&
+        !queryState.brand.length &&
+        !queryState.minPrice &&
+        !queryState.maxPrice &&
+        !queryState.minDisc &&
+        !queryState.maxDisc
+    ) {
+        setSortParams(state, queryState);
+        drawProducts(state, cartState, queryState);
+        setTotalProducts(state);
+        setDoubleInputsOnCheck(state, state, queryState);
+        setProductCount(state, state);
+    } else {
+        if (filteredState.length) {
+            setSortParams(filteredState, queryState);
+            drawProducts(filteredState, cartState, queryState);
+            setTotalProducts(filteredState);
+            setDoubleInputsOnCheck(state, filteredState, queryState);
+            setProductCount(state, filteredState);
+        } else {
+            drawNoMatch(queryState);
+            setTotalProducts(filteredState);
+            setDoubleInputsOnCheck(state, state, queryState);
+            setProductCount(state, filteredState);
+        }
+    }
 }
 
 function getSameItems(state: ProductsData[], nonEmptyNum: number): ProductsData[] {
