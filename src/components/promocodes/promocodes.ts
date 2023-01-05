@@ -1,4 +1,4 @@
-import { PromoData } from '../../types/exports';
+import { PromoData } from '../../types/types';
 
 export const promocodes: PromoData[] = [
     {

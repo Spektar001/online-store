@@ -29,13 +29,27 @@
     background-color: #3F72AF;
 }
 
+.filter__container {
+    border-radius: 10px;
+    box-shadow: 0 4px 5px 0 gray;
+}
+
+.filter__title {
+    display: flex;
+    background-color: #3F72AF;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
 .filter__list {
     display: flex;
     flex-direction: column;
     max-height: 300px;
     padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 5px 0 gray;
     overflow: auto;
 }
 
@@ -69,8 +83,7 @@
     display: flex;
     background-color: #ffffff;
     padding: 50px 15px 15px 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 5px 0 gray;
+    border-radius: 0 0 10px 10px;
 }
 
 .slider__container {

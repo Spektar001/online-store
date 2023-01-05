@@ -1,11 +1,10 @@
-import { ProductsData, checkedQuerySelector, QueryData } from '../../types/exports';
+import { ProductsData, checkedQuerySelector, QueryData, appendEl, createEl, CartData } from '../../../types/types';
 import { drawTopbar } from './topbar/drawTopbar';
 import { drawFilters } from './filters/drawFilters';
-import { createEl, appendEl } from './elements/elements';
 import { setFilters } from './filters/setFilters';
 import './productsPage.css';
 
-export function drawProductsPage(state: ProductsData[], queryState: QueryData): void {
+export function drawProductsPage(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const main = checkedQuerySelector(document, 'main');
     main.innerHTML = '';
 
@@ -24,6 +23,6 @@ export function drawProductsPage(state: ProductsData[], queryState: QueryData): 
     appendEl(checkedQuerySelector(document, 'main'), productsPageContainer);
 
     drawTopbar(state, queryState);
-    drawFilters(state, queryState);
-    setFilters(state, queryState);
+    drawFilters(state, cartState, queryState);
+    setFilters(state, cartState, queryState);
 }

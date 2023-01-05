@@ -1,5 +1,12 @@
-import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, CartData, PromoData, checkedQuerySelector, QueryData } from '../../../types/exports';
+import {
+    ProductsData,
+    CartData,
+    PromoData,
+    checkedQuerySelector,
+    QueryData,
+    appendEl,
+    createEl,
+} from '../../../types/types';
 import { drawCartProducts } from './drawCartProducts';
 import { drawCartTopbar } from './drawCartTopbar';
 import { drawCartSummary } from './drawCartSummary';

@@ -1,7 +1,7 @@
-import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, QueryData, checkedQuerySelector } from '../../../types/exports';
-import './topbar.css';
+import { ProductsData, QueryData, checkedQuerySelector, appendEl, createEl } from '../../../../types/types';
+import { cartState } from '../../../app/initApp';
 import { setFilters } from '../filters/setFilters';
+import './topbar.css';
 
 export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
     const topbarContainer = checkedQuerySelector(document, '.products__topbar');
@@ -11,8 +11,6 @@ export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
     const viewButtonsContainer = createEl('products__view', 'div');
     const productsViewButton1 = createEl('view__button_1', 'button');
     const productsViewButton2 = createEl('view__button_2', 'button');
-
-    console.log(queryState.view);
 
     if (queryState.view === 'column') {
         productsViewButton2.classList.add('view__button_selected');
@@ -30,7 +28,14 @@ export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
 
     setSortList(state, queryState, sortListContainer, sortListButton);
 
-    sortListButton.textContent = queryState.sortBy ? `Sorted by ${queryState.sortBy}` : 'Sort by...';
+    sortListButton.textContent =
+        queryState.sortBy &&
+        (queryState.sortBy === 'Min Price' ||
+            queryState.sortBy === 'Max Price' ||
+            queryState.sortBy === 'Min Discount' ||
+            queryState.sortBy === 'Max Discount')
+            ? `Sorted by ${queryState.sortBy}`
+            : 'Sort by...';
     sortSearch.type = 'search';
     sortSearch.placeholder = 'Type to search products...';
     productsViewButton1.style.backgroundImage = 'url(../../../assets/circled.png)';
@@ -47,12 +52,12 @@ export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
 
     productsViewButton1.addEventListener('click', () => {
         setView(productsViewButton1, productsViewButton2, 'row', state, queryState);
-        setFilters(state, queryState);
+        setFilters(state, cartState, queryState);
     });
 
     productsViewButton2.addEventListener('click', () => {
         setView(productsViewButton1, productsViewButton2, 'column', state, queryState);
-        setFilters(state, queryState);
+        setFilters(state, cartState, queryState);
     });
 }
 
@@ -77,7 +82,7 @@ function setSortList(
             url.searchParams.set('sortBy', item);
             window.history.pushState(url.search, '', url);
 
-            setFilters(state, queryState);
+            setFilters(state, cartState, queryState);
         });
         appendEl(sortList, sortListItem);
     }
@@ -103,7 +108,7 @@ function setFindSearchParams(searchInput: HTMLInputElement, state: ProductsData[
     queryState.find = searchInput.value;
     searchInput.value !== '' ? url.searchParams.set('find', `${searchInput.value}`) : url.searchParams.delete('find');
     window.history.pushState(url.search, '', url);
-    setFilters(state, queryState);
+    setFilters(state, cartState, queryState);
 }
 
 function setView(
@@ -122,5 +127,5 @@ function setView(
     queryState.view = view;
     window.history.pushState(url.search, '', url);
 
-    setFilters(state, queryState);
+    setFilters(state, cartState, queryState);
 }

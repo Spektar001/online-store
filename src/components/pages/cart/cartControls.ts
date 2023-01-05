@@ -1,4 +1,4 @@
-import { CartData, ProductsData, PromoData, checkedQuerySelector } from '../../../types/exports';
+import { CartData, ProductsData, PromoData, checkedQuerySelector } from '../../../types/types';
 import { setStorage } from '../../storage/setStorage';
 import { drawEmptyCart } from './drawCart';
 

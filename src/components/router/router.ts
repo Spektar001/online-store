@@ -1,12 +1,13 @@
 import Route from 'route-parser';
-import { Paths, Routes } from '../../types/exports';
-import { state, cartState, promoState, queryState } from '../..';
-import { drawProductsPage } from '../constructor/drawProductsPage';
-import { countCartProducts, countCartTotal } from '../constructor/cart/cartControls';
-import { drawCart } from '../constructor/cart/drawCart';
-import { drawProduct } from '../constructor/product/drawProduct';
-import { draw404 } from '../constructor/404/404';
+import { Paths, Routes } from '../../types/types';
+import { state, cartState, promoState, queryState } from '../app/initApp';
+import { drawProductsPage } from '../pages/store/drawProductsPage';
+import { countCartProducts, countCartTotal } from '../pages/cart/cartControls';
+import { drawCart } from '../pages/cart/drawCart';
+import { drawProduct } from '../pages/product/drawProduct';
+import { draw404 } from '../pages/404/404';
 import { setStorage } from '../storage/setStorage';
+import { setHeaderButtons } from '../pages/header/setHeader';
 
 const Paths: Paths = {
     index: '/',
@@ -14,18 +15,18 @@ const Paths: Paths = {
     description: '/description',
 };
 
-export const routes: Routes = {};
+const routes: Routes = {};
 
 export function render(path: string): void {
+    setHeaderButtons();
     setStorage('cartState', cartState);
-    console.log(cartState);
 
     const url = new URL(window.location.href);
     setQueryState(url.searchParams);
 
     for (const item of Object.values(routes)) {
         if (item.match(path) && Object.values(item)[0] === `/`) {
-            drawProductsPage(state, queryState);
+            drawProductsPage(state, cartState, queryState);
             countCartProducts(cartState);
             countCartTotal(cartState);
             return;

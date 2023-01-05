@@ -1,27 +1,70 @@
 import { drawProducts, drawNoMatch } from '../products/drawProducts';
-import { checkedQuerySelector, ProductsData, QueryData } from '../../../types/exports';
-import { cartState } from '../../..';
+import { CartData, checkedQuerySelector, ProductsData, QueryData } from '../../../../types/types';
 import { getMaxDiscount, getMaxPrice, getMinDiscount, getMinPrice } from './drawFilters';
 import { checkStoreQueryParams } from './checkFilters';
 
-export function setFilters(state: ProductsData[], queryState: QueryData): void {
+export function setFilters(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     let filteredState: ProductsData[] = [];
-
-    let filteredCategory: ProductsData[] = [];
-    let filteredBrands: ProductsData[] = [];
-    let filteredPrice: ProductsData[] = [];
-    let filteredDiscount: ProductsData[] = [];
     const filteredFind: ProductsData[] = [];
+
+    const filteredCategory = getFilteredCategory(state, queryState);
+    const filteredBrands = getFilteredBrands(state, queryState);
+    const filteredPrice = getFilteredPrice(state, queryState);
+    const filteredDiscount = getFilteredDiscount(state, queryState);
+    const isExist = getFilteredFind(filteredFind, state, queryState);
+
+    filteredState = filteredState.concat(
+        filteredCategory,
+        filteredBrands,
+        filteredPrice,
+        filteredDiscount,
+        filteredFind
+    );
+
+    filteredState = getFilteredState(
+        filteredCategory,
+        filteredBrands,
+        filteredPrice,
+        filteredDiscount,
+        filteredFind,
+        filteredState,
+        isExist,
+        queryState
+    );
+
+    if (checkStoreQueryParams(state, queryState)) {
+        drawFilteredProducts(state, filteredState, cartState, queryState);
+    } else {
+        filteredState = [];
+        drawNoMatch(queryState);
+        setTotalProducts(filteredState);
+        setDoubleInputsOnCheck(state, state, queryState);
+        setProductCount(state, filteredState);
+    }
+}
+
+function getFilteredCategory(state: ProductsData[], queryState: QueryData): ProductsData[] {
+    let filteredCategory: ProductsData[] = [];
 
     for (const item of queryState.category) {
         const filteredState: ProductsData[] = state.filter((product) => product.category === item);
         filteredCategory = filteredCategory.concat(filteredState);
     }
+    return filteredCategory;
+}
+
+function getFilteredBrands(state: ProductsData[], queryState: QueryData): ProductsData[] {
+    let filteredBrands: ProductsData[] = [];
 
     for (const item of queryState.brand) {
         const filteredState: ProductsData[] = state.filter((product) => product.brand === item);
         filteredBrands = filteredBrands.concat(filteredState);
     }
+    return filteredBrands;
+}
+
+function getFilteredPrice(state: ProductsData[], queryState: QueryData): ProductsData[] {
+    let filteredPrice: ProductsData[] = [];
 
     const filteredMinPrice: ProductsData[] = state.filter(
         (product) => product.price >= (+queryState.minPrice || getMinPrice(state))
@@ -38,6 +81,12 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         filteredPrice = filteredMaxPrice;
     }
 
+    return filteredPrice;
+}
+
+function getFilteredDiscount(state: ProductsData[], queryState: QueryData): ProductsData[] {
+    let filteredDiscount: ProductsData[] = [];
+
     const filteredMinDisc: ProductsData[] = state.filter(
         (product) => product.discountPercentage >= (+queryState.minDisc || getMinDiscount(state))
     );
@@ -53,6 +102,10 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         filteredDiscount = filteredMaxDisc;
     }
 
+    return filteredDiscount;
+}
+
+function getFilteredFind(filteredFind: ProductsData[], state: ProductsData[], queryState: QueryData): boolean {
     let isExist = false;
 
     for (const item of state) {
@@ -88,14 +141,19 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         }
     }
 
-    filteredState = filteredState.concat(
-        filteredCategory,
-        filteredBrands,
-        filteredPrice,
-        filteredDiscount,
-        filteredFind
-    );
+    return isExist;
+}
 
+function getFilteredState(
+    filteredCategory: ProductsData[],
+    filteredBrands: ProductsData[],
+    filteredPrice: ProductsData[],
+    filteredDiscount: ProductsData[],
+    filteredFind: ProductsData[],
+    filteredState: ProductsData[],
+    isExist: boolean,
+    queryState: QueryData
+): ProductsData[] {
     let nonEmptyArrNum = 0;
 
     if (filteredCategory.length) nonEmptyArrNum++;
@@ -105,45 +163,15 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
     if (filteredFind.length) nonEmptyArrNum++;
 
     if (nonEmptyArrNum === 1) {
-        if (
-            filteredCategory.length &&
-            !filteredFind.length &&
-            !filteredBrands.length &&
-            !filteredPrice.length &&
-            !filteredDiscount.length
-        ) {
+        if (filteredCategory.length) {
             if (queryState.find) filteredState = isExist ? filteredCategory : [];
-        } else if (
-            !filteredCategory.length &&
-            !filteredFind.length &&
-            filteredBrands.length &&
-            !filteredPrice.length &&
-            !filteredDiscount.length
-        ) {
+        } else if (filteredBrands.length) {
             if (queryState.find) filteredState = isExist ? filteredBrands : [];
-        } else if (
-            !filteredCategory.length &&
-            filteredFind.length &&
-            !filteredBrands.length &&
-            !filteredPrice.length &&
-            !filteredDiscount.length
-        ) {
+        } else if (filteredFind.length) {
             if (queryState.find) filteredState = isExist ? filteredFind : [];
-        } else if (
-            !filteredCategory.length &&
-            !filteredFind.length &&
-            !filteredBrands.length &&
-            filteredPrice.length &&
-            !filteredDiscount.length
-        ) {
+        } else if (filteredPrice.length) {
             if (queryState.find) filteredState = isExist ? filteredPrice : [];
-        } else if (
-            !filteredCategory.length &&
-            !filteredFind.length &&
-            !filteredBrands.length &&
-            !filteredPrice.length &&
-            filteredDiscount.length
-        ) {
+        } else if (filteredDiscount.length) {
             if (queryState.find) filteredState = isExist ? filteredDiscount : [];
         }
 
@@ -160,41 +188,42 @@ export function setFilters(state: ProductsData[], queryState: QueryData): void {
         if (!getSameItems(filteredPrice.concat(filteredDiscount), 2).length) filteredState = [];
     }
 
-    if (checkStoreQueryParams(state, queryState)) {
-        if (
-            !queryState.find &&
-            !queryState.category.length &&
-            !queryState.brand.length &&
-            !queryState.minPrice &&
-            !queryState.maxPrice &&
-            !queryState.minDisc &&
-            !queryState.maxDisc
-        ) {
-            setSortParams(state, queryState);
-            drawProducts(state, cartState, queryState);
-            setTotalProducts(state);
-            setDoubleInputsOnCheck(state, state, queryState);
-            setProductCount(state, state);
-        } else {
-            if (filteredState.length) {
-                setSortParams(filteredState, queryState);
-                drawProducts(filteredState, cartState, queryState);
-                setTotalProducts(filteredState);
-                setDoubleInputsOnCheck(state, filteredState, queryState);
-                setProductCount(state, filteredState);
-            } else {
-                drawNoMatch(queryState);
-                setTotalProducts(filteredState);
-                setDoubleInputsOnCheck(state, state, queryState);
-                setProductCount(state, filteredState);
-            }
-        }
-    } else {
-        filteredState = [];
-        drawNoMatch(queryState);
-        setTotalProducts(filteredState);
+    return filteredState;
+}
+
+function drawFilteredProducts(
+    state: ProductsData[],
+    filteredState: ProductsData[],
+    cartState: CartData[],
+    queryState: QueryData
+): void {
+    if (
+        !queryState.find &&
+        !queryState.category.length &&
+        !queryState.brand.length &&
+        !queryState.minPrice &&
+        !queryState.maxPrice &&
+        !queryState.minDisc &&
+        !queryState.maxDisc
+    ) {
+        setSortParams(state, queryState);
+        drawProducts(state, cartState, queryState);
+        setTotalProducts(state);
         setDoubleInputsOnCheck(state, state, queryState);
-        setProductCount(state, filteredState);
+        setProductCount(state, state);
+    } else {
+        if (filteredState.length) {
+            setSortParams(filteredState, queryState);
+            drawProducts(filteredState, cartState, queryState);
+            setTotalProducts(filteredState);
+            setDoubleInputsOnCheck(state, filteredState, queryState);
+            setProductCount(state, filteredState);
+        } else {
+            drawNoMatch(queryState);
+            setTotalProducts(filteredState);
+            setDoubleInputsOnCheck(state, state, queryState);
+            setProductCount(state, filteredState);
+        }
     }
 }
 
