@@ -30,45 +30,15 @@ export function setFilters(state: ProductsData[], cartState: CartData[], querySt
     if (filteredFind.length) nonEmptyArrNum++;
 
     if (nonEmptyArrNum === 1) {
-        if (
-            filteredCategory.length &&
-            !filteredFind.length &&
-            !filteredBrands.length &&
-            !filteredPrice.length &&
-            !filteredDiscount.length
-        ) {
+        if (filteredCategory.length) {
             if (queryState.find) filteredState = isExist ? filteredCategory : [];
-        } else if (
-            !filteredCategory.length &&
-            !filteredFind.length &&
-            filteredBrands.length &&
-            !filteredPrice.length &&
-            !filteredDiscount.length
-        ) {
+        } else if (filteredBrands.length) {
             if (queryState.find) filteredState = isExist ? filteredBrands : [];
-        } else if (
-            !filteredCategory.length &&
-            filteredFind.length &&
-            !filteredBrands.length &&
-            !filteredPrice.length &&
-            !filteredDiscount.length
-        ) {
+        } else if (filteredFind.length) {
             if (queryState.find) filteredState = isExist ? filteredFind : [];
-        } else if (
-            !filteredCategory.length &&
-            !filteredFind.length &&
-            !filteredBrands.length &&
-            filteredPrice.length &&
-            !filteredDiscount.length
-        ) {
+        } else if (filteredPrice.length) {
             if (queryState.find) filteredState = isExist ? filteredPrice : [];
-        } else if (
-            !filteredCategory.length &&
-            !filteredFind.length &&
-            !filteredBrands.length &&
-            !filteredPrice.length &&
-            filteredDiscount.length
-        ) {
+        } else if (filteredDiscount.length) {
             if (queryState.find) filteredState = isExist ? filteredDiscount : [];
         }
 
