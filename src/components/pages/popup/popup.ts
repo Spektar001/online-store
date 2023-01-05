@@ -1,7 +1,15 @@
-import { createEl, appendEl } from '../elements/elements';
-import { CartData, checkedQuerySelector, ProductsData, PromoData, QueryData } from '../../../types/exports';
+import {
+    appendEl,
+    CartData,
+    checkedQuerySelector,
+    createEl,
+    ProductsData,
+    PromoData,
+    QueryData,
+} from '../../../types/types';
 import { drawCart } from '../cart/drawCart';
 import { clearCart, countCartProducts, countCartTotal } from '../cart/cartControls';
+import { resetFilters } from '../store/filters/setFilters';
 import { goTo } from '../../router/router';
 import './popup.css';
 
@@ -244,7 +252,7 @@ export function showPopUp(
 
         setTimeout(() => {
             sectionOrder.remove();
-            goTo('/');
+            goTo(`/${resetFilters(queryState)}`);
         }, 3000);
     });
 

@@ -1,5 +1,12 @@
-import { createEl, appendEl } from '../elements/elements';
-import { ProductsData, CartData, PromoData, checkedQuerySelector, QueryData } from '../../../types/exports';
+import {
+    ProductsData,
+    CartData,
+    PromoData,
+    checkedQuerySelector,
+    QueryData,
+    appendEl,
+    createEl,
+} from '../../../types/types';
 import { drawCartSummary } from './drawCartSummary';
 import {
     deleteFromCart,
@@ -10,7 +17,7 @@ import {
     countCartProducts,
 } from './cartControls';
 import { goTo } from '../../router/router';
-import { resetFilters } from '../filters/setFilters';
+import { resetFilters } from '../store/filters/setFilters';
 import './cart.css';
 
 export function drawCartProducts(

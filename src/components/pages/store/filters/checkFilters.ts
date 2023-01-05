@@ -1,4 +1,4 @@
-import { ProductsData, QueryData } from '../../../types/exports';
+import { ProductsData, QueryData } from '../../../../types/types';
 import { getMaxPrice, getMinPrice, getMaxDiscount, getMinDiscount } from './drawFilters';
 
 export function checkStoreQueryParams(state: ProductsData[], queryState: QueryData) {
@@ -43,7 +43,11 @@ function checkEmptyStr(str: string, state: ProductsData[], queryState: QueryData
         .replace(/Min|Max|Price|Discount|column|row/g, '')
         .replace(/[0-9]/g, '');
 
-    return !str.length;
+    if (queryState.find === '') {
+        return !str.length;
+    } else if (!(str === queryState.find)) {
+        return false;
+    } else return true;
 }
 
 function checkMinMax(str: string, state: ProductsData[], queryState: QueryData): boolean {
@@ -117,18 +121,26 @@ function checkSort(queryState: QueryData): boolean {
 function checkEqualsAnds(url: URL, str: string): boolean {
     let result = true;
 
-    if (url.search && str.indexOf('=') === -1) result = false;
+    if (url.search) {
+        if (str.indexOf('=') === -1) result = false;
 
-    const equallyAmount = str.split('=').length;
-    const andAmount = str.split('&').length;
+        const equallyAmount = str.split('=').length;
+        const andAmount = str.split('&').length;
 
-    if (url.search && equallyAmount - 1 !== andAmount) result = false;
+        if (equallyAmount - 1 !== andAmount) result = false;
 
-    if (
-        url.search &&
-        (str.indexOf('=') === 0 || str[str.length - 1] === '=' || str.indexOf('&') === 0 || str[str.length - 1] === '&')
-    )
-        result = false;
+        if (
+            str.indexOf('=') === 0 ||
+            str[str.length - 1] === '=' ||
+            str.indexOf('&') === 0 ||
+            str[str.length - 1] === '&'
+        )
+            result = false;
+
+        if (str.includes('&=') || str.includes('=&')) {
+            result = false;
+        }
+    }
 
     return result;
 }

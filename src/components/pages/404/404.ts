@@ -1,5 +1,4 @@
-import { appendEl, createEl } from '../elements/elements';
-import { checkedQuerySelector } from '../../../types/exports';
+import { appendEl, checkedQuerySelector, createEl } from '../../../types/types';
 import { goTo } from '../../router/router';
 import './404.css';
 

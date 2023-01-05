@@ -1,6 +1,13 @@
-import { createEl, appendEl } from '../elements/elements';
 import { showPopUp } from '../popup/popup';
-import { CartData, PromoData, checkedQuerySelector, QueryData, ProductsData } from '../../../types/exports';
+import {
+    ProductsData,
+    CartData,
+    PromoData,
+    checkedQuerySelector,
+    QueryData,
+    appendEl,
+    createEl,
+} from '../../../types/types';
 import {
     countCartTotal,
     countCartProducts,

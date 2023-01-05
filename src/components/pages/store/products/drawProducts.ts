@@ -1,9 +1,8 @@
-import { CartData, checkedQuerySelector, ProductsData, QueryData } from '../../../types/exports';
-import { appendEl, createEl } from '../elements/elements';
-import { addToCart, countCartTotal, countCartProducts, setButtons, removeFromCart } from '../cart/cartControls';
-import './products.css';
-import { goTo } from '../../router/router';
+import { appendEl, CartData, checkedQuerySelector, createEl, ProductsData, QueryData } from '../../../../types/types';
+import { addToCart, countCartTotal, countCartProducts, setButtons, removeFromCart } from '../../cart/cartControls';
 import { resetFilters } from '../filters/setFilters';
+import { goTo } from '../../../router/router';
+import './products.css';
 
 export function drawProducts(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');

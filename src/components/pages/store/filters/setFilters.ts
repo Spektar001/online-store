@@ -1,10 +1,9 @@
 import { drawProducts, drawNoMatch } from '../products/drawProducts';
-import { checkedQuerySelector, ProductsData, QueryData } from '../../../types/exports';
-import { cartState } from '../../..';
+import { CartData, checkedQuerySelector, ProductsData, QueryData } from '../../../../types/types';
 import { getMaxDiscount, getMaxPrice, getMinDiscount, getMinPrice } from './drawFilters';
 import { checkStoreQueryParams } from './checkFilters';
 
-export function setFilters(state: ProductsData[], queryState: QueryData): void {
+export function setFilters(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     let filteredState: ProductsData[] = [];
 
     let filteredCategory: ProductsData[] = [];
