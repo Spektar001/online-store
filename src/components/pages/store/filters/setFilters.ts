@@ -5,87 +5,13 @@ import { checkStoreQueryParams } from './checkFilters';
 
 export function setFilters(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     let filteredState: ProductsData[] = [];
-
-    let filteredCategory: ProductsData[] = [];
-    let filteredBrands: ProductsData[] = [];
-    let filteredPrice: ProductsData[] = [];
-    let filteredDiscount: ProductsData[] = [];
     const filteredFind: ProductsData[] = [];
 
-    for (const item of queryState.category) {
-        const filteredState: ProductsData[] = state.filter((product) => product.category === item);
-        filteredCategory = filteredCategory.concat(filteredState);
-    }
-
-    for (const item of queryState.brand) {
-        const filteredState: ProductsData[] = state.filter((product) => product.brand === item);
-        filteredBrands = filteredBrands.concat(filteredState);
-    }
-
-    const filteredMinPrice: ProductsData[] = state.filter(
-        (product) => product.price >= (+queryState.minPrice || getMinPrice(state))
-    );
-    const filteredMaxPrice: ProductsData[] = state.filter(
-        (product) => product.price <= (+queryState.maxPrice || getMaxPrice(state))
-    );
-
-    if (filteredMinPrice.length && filteredMaxPrice.length) {
-        filteredPrice = getSameItems(filteredMinPrice.concat(filteredMaxPrice), 2);
-    } else if (filteredMinPrice.length && !filteredMaxPrice.length) {
-        filteredPrice = filteredMinPrice;
-    } else if (!filteredMinPrice.length && filteredMaxPrice.length) {
-        filteredPrice = filteredMaxPrice;
-    }
-
-    const filteredMinDisc: ProductsData[] = state.filter(
-        (product) => product.discountPercentage >= (+queryState.minDisc || getMinDiscount(state))
-    );
-    const filteredMaxDisc: ProductsData[] = state.filter(
-        (product) => product.discountPercentage <= (+queryState.maxDisc || getMaxDiscount(state))
-    );
-
-    if (filteredMinDisc.length && filteredMaxDisc.length) {
-        filteredDiscount = getSameItems(filteredMinDisc.concat(filteredMaxDisc), 2);
-    } else if (filteredMinDisc.length && !filteredMaxDisc.length) {
-        filteredDiscount = filteredMinDisc;
-    } else if (!filteredMinDisc.length && filteredMaxDisc.length) {
-        filteredDiscount = filteredMaxDisc;
-    }
-
-    let isExist = false;
-
-    for (const item of state) {
-        if (queryState.find) {
-            if (item.title.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
-                filteredFind.push(item);
-                isExist = true;
-            } else if (item.category.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
-                filteredFind.push(item);
-                isExist = true;
-            } else if (item.brand.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
-                filteredFind.push(item);
-                isExist = true;
-            } else if (item.description.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
-                filteredFind.push(item);
-                isExist = true;
-            } else if (item.price === +queryState.find) {
-                filteredFind.push(item);
-                isExist = true;
-            } else if (
-                Math.floor(item.discountPercentage) === +queryState.find ||
-                Math.ceil(item.discountPercentage) === +queryState.find
-            ) {
-                filteredFind.push(item);
-                isExist = true;
-            } else if (Math.round(item.rating) === +queryState.find) {
-                filteredFind.push(item);
-                isExist = true;
-            } else if (item.stock === +queryState.find) {
-                filteredFind.push(item);
-                isExist = true;
-            }
-        }
-    }
+    const filteredCategory = getFilteredCategory(state, queryState);
+    const filteredBrands = getFilteredBrands(state, queryState);
+    const filteredPrice = getFilteredPrice(state, queryState);
+    const filteredDiscount = getFilteredDiscount(state, queryState);
+    const isExist = getFilteredFind(filteredFind, state, queryState);
 
     filteredState = filteredState.concat(
         filteredCategory,
@@ -195,6 +121,107 @@ export function setFilters(state: ProductsData[], cartState: CartData[], querySt
         setDoubleInputsOnCheck(state, state, queryState);
         setProductCount(state, filteredState);
     }
+}
+
+function getFilteredCategory(state: ProductsData[], queryState: QueryData): ProductsData[] {
+    let filteredCategory: ProductsData[] = [];
+
+    for (const item of queryState.category) {
+        const filteredState: ProductsData[] = state.filter((product) => product.category === item);
+        filteredCategory = filteredCategory.concat(filteredState);
+    }
+    return filteredCategory;
+}
+
+function getFilteredBrands(state: ProductsData[], queryState: QueryData): ProductsData[] {
+    let filteredBrands: ProductsData[] = [];
+
+    for (const item of queryState.brand) {
+        const filteredState: ProductsData[] = state.filter((product) => product.brand === item);
+        filteredBrands = filteredBrands.concat(filteredState);
+    }
+    return filteredBrands;
+}
+
+function getFilteredPrice(state: ProductsData[], queryState: QueryData): ProductsData[] {
+    let filteredPrice: ProductsData[] = [];
+
+    const filteredMinPrice: ProductsData[] = state.filter(
+        (product) => product.price >= (+queryState.minPrice || getMinPrice(state))
+    );
+    const filteredMaxPrice: ProductsData[] = state.filter(
+        (product) => product.price <= (+queryState.maxPrice || getMaxPrice(state))
+    );
+
+    if (filteredMinPrice.length && filteredMaxPrice.length) {
+        filteredPrice = getSameItems(filteredMinPrice.concat(filteredMaxPrice), 2);
+    } else if (filteredMinPrice.length && !filteredMaxPrice.length) {
+        filteredPrice = filteredMinPrice;
+    } else if (!filteredMinPrice.length && filteredMaxPrice.length) {
+        filteredPrice = filteredMaxPrice;
+    }
+
+    return filteredPrice;
+}
+
+function getFilteredDiscount(state: ProductsData[], queryState: QueryData): ProductsData[] {
+    let filteredDiscount: ProductsData[] = [];
+
+    const filteredMinDisc: ProductsData[] = state.filter(
+        (product) => product.discountPercentage >= (+queryState.minDisc || getMinDiscount(state))
+    );
+    const filteredMaxDisc: ProductsData[] = state.filter(
+        (product) => product.discountPercentage <= (+queryState.maxDisc || getMaxDiscount(state))
+    );
+
+    if (filteredMinDisc.length && filteredMaxDisc.length) {
+        filteredDiscount = getSameItems(filteredMinDisc.concat(filteredMaxDisc), 2);
+    } else if (filteredMinDisc.length && !filteredMaxDisc.length) {
+        filteredDiscount = filteredMinDisc;
+    } else if (!filteredMinDisc.length && filteredMaxDisc.length) {
+        filteredDiscount = filteredMaxDisc;
+    }
+
+    return filteredDiscount;
+}
+
+function getFilteredFind(filteredFind: ProductsData[], state: ProductsData[], queryState: QueryData) {
+    let isExist = false;
+
+    for (const item of state) {
+        if (queryState.find) {
+            if (item.title.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
+                filteredFind.push(item);
+                isExist = true;
+            } else if (item.category.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
+                filteredFind.push(item);
+                isExist = true;
+            } else if (item.brand.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
+                filteredFind.push(item);
+                isExist = true;
+            } else if (item.description.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
+                filteredFind.push(item);
+                isExist = true;
+            } else if (item.price === +queryState.find) {
+                filteredFind.push(item);
+                isExist = true;
+            } else if (
+                Math.floor(item.discountPercentage) === +queryState.find ||
+                Math.ceil(item.discountPercentage) === +queryState.find
+            ) {
+                filteredFind.push(item);
+                isExist = true;
+            } else if (Math.round(item.rating) === +queryState.find) {
+                filteredFind.push(item);
+                isExist = true;
+            } else if (item.stock === +queryState.find) {
+                filteredFind.push(item);
+                isExist = true;
+            }
+        }
+    }
+
+    return isExist;
 }
 
 function getSameItems(state: ProductsData[], nonEmptyNum: number): ProductsData[] {
