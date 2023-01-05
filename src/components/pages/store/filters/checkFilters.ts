@@ -42,7 +42,7 @@ function checkEmptyStr(str: string, state: ProductsData[], queryState: QueryData
         .replace(/[0-9]/g, '');
 
     if (queryState.find) {
-        findStr = findStr.replace(/[&?+=-]/g, '').replace(/Min|Max|Price|Discount|column|row/g, '');
+        findStr = `find${queryState.find}`;
     }
 
     if (queryState.find === '') {
