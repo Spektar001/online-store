@@ -124,7 +124,11 @@ export function showPopUp(
         detailsInputPhone.classList.remove('check');
         isFormDetailsSelected(details, btnConfirm);
 
-        if (regexPhone.test(detailsInputPhone.value)) {
+        if (detailsInputPhone.value.match(regexPhone) === null) {
+            detailsInputPhone.classList.add('error');
+            detailsInputPhone.classList.remove('check');
+            isFormDetailsSelected(details, btnConfirm);
+        } else {
             detailsInputPhone.classList.remove('error');
             detailsInputPhone.classList.add('check');
             isFormDetailsSelected(details, btnConfirm);
@@ -207,11 +211,7 @@ export function showPopUp(
             isFormDetailsSelected(details, btnConfirm);
         }
 
-        if (
-            regexDate.test(detailsDate.value) &&
-            detailsDate.value.slice(0, 2) <= '12' &&
-            detailsDate.value.slice(-2) <= '31'
-        ) {
+        if (regexDate.test(detailsDate.value) && detailsDate.value.slice(0, 2) <= '12') {
             detailsDate.classList.remove('error');
             detailsDate.classList.add('check');
             isFormDetailsSelected(details, btnConfirm);
