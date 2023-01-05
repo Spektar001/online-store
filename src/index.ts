@@ -2,7 +2,7 @@ import { CartData, checkedQuerySelector, ProductsData, PromoData, QueryData } fr
 import { getProductsData } from './components/api/products';
 import { setStorage } from './components/storage/setStorage';
 import { initRouter, goTo } from './components/router/router';
-import { resetFilters } from './components/constructor/filters/filters';
+import { resetFilters } from './components/constructor/filters/setFilters';
 import './global.css';
 
 export let state: ProductsData[] = [];

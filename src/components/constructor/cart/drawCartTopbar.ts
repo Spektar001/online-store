@@ -46,8 +46,6 @@ export function drawCartTopbar(
     topbarItemsText.textContent = 'Items per page:';
     topbarItemsInput.type = 'number';
     topbarItemsInput.min = '1';
-    topbarItemsInput.max = `10`;
-    topbarItemsInput.maxLength = 2;
     topbarItemsInput.value = queryState.limitPerPage;
 
     let page = +queryState.page || 1;
@@ -73,12 +71,16 @@ export function drawCartTopbar(
         drawCartProducts(state, cartState, promoState, queryState);
     });
 
-    topbarNextPage.addEventListener('click', () => {
+    topbarItemsInput.addEventListener('focusout', () => {
+        if (!topbarItemsInput.value) topbarItemsInput.value = queryState.limitPerPage;
+    });
+
+    topbarNextPage.addEventListener('mousedown', () => {
         page = setNextPage(page, topbarCurrentPage, topbarNextPage, topbarPrevPage, cartState, queryState);
         drawCartProducts(state, cartState, promoState, queryState);
     });
 
-    topbarPrevPage.addEventListener('click', () => {
+    topbarPrevPage.addEventListener('mousedown', () => {
         page = setPrevPage(page, topbarCurrentPage, topbarNextPage, topbarPrevPage, cartState, queryState);
         drawCartProducts(state, cartState, promoState, queryState);
     });

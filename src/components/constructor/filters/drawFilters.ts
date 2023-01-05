@@ -1,4 +1,4 @@
-import { resetFilters, setFilters } from './filters';
+import { resetFilters, setFilters } from './setFilters';
 import { ProductsData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import { createEl, appendEl } from '../elements/elements';
 import { goTo } from '../../router/router';
