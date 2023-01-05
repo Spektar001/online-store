@@ -317,3 +317,6 @@
     text-decoration: underline;
     cursor: pointer;
 }
+.no-cart__main_link:hover {
+  text-decoration: none;
+}
