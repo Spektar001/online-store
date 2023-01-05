@@ -21,6 +21,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     filtered = new Set(categories);
     getFilteredKeys(
         filtered,
+        'category',
         'filter__list',
         'filter__item filter__item_category',
         'filter__checkbox filter__checkbox_category',
@@ -34,6 +35,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     filtered = new Set(brands);
     getFilteredKeys(
         filtered,
+        'brands',
         'filter__list',
         'filter__item filter__item_brand',
         'filter__checkbox filter__checkbox_brand',
@@ -48,6 +50,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     max = getMaxPrice(state);
 
     drawDoubleSlider(
+        'price',
         'values__container_min min_price__value',
         'values__container_max max_price__value',
         'inputs__slider_track price_track',
@@ -67,6 +70,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     max = getMaxDiscount(state);
 
     drawDoubleSlider(
+        'discount',
         'values__container_min min_discount__value',
         'values__container_max max_discount__value',
         'inputs__slider_track discount_track',
@@ -111,6 +115,7 @@ function drawFilterButtons(queryState: QueryData): void {
 
 function getFilteredKeys(
     data: Set<string>,
+    title: string,
     listSelector: string,
     itemSelector: string,
     checkboxSelector: string,
@@ -123,7 +128,11 @@ function getFilteredKeys(
     const filtered = Array.from(data);
 
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
+    const filterListContainer = createEl('filter__container', 'div');
+    const filterTitle = createEl('filter__title', 'span');
     const filterList = createEl(listSelector, 'ul');
+
+    filterTitle.textContent = title;
 
     for (const item of filtered) {
         const filterItem = createEl(itemSelector, 'li');
@@ -158,10 +167,13 @@ function getFilteredKeys(
         appendEl(filterList, filterItem);
     }
 
-    appendEl(filtersContainer, filterList);
+    appendEl(filterListContainer, filterTitle);
+    appendEl(filterListContainer, filterList);
+    appendEl(filtersContainer, filterListContainer);
 }
 
 function drawDoubleSlider(
+    title: string,
     minValTextSelector: string,
     maxValTextSelector: string,
     sliderBarSelector: string,
@@ -177,6 +189,8 @@ function drawDoubleSlider(
     queryState: QueryData
 ): void {
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
+    const filterSliderContainer = createEl('filter__container', 'div');
+    const filterTitle = createEl('filter__title', 'span');
     const sliderWrapper = createEl('slider__wrapper', 'div');
     sliderWrapper.innerHTML = '';
 
@@ -200,10 +214,13 @@ function drawDoubleSlider(
 
     appendEl(sliderContainer, valuesContainer);
     appendEl(sliderContainer, inputsContainer);
-
     appendEl(sliderWrapper, sliderContainer);
-    appendEl(filtersContainer, sliderWrapper);
 
+    appendEl(filterSliderContainer, filterTitle);
+    appendEl(filterSliderContainer, sliderWrapper);
+    appendEl(filtersContainer, filterSliderContainer);
+
+    filterTitle.textContent = title;
     valuesDivider.textContent = '-';
     inputsRange1.type = 'range';
     inputsRange2.type = 'range';
@@ -255,7 +272,7 @@ function drawDoubleSlider(
 function fillColor(input1: HTMLInputElement, input2: HTMLInputElement, sliderBar: HTMLElement): void {
     const percent1 = (+input1.value / +input1.max) * 100;
     const percent2 = (+input2.value / +input1.max) * 100;
-    sliderBar.style.background = `linear-gradient(to right, white 0% , #F67280 ${percent1}% , #F67280 ${percent2}%, white 100%)`;
+    sliderBar.style.background = `linear-gradient(to right, #F67280 0% , #F67280 ${percent1}% , #F67280 ${percent2}%, #F67280 100%)`;
 }
 
 export function getMinPrice(state: ProductsData[]): number {
