@@ -1,6 +1,6 @@
 import Route from 'route-parser';
 import { Paths, Routes } from '../../types/types';
-import { state, cartState, promoState, queryState } from '../api/initApp';
+import { state, cartState, promoState, queryState } from '../app/initApp';
 import { drawProductsPage } from '../pages/store/drawProductsPage';
 import { countCartProducts, countCartTotal } from '../pages/cart/cartControls';
 import { drawCart } from '../pages/cart/drawCart';

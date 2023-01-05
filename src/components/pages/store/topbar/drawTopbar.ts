@@ -1,5 +1,5 @@
 import { ProductsData, QueryData, checkedQuerySelector, appendEl, createEl } from '../../../../types/types';
-import { cartState } from '../../../api/initApp';
+import { cartState } from '../../../app/initApp';
 import { setFilters } from '../filters/setFilters';
 import './topbar.css';
 

@@ -1,5 +1,5 @@
 import { checkedQuerySelector } from '../../../types/types';
-import { queryState } from '../../api/initApp';
+import { queryState } from '../../app/initApp';
 import { goTo } from '../../router/router';
 import { resetFilters } from '../store/filters/setFilters';
 
