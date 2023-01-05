@@ -10,7 +10,7 @@ import {
     countCartProducts,
 } from './cartControls';
 import { goTo } from '../../router/router';
-import { resetFilters } from '../filters/filters';
+import { resetFilters } from '../filters/setFilters';
 import './cart.css';
 
 export function drawCartProducts(
@@ -121,12 +121,15 @@ function drawCartProduct(
     productBuyAmount.textContent = `${item.amount}`;
     productRemoveButton.textContent = '-';
 
+    if (productBuyAmount.textContent === `${item.stock}`)
+        productAddButton.classList.add('cart-product__button_disabled');
+
     productMainContaiter.addEventListener('click', () => {
         resetFilters(queryState);
         goTo(`/product/${productMainContaiter.id}`);
     });
 
-    productRemoveButton.addEventListener('click', () => {
+    productRemoveButton.addEventListener('mousedown', () => {
         reduceAmount(
             productAddButton,
             'cart-product__button_disabled',
@@ -145,7 +148,7 @@ function drawCartProduct(
         `;
     });
 
-    productAddButton.addEventListener('click', () => {
+    productAddButton.addEventListener('mousedown', () => {
         increaseAmount(
             productAddButton,
             'cart-product__button_disabled',

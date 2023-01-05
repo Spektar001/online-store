@@ -1,7 +1,7 @@
 import { createEl, appendEl } from '../elements/elements';
 import { ProductsData, QueryData, checkedQuerySelector } from '../../../types/exports';
 import './topbar.css';
-import { setFilters } from '../filters/filters';
+import { setFilters } from '../filters/setFilters';
 
 export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
     const topbarContainer = checkedQuerySelector(document, '.products__topbar');

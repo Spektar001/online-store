@@ -3,7 +3,7 @@ import { appendEl, createEl } from '../elements/elements';
 import { addToCart, countCartTotal, countCartProducts, setButtons, removeFromCart } from '../cart/cartControls';
 import './products.css';
 import { goTo } from '../../router/router';
-import { resetFilters } from '../filters/filters';
+import { resetFilters } from '../filters/setFilters';
 
 export function drawProducts(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');

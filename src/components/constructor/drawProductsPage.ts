@@ -2,7 +2,7 @@ import { ProductsData, checkedQuerySelector, QueryData } from '../../types/expor
 import { drawTopbar } from './topbar/drawTopbar';
 import { drawFilters } from './filters/drawFilters';
 import { createEl, appendEl } from './elements/elements';
-import { setFilters } from './filters/filters';
+import { setFilters } from './filters/setFilters';
 import './productsPage.css';
 
 export function drawProductsPage(state: ProductsData[], queryState: QueryData): void {
