@@ -211,17 +211,17 @@ export function showPopUp(
             isFormDetailsSelected(details, btnConfirm);
         }
 
-        if (regexDate.test(detailsDate.value) && detailsDate.value.slice(0, 2) <= '12') {
-            detailsDate.classList.remove('error');
-            detailsDate.classList.add('check');
-            isFormDetailsSelected(details, btnConfirm);
-        }
-
         if (detailsDate.value.length === 5) {
             const dateArr = detailsDate.value.split('/');
             const date = new Date();
 
-            if (+dateArr[1] >= +date.getFullYear().toString().slice(2) && +dateArr[0] >= date.getMonth() + 1) {
+            if (
+                +dateArr[1] >= +date.getFullYear().toString().slice(2) &&
+                +dateArr[0] >= date.getMonth() + 1 &&
+                regexDate.test(detailsDate.value) &&
+                detailsDate.value.slice(0, 2) <= '12'
+            ) {
+                console.log(detailsDate.value.slice(0, 2));
                 detailsDate.classList.remove('error');
                 detailsDate.classList.add('check');
                 isFormDetailsSelected(details, btnConfirm);
@@ -229,6 +229,7 @@ export function showPopUp(
                 detailsDate.classList.add('error');
                 detailsDate.classList.remove('check');
                 isFormDetailsSelected(details, btnConfirm);
+                console.log(detailsDate.value.slice(0, 2));
             }
         }
     });
