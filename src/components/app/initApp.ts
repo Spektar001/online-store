@@ -1,4 +1,5 @@
 import { CartData, Products, ProductsData, PromoData, QueryData } from '../../types/types';
+import { setHeaderButtons } from '../pages/header/setHeader';
 import { initRouter } from '../router/router';
 
 export let state: ProductsData[] = [];
@@ -24,6 +25,7 @@ export async function initApp() {
     const result = await getProductsData();
     state = result.products;
     initRouter();
+    setHeaderButtons();
 }
 
 async function getProductsData(): Promise<Products> {

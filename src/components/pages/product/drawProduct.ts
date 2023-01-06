@@ -79,16 +79,44 @@ export function drawProduct(
     for (const item of state) {
         if (item.id === +index) {
             productBreadCrumbs.textContent = `Store / ${item.category} / ${item.brand} / ${item.title}`;
+
+            const canvasUrl: string[] = [];
+
             for (let i = 0; i < item.images.length; i++) {
-                const productImage = createEl('product-page__image', 'div');
-                productImage.style.backgroundImage = `url(${item.images[i]})`;
+                const img = new Image();
+                img.setAttribute('crossOrigin', 'anonymous');
+                img.src = item.images[i];
 
-                productImage.addEventListener('click', () => {
-                    productMainImage.style.backgroundImage = productImage.style.backgroundImage;
-                });
+                img.onload = () => {
+                    if (!canvasUrl.length) {
+                        canvasUrl.push(getBase64Image(img));
 
-                appendEl(productImages, productImage);
+                        const productImage = createEl('product-page__image', 'div');
+                        productImage.style.backgroundImage = `url(${item.images[i]})`;
+
+                        productImage.addEventListener('click', () => {
+                            productMainImage.style.backgroundImage = productImage.style.backgroundImage;
+                        });
+
+                        appendEl(productImages, productImage);
+                    } else {
+                        const base = getBase64Image(img);
+                        if (canvasUrl.every((url) => url !== base)) {
+                            canvasUrl.push(base);
+
+                            const productImage = createEl('product-page__image', 'div');
+                            productImage.style.backgroundImage = `url(${item.images[i]})`;
+
+                            productImage.addEventListener('click', () => {
+                                productMainImage.style.backgroundImage = productImage.style.backgroundImage;
+                            });
+
+                            appendEl(productImages, productImage);
+                        }
+                    }
+                };
             }
+
             productMainImage.style.backgroundImage = `url(${item.images[0]})`;
             productTitle.textContent = item.title;
             productDescription.textContent = item.description;
@@ -132,4 +160,17 @@ export function drawProduct(
         goTo('/cart');
         showPopUp(productBuyButton, state, cartState, promoState, queryState);
     });
+}
+
+function getBase64Image(img: HTMLImageElement): string {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    const ctx = canvas.getContext('2d');
+    ctx !== null ? ctx.drawImage(img, 0, 0) : console.log(1);
+
+    const dataURL = canvas.toDataURL('image/png');
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
 }

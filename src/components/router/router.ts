@@ -7,7 +7,6 @@ import { drawCart } from '../pages/cart/drawCart';
 import { drawProduct } from '../pages/product/drawProduct';
 import { draw404 } from '../pages/404/404';
 import { setStorage } from '../storage/setStorage';
-import { setHeaderButtons } from '../pages/header/setHeader';
 
 const Paths: Paths = {
     index: '/',
@@ -18,7 +17,6 @@ const Paths: Paths = {
 const routes: Routes = {};
 
 export function render(path: string): void {
-    setHeaderButtons();
     setStorage('cartState', cartState);
 
     const url = new URL(window.location.href);
