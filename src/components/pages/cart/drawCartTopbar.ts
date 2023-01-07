@@ -101,14 +101,19 @@ function setItemsPerPage(
     cartState: CartData[],
     queryState: QueryData
 ): string {
-    queryState.limitPerPage = itemsInput.value === '' ? currentValue : itemsInput.value;
+    if (itemsInput.value.match(/[0-9]+$/g) && +itemsInput.value > 0) {
+        itemsInput.value = itemsInput.value.slice(0, 2);
+        queryState.limitPerPage = itemsInput.value === '' ? currentValue : itemsInput.value;
 
-    setPaginationButtons(nextPage, prevPage, cartState, queryState);
+        setPaginationButtons(nextPage, prevPage, cartState, queryState);
 
-    const url = new URL(window.location.href);
-    url.searchParams.set('limitPerPage', queryState.limitPerPage);
-    window.history.pushState(url.search, '', url);
-    currentValue = itemsInput.value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('limitPerPage', queryState.limitPerPage);
+        window.history.pushState(url.search, '', url);
+        currentValue = itemsInput.value;
+    } else {
+        itemsInput.value = '';
+    }
 
     return currentValue;
 }

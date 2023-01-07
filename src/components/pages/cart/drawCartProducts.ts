@@ -29,7 +29,7 @@ export function drawCartProducts(
     const cartProductsContainer = checkedQuerySelector(document, '.cart-products__container');
     cartProductsContainer.innerHTML = '';
 
-    let currentPageState = Array.from(cartState);
+    let currentPageState = cartState.slice();
     const currentPage = queryState.page ? +queryState.page : 1;
 
     currentPageState = currentPageState.splice((currentPage - 1) * +queryState.limitPerPage, +queryState.limitPerPage);

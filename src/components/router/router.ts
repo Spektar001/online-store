@@ -85,6 +85,6 @@ function setQueryState(queryParams: URLSearchParams): void {
     find !== null ? (queryState.find = find) : '';
     sortBy !== null ? (queryState.sortBy = sortBy) : '';
     view !== null ? (queryState.view = view) : 'row';
-    page !== null ? (queryState.page = page) : '1';
-    limitPerPage !== null ? (queryState.limitPerPage = limitPerPage) : '5';
+    page !== null && +page > 0 && +page < 100 ? (queryState.page = page) : '1';
+    limitPerPage !== null && +limitPerPage > 0 ? (queryState.limitPerPage = limitPerPage) : '5';
 }

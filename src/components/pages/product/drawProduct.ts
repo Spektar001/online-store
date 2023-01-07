@@ -168,7 +168,7 @@ function getBase64Image(img: HTMLImageElement): string {
     canvas.height = img.height;
 
     const ctx = canvas.getContext('2d');
-    ctx !== null ? ctx.drawImage(img, 0, 0) : console.log(1);
+    ctx !== null ? ctx.drawImage(img, 0, 0) : console.error('No image data!');
 
     const dataURL = canvas.toDataURL('image/png');
 

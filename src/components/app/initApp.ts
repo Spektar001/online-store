@@ -34,7 +34,7 @@ async function getProductsData(): Promise<Products> {
         const products: Products = await response.json();
         return products;
     } catch (error) {
-        console.log(error);
+        console.error(`Can't load data!`);
         throw error;
     }
 }
