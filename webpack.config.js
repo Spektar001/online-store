@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { NetlifyPlugin } = require('netlify-webpack-plugin');
 
 
 const baseConfig = {
@@ -48,6 +49,15 @@ const baseConfig = {
                     to: path.resolve(__dirname, 'dist', 'assets'),
                 },
             ],
+        }),
+        new NetlifyPlugin({
+          redirects: [
+            {
+              from: '/*',
+              to: '/index.html',
+              status: 200,
+            }
+          ]
         }),
     ],
 };
