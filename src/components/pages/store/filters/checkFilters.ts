@@ -5,7 +5,7 @@ import { getMaxPrice, getMinPrice, getMaxDiscount, getMinDiscount } from './draw
 
 /* function to check store query parameters ------------------------------------------------- */
 
-export function checkStoreQueryParams(state: ProductsData[], queryState: QueryData) {
+export function checkStoreQueryParams(state: ProductsData[], queryState: QueryData): boolean {
     const url = new URL(window.location.href);
     const str = url.search;
 

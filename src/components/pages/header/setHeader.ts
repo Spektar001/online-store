@@ -7,7 +7,7 @@ import { resetFilters } from '../store/filters/setFilters';
 
 /* function to set header buttons ------------------------------------------------- */
 
-export function setHeaderButtons() {
+export function setHeaderButtons(): void {
     checkedQuerySelector(document, '.header__cart').addEventListener('click', () => {
         goTo('/cart');
     });

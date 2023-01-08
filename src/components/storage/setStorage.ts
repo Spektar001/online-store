@@ -3,7 +3,7 @@
 import { CartData, PromoData } from '../../types/types';
 import { cartState, promoState } from '../app/initApp';
 
-export function setStorage(name: string, state: CartData[] | PromoData[]) {
+export function setStorage(name: string, state: CartData[] | PromoData[]): void {
     localStorage.setItem(name, JSON.stringify(state));
 }
 

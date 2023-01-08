@@ -27,7 +27,7 @@ export const queryState: QueryData = {
 
 /* function to init application ------------------------------------------------- */
 
-export async function initApp() {
+export async function initApp(): Promise<void> {
     const result = await getProductsData();
     state = result.products;
     initRouter();

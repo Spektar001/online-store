@@ -95,7 +95,7 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
 
 /* function to draw founded amount of products section ------------------------------------------------- */
 
-function drawProductsFound() {
+function drawProductsFound(): void {
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
     const filterProdoctsFound = createEl('products_found__total', 'div');
 
