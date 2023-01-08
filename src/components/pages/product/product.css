@@ -1,3 +1,5 @@
+/* product global settings ------------------------------------------------- */
+
 .product-page__container {
     display: flex;
     gap: 15px;
@@ -13,8 +15,6 @@
     width: 100%;
     height: 100%;
 }
-
-/* containers------------------------------------------------- */
 
 .product-page__bread-crumbs,
 .product-page__container_images,
@@ -49,7 +49,7 @@
     height: fit-content;
 }
 
-/* images------------------------------------------------- */
+/* product images ------------------------------------------------- */
 
 .product-page__images {
     display: flex;
@@ -80,7 +80,7 @@
     box-shadow: 0 0px 5px 0 grey;
 }
 
-/* description------------------------------------------------- */
+/* product description ------------------------------------------------- */
 
 .product-page__desc_el {
     width: 100%;
@@ -117,7 +117,7 @@
     border: 1px solid cornflowerblue;
 }
 
-/* price------------------------------------------------- */
+/* product price ------------------------------------------------- */
 
 .product-page__container_price {
     display: flex;
@@ -141,7 +141,7 @@
     font-size: 2.5rem;
 }
 
-/* buttons------------------------------------------------- */
+/* product buttons ------------------------------------------------- */
 
 .product-page__container_buttons {
     display: flex;

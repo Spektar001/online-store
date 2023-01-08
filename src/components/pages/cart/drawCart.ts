@@ -1,3 +1,5 @@
+/* imports ------------------------------------------------- */
+
 import {
     ProductsData,
     CartData,
@@ -12,6 +14,8 @@ import { drawCartTopbar } from './drawCartTopbar';
 import { drawCartSummary } from './drawCartSummary';
 import { goTo } from '../../router/router';
 import './cart.css';
+
+/* function to draw cart ------------------------------------------------- */
 
 export function drawCart(
     state: ProductsData[],
@@ -30,6 +34,8 @@ export function drawCart(
         drawFilledCart(main, cartPageContainer, state, cartState, promoState, queryState);
     }
 }
+
+/* function to draw filled cart ------------------------------------------------- */
 
 function drawFilledCart(
     parent: HTMLElement,
@@ -56,6 +62,8 @@ function drawFilledCart(
     drawCartProducts(state, cartState, promoState, queryState);
     drawCartSummary(state, cartState, promoState, queryState);
 }
+
+/* function to draw empty cart ------------------------------------------------- */
 
 export function drawEmptyCart(): void {
     const main = checkedQuerySelector(document, 'main');

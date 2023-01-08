@@ -1,3 +1,5 @@
+/* store global settings ------------------------------------------------- */
+
 .products-page__container {
     display: flex;
     gap: 15px;

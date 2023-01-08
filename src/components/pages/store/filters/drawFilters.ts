@@ -1,7 +1,11 @@
+/* imports ------------------------------------------------- */
+
 import { resetFilters, setFilters } from './setFilters';
 import { ProductsData, QueryData, checkedQuerySelector, appendEl, createEl, CartData } from '../../../../types/types';
 import { goTo } from '../../../router/router';
 import './filters.css';
+
+/* function to draw filters ------------------------------------------------- */
 
 export function drawFilters(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const categories: string[] = [];
@@ -89,12 +93,16 @@ export function drawFilters(state: ProductsData[], cartState: CartData[], queryS
     setFilters(state, cartState, queryState);
 }
 
+/* function to draw founded amount of products section ------------------------------------------------- */
+
 function drawProductsFound() {
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
     const filterProdoctsFound = createEl('products_found__total', 'div');
 
     appendEl(filtersContainer, filterProdoctsFound);
 }
+
+/* function to draw filters reset and copy buttons ------------------------------------------------- */
 
 function drawFilterButtons(queryState: QueryData): void {
     const filtersContainer = checkedQuerySelector(document, '.products-page__container_left');
@@ -112,6 +120,8 @@ function drawFilterButtons(queryState: QueryData): void {
         goTo(`/${resetFilters(queryState)}`);
     });
 }
+
+/* function to draw brands and categories filters ------------------------------------------------- */
 
 function getFilteredKeys(
     data: Set<string>,
@@ -171,6 +181,8 @@ function getFilteredKeys(
     appendEl(filterListContainer, filterList);
     appendEl(filtersContainer, filterListContainer);
 }
+
+/* function to draw double slider ------------------------------------------------- */
 
 function drawDoubleSlider(
     title: string,
@@ -275,13 +287,19 @@ function fillColor(input1: HTMLInputElement, input2: HTMLInputElement, sliderBar
     sliderBar.style.background = `linear-gradient(to right, #F67280 0% , #F67280 ${percent1}% , #F67280 ${percent2}%, #F67280 100%)`;
 }
 
+/* function to get min price based on state ------------------------------------------------- */
+
 export function getMinPrice(state: ProductsData[]): number {
     return state.reduce((min, item) => (item.price < min ? item.price : min), state[0].price);
 }
 
+/* function to get max price based on state ------------------------------------------------- */
+
 export function getMaxPrice(state: ProductsData[]): number {
     return state.reduce((max, item) => (item.price > max ? item.price : max), state[0].price);
 }
+
+/* function to get min discount based on state ------------------------------------------------- */
 
 export function getMinDiscount(state: ProductsData[]): number {
     return state.reduce(
@@ -290,12 +308,16 @@ export function getMinDiscount(state: ProductsData[]): number {
     );
 }
 
+/* function to get max discount based on state ------------------------------------------------- */
+
 export function getMaxDiscount(state: ProductsData[]): number {
     return state.reduce(
         (max, item) => (item.discountPercentage > max ? item.discountPercentage : max),
         state[0].discountPercentage
     );
 }
+
+/* function to set checkboxes ------------------------------------------------- */
 
 function setCheckboxSearchParams(checboxArr: string[], checkboxItem: HTMLInputElement, group: string): void {
     const url = new URL(window.location.href);
@@ -313,6 +335,8 @@ function setCheckboxSearchParams(checboxArr: string[], checkboxItem: HTMLInputEl
     checboxArr.length ? url.searchParams.set(group, `${checboxArr.join('-')}`) : url.searchParams.delete(group);
     window.history.pushState(url.search, '', url);
 }
+
+/* function to set slider min and max ------------------------------------------------- */
 
 function setSliderSearchParams(
     sliderInputMin: HTMLInputElement,
@@ -347,6 +371,8 @@ function setSliderSearchParams(
         setFilters(state, cartState, queryState);
     });
 }
+
+/* function to copy link from url ------------------------------------------------- */
 
 function copyLink(button: HTMLElement): void {
     const url = window.location.href;

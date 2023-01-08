@@ -1,4 +1,8 @@
+/* imports ------------------------------------------------- */
+
 import Route from 'route-parser';
+
+/* interfaces ------------------------------------------------- */
 
 export interface Products {
     limit: number;
@@ -51,6 +55,8 @@ export interface Paths {
 export interface Routes {
     [k: string]: Route;
 }
+
+/* functions ------------------------------------------------- */
 
 export function checkedQuerySelector(parent: Element | Document, selector: string): HTMLElement {
     const el = parent.querySelector(selector);

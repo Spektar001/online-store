@@ -1,3 +1,5 @@
+/* topbar global settings ------------------------------------------------- */
+
 .products__topbar {
     display: flex;
     justify-content: space-between;
@@ -11,6 +13,8 @@
     width: 200px;
 }
 
+/* topbar sort-list ------------------------------------------------- */
+
 .sort__list_button {
     width: 100%;
     padding: 10px;
@@ -19,6 +23,7 @@
     border-radius: 5px;
     border: 1px solid gray;
 }
+
 .sort__list_button:focus,
 .sort__list_button:hover {
     box-shadow: 0 0 5px 1px #3f72af;
@@ -53,6 +58,8 @@
     display: none;
 }
 
+/* topbar search ------------------------------------------------- */
+
 .sort__search {
     width: 25%;
     padding: 10px;
@@ -64,6 +71,8 @@
     border: none;
     box-shadow: 0 0 5px 1px #3f72af;
 }
+
+/* topbar view ------------------------------------------------- */
 
 .products__view {
     display: flex;
@@ -85,6 +94,7 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
 .view__button_1:hover,
 .view__button_2:hover {
     box-shadow: 0 0 5px 1px #3f72af;
@@ -92,6 +102,7 @@
     border: none;
     transition: all 0.3s ease;
 }
+
 .view__button_selected {
     color: white;
     border-radius: 5px;

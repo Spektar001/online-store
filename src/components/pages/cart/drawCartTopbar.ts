@@ -1,3 +1,5 @@
+/* imports ------------------------------------------------- */
+
 import {
     ProductsData,
     CartData,
@@ -9,6 +11,8 @@ import {
 } from '../../../types/types';
 import { drawCartProducts } from './drawCartProducts';
 import './cart.css';
+
+/* function to draw cart topbar ------------------------------------------------- */
 
 export function drawCartTopbar(
     state: ProductsData[],
@@ -93,6 +97,8 @@ export function drawCartTopbar(
     });
 }
 
+/* function to set pagination items per page ------------------------------------------------- */
+
 function setItemsPerPage(
     currentValue: string,
     itemsInput: HTMLInputElement,
@@ -118,6 +124,8 @@ function setItemsPerPage(
     return currentValue;
 }
 
+/* function to set pagination previous page ------------------------------------------------- */
+
 function setPrevPage(
     page: number,
     currentPage: HTMLElement,
@@ -140,6 +148,8 @@ function setPrevPage(
     return page;
 }
 
+/* function to set pagination next page ------------------------------------------------- */
+
 function setNextPage(
     page: number,
     currentPage: HTMLElement,
@@ -161,6 +171,8 @@ function setNextPage(
 
     return page;
 }
+
+/* function to check is pagination button can be pressed ------------------------------------------------- */
 
 function setPaginationButtons(
     nextPage: HTMLElement,

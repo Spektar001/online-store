@@ -1,13 +1,16 @@
+/* products global settings ------------------------------------------------- */
+
 .products__container {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
 }
+
 .no-match {
   justify-content: center;
 }
 
-/* item------------------------------------------------- */
+/* products item ------------------------------------------------- */
 
 .product__item {
     display: flex;
@@ -35,6 +38,8 @@
 .product__item_column:hover {
     box-shadow: 0 0 7px 1px #3F72AF;
 }
+
+/* products main ------------------------------------------------- */
 
 .product__contaiter {
     display: flex;
@@ -72,7 +77,7 @@
     width: 15%;
 }
 
-/* labels------------------------------------------------- */
+/* products labels ------------------------------------------------- */
 
 .product__label {
     width: fit-content;
@@ -110,8 +115,7 @@
     border: 1px solid cornflowerblue;
 }
 
-/* image------------------------------------------------- */
-
+/* products image ------------------------------------------------- */
 
 .product__image {
     aspect-ratio: 1/1;
@@ -132,7 +136,7 @@
     background-size: 120%;
 }
 
-/* title------------------------------------------------- */
+/* products title ------------------------------------------------- */
 
 .product__title {
     height: 3rem;
@@ -147,7 +151,7 @@
     text-align: start;
 }
 
-/* price------------------------------------------------- */
+/* products price ------------------------------------------------- */
 
 .product__price,
 .product__price_disc {
@@ -175,7 +179,7 @@
     text-align: end;
 }
 
-/* buy-button------------------------------------------------- */
+/* products button ------------------------------------------------- */
 
 .product__button_buy,
 .product__button_buy_now {
@@ -209,7 +213,7 @@
     transition: all 0.3s ease;
 }
 
-/* NO-PRODUCTS------------------------------------------------- */
+/* products empty ------------------------------------------------- */
 
 .no-match__container {
     display: flex;
@@ -247,6 +251,7 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
 .no-match__main_link:hover {
     text-decoration: none;
 }

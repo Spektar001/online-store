@@ -1,3 +1,5 @@
+/* imports ------------------------------------------------- */
+
 import { showPopUp } from '../popup/popup';
 import {
     ProductsData,
@@ -18,6 +20,8 @@ import {
 } from './cartControls';
 import { promocodes } from '../../promocodes/promocodes';
 import './cart.css';
+
+/* function to draw cart summary ------------------------------------------------- */
 
 export function drawCartSummary(
     state: ProductsData[],
@@ -82,6 +86,8 @@ export function drawCartSummary(
     setLinedSum(summarySumm, 'cart-summary__summ_lined', promoState);
     drawCartPromos(summaryPromoContainer, state, cartState, promoState, queryState);
 }
+
+/* function to draw cart promocodes ------------------------------------------------- */
 
 function drawCartPromos(
     parent: HTMLElement,

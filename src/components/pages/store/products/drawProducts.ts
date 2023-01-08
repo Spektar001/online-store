@@ -1,8 +1,12 @@
+/* imports ------------------------------------------------- */
+
 import { appendEl, CartData, checkedQuerySelector, createEl, ProductsData, QueryData } from '../../../../types/types';
 import { addToCart, countCartTotal, countCartProducts, setButtons, removeFromCart } from '../../cart/cartControls';
 import { resetFilters } from '../filters/setFilters';
 import { goTo } from '../../../router/router';
 import './products.css';
+
+/* function to draw products ------------------------------------------------- */
 
 export function drawProducts(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
@@ -78,6 +82,8 @@ export function drawProducts(state: ProductsData[], cartState: CartData[], query
         appendEl(productsContainer, productItem);
     }
 }
+
+/* function to draw products section when filtered state is empry or query is false ------------------------------------------------- */
 
 export function drawNoMatch(queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');

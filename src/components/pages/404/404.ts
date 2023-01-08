@@ -1,6 +1,10 @@
+/* imports ------------------------------------------------- */
+
 import { appendEl, checkedQuerySelector, createEl } from '../../../types/types';
 import { goTo } from '../../router/router';
 import './404.css';
+
+/* function to draw 404 page ------------------------------------------------- */
 
 export function draw404(): void {
     const main = checkedQuerySelector(document, 'main');

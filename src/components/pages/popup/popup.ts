@@ -1,3 +1,5 @@
+/* imports ------------------------------------------------- */
+
 import {
     appendEl,
     CartData,
@@ -12,6 +14,8 @@ import { clearCart, countCartProducts, countCartTotal } from '../cart/cartContro
 import { resetFilters } from '../store/filters/setFilters';
 import { goTo } from '../../router/router';
 import './popup.css';
+
+/* function to show popup on buy ------------------------------------------------- */
 
 export function showPopUp(
     button: HTMLElement,
@@ -299,6 +303,8 @@ export function showPopUp(
     });
 }
 
+/* function to check is popup fields are valid ------------------------------------------------- */
+
 function isFormDetailsSelected(form: HTMLElement, btn: HTMLButtonElement): void {
     const arrInputs = Array.from(form.querySelectorAll('.checked'));
     if (arrInputs.every((item) => item.classList.contains('check'))) {
@@ -308,6 +314,8 @@ function isFormDetailsSelected(form: HTMLElement, btn: HTMLButtonElement): void 
         btn.disabled = true;
     }
 }
+
+/* function to check matching when null is possible ------------------------------------------------- */
 
 function matcher(string: string, regexp: RegExp, joiner: string): string {
     const stringMatches: string[] | null = string.match(regexp);

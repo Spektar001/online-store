@@ -1,3 +1,5 @@
+/* cart global settings ------------------------------------------------- */
+
 .cart-page__container {
     display: flex;
     gap: 15px;
@@ -61,6 +63,8 @@
     border-radius: 5px;
     border: 1px solid gray;
 }
+
+/* cart products ------------------------------------------------- */
 
 .cart-products__container {
     flex-direction: column;
@@ -156,6 +160,8 @@
     font-size: 2rem;
 }
 
+/* cart buttons ------------------------------------------------- */
+
 .cart-topbar__container_buttons,
 .cart-product__container_buttons {
     display: flex;
@@ -188,6 +194,8 @@
     align-items: center;
     font-size: 1.1rem;
 }
+
+/* cart summ & amount ------------------------------------------------- */
 
 .cart-summary__text_main {
     padding: 5px;
@@ -281,6 +289,8 @@
     background-color: #E23E57;
     transition: all 0.3s ease;
 }
+
+/* cart empty ------------------------------------------------- */
 
 .no-cart__container {
     display: flex;

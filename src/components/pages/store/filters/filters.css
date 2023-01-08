@@ -1,3 +1,5 @@
+/* filters global settings ------------------------------------------------- */
+
 .products_found__total {
     display: flex;
     background-color: #3F72AF;
@@ -7,6 +9,8 @@
     font-size: 1.2rem;
     color: #ffffff;
 }
+
+/* filters buttons ------------------------------------------------- */
 
 .filter__button_copy,
 .filter__button_reset {
@@ -28,6 +32,8 @@
 .filter__button_copy_pressed {
     background-color: #3F72AF;
 }
+
+/* filters main ------------------------------------------------- */
 
 .filter__container {
     border-radius: 10px;
@@ -62,6 +68,8 @@
     padding: 5px 0;
 }
 
+/* filters checkbox ------------------------------------------------- */
+
 .filter__checkbox_container {
     display: flex;
     gap: 10px;
@@ -72,6 +80,8 @@
     cursor: pointer;
 }
 
+/* filters product ------------------------------------------------- */
+
 .filter__product_counter {
     display: flex;
     justify-content: center;
@@ -79,6 +89,8 @@
     min-width: 25px;
     border-left: 1px solid grey;
 }
+
+/* filters slider ------------------------------------------------- */
 
 .slider__wrapper {
     display: flex;
@@ -138,6 +150,7 @@
     pointer-events: auto;
     border-radius: 50%;
 }
+
 .inputs__slider_1::-moz-range-thumb,
 .inputs__slider_2::-moz-range-thumb {
     -webkit-appearance: none;
@@ -148,6 +161,7 @@
     background-color: #3F72AF;
     pointer-events: auto;
 }
+
 .inputs__slider_1::-ms-thumb,
 .inputs__slider_2::-ms-thumb {
     appearance: none;
@@ -158,11 +172,14 @@
     background-color: #3F72AF;
     pointer-events: auto;
 }
+
 .inputs__slider_1:active::-webkit-slider-thumb,
 .inputs__slider_2:active::-webkit-slider-thumb {
     background-color: #ffffff;
     border: 3px solid #3F72AF;
 }
+
+/* filters values ------------------------------------------------- */
 
 .values__container {
     display: flex;
@@ -179,6 +196,7 @@
     font-size: 1.2rem;
     color: #ffffff;
 }
+
 .values__container:before {
     content: "";
     position: absolute;

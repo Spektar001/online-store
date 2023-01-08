@@ -1,7 +1,11 @@
+/* imports ------------------------------------------------- */
+
 import { drawProducts, drawNoMatch } from '../products/drawProducts';
 import { CartData, checkedQuerySelector, ProductsData, QueryData } from '../../../../types/types';
 import { getMaxDiscount, getMaxPrice, getMinDiscount, getMinPrice } from './drawFilters';
 import { checkStoreQueryParams } from './checkFilters';
+
+/* function to set filters ------------------------------------------------- */
 
 export function setFilters(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     let filteredState: ProductsData[] = [];
@@ -43,6 +47,8 @@ export function setFilters(state: ProductsData[], cartState: CartData[], querySt
     }
 }
 
+/* function to get filtered data for categories ------------------------------------------------- */
+
 function getFilteredCategory(state: ProductsData[], queryState: QueryData): ProductsData[] {
     let filteredCategory: ProductsData[] = [];
 
@@ -53,6 +59,8 @@ function getFilteredCategory(state: ProductsData[], queryState: QueryData): Prod
     return filteredCategory;
 }
 
+/* function to get filtered data for brands ------------------------------------------------- */
+
 function getFilteredBrands(state: ProductsData[], queryState: QueryData): ProductsData[] {
     let filteredBrands: ProductsData[] = [];
 
@@ -62,6 +70,8 @@ function getFilteredBrands(state: ProductsData[], queryState: QueryData): Produc
     }
     return filteredBrands;
 }
+
+/* function to get filtered data for price ------------------------------------------------- */
 
 function getFilteredPrice(state: ProductsData[], queryState: QueryData): ProductsData[] {
     let filteredPrice: ProductsData[] = [];
@@ -84,6 +94,8 @@ function getFilteredPrice(state: ProductsData[], queryState: QueryData): Product
     return filteredPrice;
 }
 
+/* function to get filtered data for discount ------------------------------------------------- */
+
 function getFilteredDiscount(state: ProductsData[], queryState: QueryData): ProductsData[] {
     let filteredDiscount: ProductsData[] = [];
 
@@ -104,6 +116,8 @@ function getFilteredDiscount(state: ProductsData[], queryState: QueryData): Prod
 
     return filteredDiscount;
 }
+
+/* function to get filtered data for find field ------------------------------------------------- */
 
 function getFilteredFind(filteredFind: ProductsData[], state: ProductsData[], queryState: QueryData): boolean {
     let isExist = false;
@@ -143,6 +157,8 @@ function getFilteredFind(filteredFind: ProductsData[], state: ProductsData[], qu
 
     return isExist;
 }
+
+/* function to get filtered data based on all filters applied ------------------------------------------------- */
 
 function getFilteredState(
     filteredCategory: ProductsData[],
@@ -191,6 +207,8 @@ function getFilteredState(
     return filteredState;
 }
 
+/* function to draw products based on filtered state ------------------------------------------------- */
+
 function drawFilteredProducts(
     state: ProductsData[],
     filteredState: ProductsData[],
@@ -227,6 +245,8 @@ function drawFilteredProducts(
     }
 }
 
+/* function to get same items in filtered state ------------------------------------------------- */
+
 function getSameItems(state: ProductsData[], nonEmptyNum: number): ProductsData[] {
     const result: ProductsData[] = [];
 
@@ -246,11 +266,15 @@ function getSameItems(state: ProductsData[], nonEmptyNum: number): ProductsData[
     return result;
 }
 
+/* function to set total products based on filtered state ------------------------------------------------- */
+
 function setTotalProducts(state: ProductsData[]): void {
     const filterProdoctsFound = checkedQuerySelector(document, '.products_found__total');
 
     filterProdoctsFound.textContent = `FOUND: ${state.length}`;
 }
+
+/* function to set double inputs values ------------------------------------------------- */
 
 function setDoubleInputsOnCheck(state: ProductsData[], filteredState: ProductsData[], queryState: QueryData): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
@@ -286,6 +310,8 @@ function setDoubleInputsOnCheck(state: ProductsData[], filteredState: ProductsDa
     discTextMax.textContent = discInputMax.value;
 }
 
+/* function to set sorting parameters ------------------------------------------------- */
+
 function setSortParams(state: ProductsData[], queryState: QueryData): void {
     if (queryState.sortBy) {
         switch (queryState.sortBy) {
@@ -304,6 +330,8 @@ function setSortParams(state: ProductsData[], queryState: QueryData): void {
         }
     }
 }
+
+/* function to set products amount based on filtered state ------------------------------------------------- */
 
 function setProductCount(state: ProductsData[], filteredState: ProductsData[]): void {
     const productsContainer = checkedQuerySelector(document, '.products__container');
@@ -372,6 +400,8 @@ function setProductCount(state: ProductsData[], filteredState: ProductsData[]): 
         }
     }
 }
+
+/* function to reset filters ------------------------------------------------- */
 
 export function resetFilters(queryState: QueryData): string {
     queryState.brand = [];

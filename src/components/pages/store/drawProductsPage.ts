@@ -1,8 +1,12 @@
+/* imports ------------------------------------------------- */
+
 import { ProductsData, checkedQuerySelector, QueryData, appendEl, createEl, CartData } from '../../../types/types';
 import { drawTopbar } from './topbar/drawTopbar';
 import { drawFilters } from './filters/drawFilters';
 import { setFilters } from './filters/setFilters';
 import './productsPage.css';
+
+/* function to draw store page ------------------------------------------------- */
 
 export function drawProductsPage(state: ProductsData[], cartState: CartData[], queryState: QueryData): void {
     const main = checkedQuerySelector(document, 'main');

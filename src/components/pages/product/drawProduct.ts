@@ -1,3 +1,5 @@
+/* imports ------------------------------------------------- */
+
 import { showPopUp } from '../popup/popup';
 import {
     checkedQuerySelector,
@@ -18,6 +20,8 @@ import {
 } from '../cart/cartControls';
 import { goTo } from '../../router/router';
 import './product.css';
+
+/* function to draw product ------------------------------------------------- */
 
 export function drawProduct(
     index: string,
@@ -161,6 +165,8 @@ export function drawProduct(
         showPopUp(productBuyButton, state, cartState, promoState, queryState);
     });
 }
+
+/* function to convert image to base64 format ------------------------------------------------- */
 
 function getBase64Image(img: HTMLImageElement): string {
     const canvas = document.createElement('canvas');

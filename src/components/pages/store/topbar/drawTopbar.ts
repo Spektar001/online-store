@@ -1,7 +1,11 @@
+/* imports ------------------------------------------------- */
+
 import { ProductsData, QueryData, checkedQuerySelector, appendEl, createEl } from '../../../../types/types';
 import { cartState } from '../../../app/initApp';
 import { setFilters } from '../filters/setFilters';
 import './topbar.css';
+
+/* function to draw topbar ------------------------------------------------- */
 
 export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
     const topbarContainer = checkedQuerySelector(document, '.products__topbar');
@@ -61,6 +65,8 @@ export function drawTopbar(state: ProductsData[], queryState: QueryData): void {
     });
 }
 
+/* function to set sorting parameters ------------------------------------------------- */
+
 function setSortList(
     state: ProductsData[],
     queryState: QueryData,
@@ -92,6 +98,8 @@ function setSortList(
     appendEl(sortListContainer, sortList);
 }
 
+/* function to switch sorting parameters ------------------------------------------------- */
+
 function toggleSortList(sortList: HTMLElement, sortListButton: HTMLElement, selector: string) {
     document.addEventListener('click', (evt: Event) => {
         const target = evt.target;
@@ -103,6 +111,8 @@ function toggleSortList(sortList: HTMLElement, sortListButton: HTMLElement, sele
     });
 }
 
+/* function to set find parameters ------------------------------------------------- */
+
 function setFindSearchParams(searchInput: HTMLInputElement, state: ProductsData[], queryState: QueryData): void {
     const url = new URL(window.location.href);
     queryState.find = searchInput.value;
@@ -110,6 +120,8 @@ function setFindSearchParams(searchInput: HTMLInputElement, state: ProductsData[
     window.history.pushState(url.search, '', url);
     setFilters(state, cartState, queryState);
 }
+
+/* function to set view parameters ------------------------------------------------- */
 
 function setView(
     button1: HTMLElement,

@@ -1,4 +1,8 @@
+/* imports ------------------------------------------------- */
+
 import { PromoData } from '../../types/types';
+
+/* promocodes array ------------------------------------------------- */
 
 export const promocodes: PromoData[] = [
     {

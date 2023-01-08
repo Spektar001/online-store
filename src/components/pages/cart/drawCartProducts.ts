@@ -1,3 +1,5 @@
+/* imports ------------------------------------------------- */
+
 import {
     ProductsData,
     CartData,
@@ -19,6 +21,8 @@ import {
 import { goTo } from '../../router/router';
 import { resetFilters } from '../store/filters/setFilters';
 import './cart.css';
+
+/* function to draw cart products ------------------------------------------------- */
 
 export function drawCartProducts(
     state: ProductsData[],
@@ -54,6 +58,8 @@ export function drawCartProducts(
         goTo(`/cart${url.search}`);
     }
 }
+
+/* function to draw cart product ------------------------------------------------- */
 
 function drawCartProduct(
     state: ProductsData[],

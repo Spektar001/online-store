@@ -1,5 +1,9 @@
+/* imports ------------------------------------------------- */
+
 import { ProductsData, QueryData } from '../../../../types/types';
 import { getMaxPrice, getMinPrice, getMaxDiscount, getMinDiscount } from './drawFilters';
+
+/* function to check store query parameters ------------------------------------------------- */
 
 export function checkStoreQueryParams(state: ProductsData[], queryState: QueryData) {
     const url = new URL(window.location.href);
@@ -12,6 +16,8 @@ export function checkStoreQueryParams(state: ProductsData[], queryState: QueryDa
         checkEqualsAnds(url, str)
     );
 }
+
+/* function to check is all query are equal to brands and categories ------------------------------------------------- */
 
 function checkEmptyStr(str: string, state: ProductsData[], queryState: QueryData): boolean {
     const categories: string[] = [];
@@ -51,6 +57,8 @@ function checkEmptyStr(str: string, state: ProductsData[], queryState: QueryData
         return false;
     } else return true;
 }
+
+/* function to check query min and max values for price and discount ------------------------------------------------- */
 
 function checkMinMax(str: string, state: ProductsData[], queryState: QueryData): boolean {
     let result = true;
@@ -104,6 +112,8 @@ function checkMinMax(str: string, state: ProductsData[], queryState: QueryData):
     return result;
 }
 
+/* function to check query sorting parameter ------------------------------------------------- */
+
 function checkSort(queryState: QueryData): boolean {
     let result = true;
 
@@ -119,6 +129,8 @@ function checkSort(queryState: QueryData): boolean {
 
     return result;
 }
+
+/* function to check query = and & symbols ------------------------------------------------- */
 
 function checkEqualsAnds(url: URL, str: string): boolean {
     let result = true;

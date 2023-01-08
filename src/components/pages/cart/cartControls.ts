@@ -1,6 +1,10 @@
+/* imports ------------------------------------------------- */
+
 import { CartData, ProductsData, PromoData, checkedQuerySelector } from '../../../types/types';
 import { setStorage } from '../../storage/setStorage';
 import { drawEmptyCart } from './drawCart';
+
+/* function to add product to cart ------------------------------------------------- */
 
 export function addToCart(button: HTMLElement, index: string, state: ProductsData[], cartState: CartData[]): void {
     for (const item of state) {
@@ -14,6 +18,8 @@ export function addToCart(button: HTMLElement, index: string, state: ProductsDat
     }
 }
 
+/* function to add product to cart and go to cart to buy ------------------------------------------------- */
+
 export function addToCartAndBuy(button: HTMLElement, state: ProductsData[], cartState: CartData[]): void {
     for (const item of state) {
         if (item.id === +button.id) {
@@ -23,6 +29,8 @@ export function addToCartAndBuy(button: HTMLElement, state: ProductsData[], cart
         }
     }
 }
+
+/* function to remove from cart based on amount of product ------------------------------------------------- */
 
 export function removeFromCart(button: HTMLElement, index: string, state: ProductsData[], cartState: CartData[]): void {
     for (const item of state) {
@@ -36,6 +44,8 @@ export function removeFromCart(button: HTMLElement, index: string, state: Produc
     }
 }
 
+/* function to remove from cart based on cart contains the product ------------------------------------------------- */
+
 export function deleteFromCart(product: HTMLElement, cartState: CartData[]): void {
     for (const item of cartState) {
         if (item.id === +product.id && item.amount === 0) {
@@ -45,6 +55,8 @@ export function deleteFromCart(product: HTMLElement, cartState: CartData[]): voi
     }
 }
 
+/* function to clear cart ------------------------------------------------- */
+
 export function clearCart(cartState: CartData[], promoState: PromoData[]): void {
     cartState.splice(0);
     promoState.splice(0);
@@ -52,11 +64,15 @@ export function clearCart(cartState: CartData[], promoState: PromoData[]): void 
     setStorage('promoState', promoState);
 }
 
+/* function to check is cart empty ------------------------------------------------- */
+
 export function checkEmptyCart(contaiter: HTMLElement, cartState: CartData[]): void {
     if (cartState.length === 0) {
         drawEmptyCart();
     }
 }
+
+/* function to reduce amount of product ------------------------------------------------- */
 
 export function reduceAmount(
     button: HTMLElement,
@@ -79,6 +95,8 @@ export function reduceAmount(
     }
 }
 
+/* function to increase amount of product ------------------------------------------------- */
+
 export function increaseAmount(
     button: HTMLElement,
     selector: string,
@@ -100,6 +118,8 @@ export function increaseAmount(
     }
 }
 
+/* function to count cart total sum ------------------------------------------------- */
+
 export function countCartTotal(cartState: CartData[]): number {
     let total = 0;
     const headerTotal = checkedQuerySelector(document, '.header__total-count');
@@ -112,6 +132,8 @@ export function countCartTotal(cartState: CartData[]): number {
     return total;
 }
 
+/* function to count products in cart ------------------------------------------------- */
+
 export function countCartProducts(cartState: CartData[]): number {
     let products = 0;
     const headerProducts = checkedQuerySelector(document, '.header__cart-count');
@@ -123,6 +145,8 @@ export function countCartProducts(cartState: CartData[]): number {
     headerProducts.textContent = `${products}`;
     return products;
 }
+
+/* function to use promocode ------------------------------------------------- */
 
 export function addPromoItem(input: HTMLInputElement, promocodes: PromoData[], promoState: PromoData[]): boolean {
     for (const promo of promocodes) {
@@ -143,6 +167,8 @@ export function addPromoItem(input: HTMLInputElement, promocodes: PromoData[], p
     return false;
 }
 
+/* function to remove promocode ------------------------------------------------- */
+
 export function removePromoItem(button: HTMLElement, promoState: PromoData[]): void {
     for (const item of promoState) {
         if (item.name === button.id) {
@@ -151,6 +177,8 @@ export function removePromoItem(button: HTMLElement, promoState: PromoData[]): v
         }
     }
 }
+
+/* function to count discount based on promocodes ------------------------------------------------- */
 
 function countPromoDiscount(promoState: PromoData[]): number {
     let discount = 0;
@@ -162,11 +190,15 @@ function countPromoDiscount(promoState: PromoData[]): number {
     return discount;
 }
 
+/* function to cound sum after discount ------------------------------------------------- */
+
 export function countTotalSum(cartState: CartData[], promoState: PromoData[]): string {
     return countPromoDiscount(promoState) === 0
         ? ''
         : `${Math.floor((1 - countPromoDiscount(promoState)) * countCartTotal(cartState))}€`;
 }
+
+/* function to add styles to buy button when product is in/not in the cart ------------------------------------------------- */
 
 export function setButtons(index: string, button: HTMLElement, cartState: CartData[]): void {
     for (const item of cartState) {
@@ -176,6 +208,8 @@ export function setButtons(index: string, button: HTMLElement, cartState: CartDa
         }
     }
 }
+
+/* function to show price with discount ------------------------------------------------- */
 
 export function setLinedSum(sumItem: HTMLElement, selector: string, promoState: PromoData[]): void {
     promoState.length ? sumItem.classList.add(selector) : sumItem.classList.remove(selector);

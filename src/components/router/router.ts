@@ -1,3 +1,5 @@
+/* imports ------------------------------------------------- */
+
 import Route from 'route-parser';
 import { Paths, Routes } from '../../types/types';
 import { state, cartState, promoState, queryState } from '../app/initApp';
@@ -8,6 +10,8 @@ import { drawProduct } from '../pages/product/drawProduct';
 import { draw404 } from '../pages/404/404';
 import { setStorage } from '../storage/setStorage';
 
+/* router paths and routes ------------------------------------------------- */
+
 const Paths: Paths = {
     index: '/',
     cart: '/cart',
@@ -15,6 +19,8 @@ const Paths: Paths = {
 };
 
 const routes: Routes = {};
+
+/* function to render pages pased on url ------------------------------------------------- */
 
 export function render(path: string): void {
     setStorage('cartState', cartState);
@@ -43,10 +49,14 @@ export function render(path: string): void {
     draw404();
 }
 
+/* function to go to page pased on url ------------------------------------------------- */
+
 export function goTo(path: string): void {
     window.history.pushState({ path }, path, path);
     render(path);
 }
+
+/* function to init router ------------------------------------------------- */
 
 export function initRouter(): void {
     for (let i = 0; i < state.length; i++) {
@@ -62,6 +72,8 @@ export function initRouter(): void {
     });
     render(new URL(window.location.href).pathname);
 }
+
+/* function to set query state based on url ------------------------------------------------- */
 
 function setQueryState(queryParams: URLSearchParams): void {
     const brand = queryParams.get('brand')?.split('-');
