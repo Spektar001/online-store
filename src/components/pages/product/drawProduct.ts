@@ -141,7 +141,7 @@ export function drawProduct(
 
     productCartButton.addEventListener('click', () => {
         if (productCartButton.classList.contains('product__button_added')) {
-            removeFromCart(productCartButton, index, state, cartState);
+            removeFromCart(productCartButton, index, cartState);
             countCartProducts(cartState);
             countCartTotal(cartState);
         } else {

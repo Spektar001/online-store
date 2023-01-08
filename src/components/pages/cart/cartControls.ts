@@ -32,11 +32,10 @@ export function addToCartAndBuy(button: HTMLElement, state: ProductsData[], cart
 
 /* function to remove from cart based on amount of product ------------------------------------------------- */
 
-export function removeFromCart(button: HTMLElement, index: string, state: ProductsData[], cartState: CartData[]): void {
-    for (const item of state) {
+export function removeFromCart(button: HTMLElement, index: string, cartState: CartData[]): void {
+    for (const item of cartState) {
         if (item.id === +index) {
-            const cartItem = Object.assign(item, { amount: 0 });
-            cartState.splice(cartState.indexOf(cartItem), 1);
+            cartState.splice(cartState.indexOf(item), 1);
             button.textContent = 'Add to card';
             button.classList.remove('product__button_added');
             setStorage('cartState', cartState);

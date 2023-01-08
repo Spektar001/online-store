@@ -54,7 +54,7 @@ export function drawProducts(state: ProductsData[], cartState: CartData[], query
 
         buyButton.addEventListener('click', () => {
             if (buyButton.classList.contains('product__button_added')) {
-                removeFromCart(buyButton, productItem.id, state, cartState);
+                removeFromCart(buyButton, productItem.id, cartState);
                 countCartProducts(cartState);
                 countCartTotal(cartState);
             } else {
