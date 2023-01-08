@@ -27,7 +27,7 @@
 .sort__list_button:focus,
 .sort__list_button:hover {
     box-shadow: 0 0 5px 1px #3f72af;
-    border: none;
+    border: 1px solid transparent;
 }
 
 .sort__list {
@@ -48,6 +48,7 @@
     user-select: none;
     padding: 3px;
 }
+
 .sort__list_item:hover {
     background-color: rgba(63, 114, 175, 0.7);
     border-radius: 3px;
@@ -68,7 +69,7 @@
 }
 .sort__search:focus {
     border-radius: 5px;
-    border: none;
+    border: 1px solid transparent;
     box-shadow: 0 0 5px 1px #3f72af;
 }
 
@@ -99,13 +100,13 @@
 .view__button_2:hover {
     box-shadow: 0 0 5px 1px #3f72af;
     border-radius: 5px;
-    border: none;
+    border: 1px solid transparent;
     transition: all 0.3s ease;
 }
 
 .view__button_selected {
     color: white;
     border-radius: 5px;
-    border: none;
+    border: 1px solid transparent;
     box-shadow: 0 0 5px 1px #3F72AF;
 }
