@@ -344,8 +344,10 @@ function setProductCount(state: ProductsData[], filteredState: ProductsData[]): 
             const label = checkedQuerySelector(item, '.filter__label');
             const counter = checkedQuerySelector(item, '.filter__product_counter');
             counter.textContent = filteredState.length
-                ? `${filteredState.filter((item) => item.category === checkbox.id).length}`
-                : '0';
+                ? ` ${filteredState.filter((item) => item.category === checkbox.id).length} / ${
+                      state.filter((item) => item.category === checkbox.id).length
+                  }`
+                : ` 0 / ${state.filter((item) => item.category === checkbox.id).length}`;
             if (counter.textContent === '0') {
                 checkbox.style.opacity = '0.5';
                 label.style.opacity = '0.5';
@@ -362,8 +364,10 @@ function setProductCount(state: ProductsData[], filteredState: ProductsData[]): 
             const label = checkedQuerySelector(item, '.filter__label');
             const counter = checkedQuerySelector(item, '.filter__product_counter');
             counter.textContent = filteredState.length
-                ? `${filteredState.filter((item) => item.brand === checkbox.id).length}`
-                : '0';
+                ? ` ${filteredState.filter((item) => item.brand === checkbox.id).length} / ${
+                      state.filter((item) => item.brand === checkbox.id).length
+                  }`
+                : `0 / ${state.filter((item) => item.brand === checkbox.id).length}`;
             if (counter.textContent === '0') {
                 checkbox.style.opacity = '0.5';
                 label.style.opacity = '0.5';
