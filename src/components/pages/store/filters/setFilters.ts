@@ -136,7 +136,15 @@ function getFilteredFind(filteredFind: ProductsData[], state: ProductsData[], qu
             } else if (item.description.toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
                 filteredFind.push(item);
                 isExist = true;
-            } else if (item.price === +queryState.find) {
+            } else if (item.price.toString().toLowerCase().indexOf(queryState.find.toLowerCase()) != -1) {
+                filteredFind.push(item);
+                isExist = true;
+            } else if (
+                Math.floor(item.price * ((100 - item.discountPercentage) / 100))
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(queryState.find.toLowerCase()) != -1
+            ) {
                 filteredFind.push(item);
                 isExist = true;
             } else if (
