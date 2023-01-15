@@ -356,14 +356,14 @@ function setProductCount(state: ProductsData[], filteredState: ProductsData[]): 
                       state.filter((item) => item.category === checkbox.id).length
                   }`
                 : ` 0 / ${state.filter((item) => item.category === checkbox.id).length}`;
-            if (counter.textContent === '0') {
-                checkbox.style.opacity = '0.5';
-                label.style.opacity = '0.5';
-                counter.style.opacity = '0.5';
-            } else {
+            if (`${filteredState.filter((item) => item.category === checkbox.id).length}` > '0') {
                 checkbox.style.opacity = '1';
                 label.style.opacity = '1';
                 counter.style.opacity = '1';
+            } else {
+                checkbox.style.opacity = '0.5';
+                label.style.opacity = '0.5';
+                counter.style.opacity = '0.5';
             }
         }
 
@@ -376,14 +376,14 @@ function setProductCount(state: ProductsData[], filteredState: ProductsData[]): 
                       state.filter((item) => item.brand === checkbox.id).length
                   }`
                 : `0 / ${state.filter((item) => item.brand === checkbox.id).length}`;
-            if (counter.textContent === '0') {
-                checkbox.style.opacity = '0.5';
-                label.style.opacity = '0.5';
-                counter.style.opacity = '0.5';
-            } else {
+            if (`${filteredState.filter((item) => item.brand === checkbox.id).length}` > '0') {
                 checkbox.style.opacity = '1';
                 label.style.opacity = '1';
                 counter.style.opacity = '1';
+            } else {
+                checkbox.style.opacity = '0.5';
+                label.style.opacity = '0.5';
+                counter.style.opacity = '0.5';
             }
         }
     } else if (!productsContainer.classList.contains('no-products')) {
