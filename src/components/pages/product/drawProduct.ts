@@ -18,6 +18,7 @@ import {
     setButtons,
     addToCartAndBuy,
 } from '../cart/cartControls';
+import { checkImagesForDulicatesByUrl } from '../../utils';
 import { goTo } from '../../router/router';
 import './product.css';
 
@@ -84,42 +85,7 @@ export function drawProduct(
         if (item.id === +index) {
             productBreadCrumbs.textContent = `Store / ${item.category} / ${item.brand} / ${item.title}`;
 
-            const canvasUrl: string[] = [];
-
-            for (let i = 0; i < item.images.length; i++) {
-                const img = new Image();
-                img.setAttribute('crossOrigin', 'anonymous');
-                img.src = item.images[i];
-
-                img.onload = () => {
-                    if (!canvasUrl.length) {
-                        canvasUrl.push(getBase64Image(img));
-
-                        const productImage = createEl('product-page__image', 'div');
-                        productImage.style.backgroundImage = `url(${item.images[i]})`;
-
-                        productImage.addEventListener('click', () => {
-                            productMainImage.style.backgroundImage = productImage.style.backgroundImage;
-                        });
-
-                        appendEl(productImages, productImage);
-                    } else {
-                        const base = getBase64Image(img);
-                        if (canvasUrl.every((url) => url !== base)) {
-                            canvasUrl.push(base);
-
-                            const productImage = createEl('product-page__image', 'div');
-                            productImage.style.backgroundImage = `url(${item.images[i]})`;
-
-                            productImage.addEventListener('click', () => {
-                                productMainImage.style.backgroundImage = productImage.style.backgroundImage;
-                            });
-
-                            appendEl(productImages, productImage);
-                        }
-                    }
-                };
-            }
+            checkImagesForDulicatesByUrl(item.images, productMainImage, productImages);
 
             productMainImage.style.backgroundImage = `url(${item.images[0]})`;
             productTitle.textContent = item.title;
@@ -164,19 +130,4 @@ export function drawProduct(
         goTo('/cart');
         showPopUp(productBuyButton, state, cartState, promoState, queryState);
     });
-}
-
-/* function to convert image to base64 format ------------------------------------------------- */
-
-function getBase64Image(img: HTMLImageElement): string {
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    const ctx = canvas.getContext('2d');
-    ctx !== null ? ctx.drawImage(img, 0, 0) : console.error('No image data!');
-
-    const dataURL = canvas.toDataURL('image/png');
-
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
 }
