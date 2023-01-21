@@ -20,32 +20,34 @@ const Paths: Paths = {
 
 const routes: Routes = {};
 
-/* function to render pages pased on url ------------------------------------------------- */
+/* function to render pages based on url ------------------------------------------------- */
 
 export function render(path: string): void {
     setStorage('cartState', cartState);
 
     const url = new URL(window.location.href);
     setQueryState(url.searchParams);
+    checkPath(path);
+    countCartProducts(cartState);
+    countCartTotal(cartState);
+}
 
+/* function to check path to routes values or draw 404 page  ------------------------------------------------- */
+
+function checkPath(path: string): void {
     for (const item of Object.values(routes)) {
         if (item.match(path) && Object.values(item)[0] === `/`) {
             drawProductsPage(state, cartState, queryState);
-            countCartProducts(cartState);
-            countCartTotal(cartState);
             return;
         } else if (item.match(path) && Object.values(item)[0] === `/cart`) {
             drawCart(state, cartState, promoState, queryState);
-            countCartProducts(cartState);
-            countCartTotal(cartState);
             return;
         } else if (item.match(path)) {
             drawProduct(Object.values(item)[0].slice(9), state, cartState, promoState, queryState);
-            countCartProducts(cartState);
-            countCartTotal(cartState);
             return;
         }
     }
+
     draw404();
 }
 
