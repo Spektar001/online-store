@@ -29,20 +29,21 @@ export const queryState: QueryData = {
 
 export async function initApp(): Promise<void> {
     const result = await getProductsData();
-    state = result.products;
-    initRouter();
-    setHeaderButtons();
+    if (result !== undefined) {
+        state = result.products;
+        initRouter();
+        setHeaderButtons();
+    }
 }
 
 /* function to get data from API ------------------------------------------------- */
 
-async function getProductsData(): Promise<Products> {
+async function getProductsData(): Promise<Products | undefined> {
     try {
         const response = await fetch('https://dummyjson.com/products');
         const products: Products = await response.json();
         return products;
     } catch (error) {
         console.error(`Can't load data!`);
-        throw error;
     }
 }
