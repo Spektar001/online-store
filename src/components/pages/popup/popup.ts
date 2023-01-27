@@ -102,20 +102,13 @@ export function showPopUp(
     const regexCVV = /^[0-9]+$/;
 
     detailsInputName.addEventListener('input', () => {
-        detailsInputName.classList.add('error');
-        detailsInputName.classList.remove('check');
-        isFormDetailsSelected(details, btnConfirm);
-
+        activateLock(detailsInputName, details, btnConfirm);
         if (detailsInputName.value.match(regexName) === null) {
-            isFormDetailsSelected(details, btnConfirm);
-            detailsInputName.classList.add('error');
-            detailsInputName.classList.remove('check');
+            activateLock(detailsInputName, details, btnConfirm);
         }
 
         if (regexName.test(detailsInputName.value)) {
-            detailsInputName.classList.remove('error');
-            detailsInputName.classList.add('check');
-            isFormDetailsSelected(details, btnConfirm);
+            deactivateLock(detailsInputName, details, btnConfirm);
         }
     });
 
@@ -124,50 +117,30 @@ export function showPopUp(
         if (detailsInputPhone.value[0] !== '+' && detailsInputPhone.value)
             detailsInputPhone.value = '+' + `${+detailsInputPhone.value[0] - 1}` + detailsInputPhone.value.slice(1);
         detailsInputPhone.value = detailsInputPhone.value.replace(/[^\d,+]/g, '');
-        detailsInputPhone.classList.add('error');
-        detailsInputPhone.classList.remove('check');
-        isFormDetailsSelected(details, btnConfirm);
+        activateLock(detailsInputPhone, details, btnConfirm);
 
         if (detailsInputPhone.value.match(regexPhone) === null) {
-            detailsInputPhone.classList.add('error');
-            detailsInputPhone.classList.remove('check');
-            isFormDetailsSelected(details, btnConfirm);
+            activateLock(detailsInputPhone, details, btnConfirm);
         } else {
-            detailsInputPhone.classList.remove('error');
-            detailsInputPhone.classList.add('check');
-            isFormDetailsSelected(details, btnConfirm);
+            deactivateLock(detailsInputPhone, details, btnConfirm);
         }
     });
     detailsInputAddress.addEventListener('input', () => {
-        detailsInputAddress.classList.add('error');
-        detailsInputAddress.classList.remove('check');
-        isFormDetailsSelected(details, btnConfirm);
-
+        activateLock(detailsInputAddress, details, btnConfirm);
         if (detailsInputAddress.value.match(regexAddress) === null) {
-            isFormDetailsSelected(details, btnConfirm);
-            detailsInputAddress.classList.add('error');
-            detailsInputAddress.classList.remove('check');
+            activateLock(detailsInputAddress, details, btnConfirm);
         }
 
         if (regexAddress.test(detailsInputAddress.value)) {
-            detailsInputAddress.classList.remove('error');
-            detailsInputAddress.classList.add('check');
-            isFormDetailsSelected(details, btnConfirm);
+            deactivateLock(detailsInputAddress, details, btnConfirm);
         }
     });
     detailsInputEmail.addEventListener('input', () => {
-        detailsInputEmail.classList.add('error');
-        detailsInputEmail.classList.remove('check');
-        isFormDetailsSelected(details, btnConfirm);
-
+        activateLock(detailsInputEmail, details, btnConfirm);
         if (detailsInputEmail.value.match(regexEmail) === null) {
-            detailsInputEmail.classList.add('error');
-            detailsInputEmail.classList.remove('check');
-            isFormDetailsSelected(details, btnConfirm);
+            activateLock(detailsInputEmail, details, btnConfirm);
         } else {
-            detailsInputEmail.classList.remove('error');
-            detailsInputEmail.classList.add('check');
-            isFormDetailsSelected(details, btnConfirm);
+            deactivateLock(detailsInputEmail, details, btnConfirm);
         }
     });
 
@@ -180,15 +153,11 @@ export function showPopUp(
                 : matcher(cardCode, /.{1,4}/g, ' ').substring(0, 19);
 
         if (detailsCardNumber.value.length < 19) {
-            detailsCardNumber.classList.add('error');
-            detailsCardNumber.classList.remove('check');
-            isFormDetailsSelected(details, btnConfirm);
+            activateLock(detailsCardNumber, details, btnConfirm);
         }
 
         if (regexCardNumber.test(detailsCardNumber.value)) {
-            detailsCardNumber.classList.remove('error');
-            detailsCardNumber.classList.add('check');
-            isFormDetailsSelected(details, btnConfirm);
+            deactivateLock(detailsCardNumber, details, btnConfirm);
         }
         switch (detailsCardNumber.value[0]) {
             case '4':
@@ -214,9 +183,7 @@ export function showPopUp(
                 : matcher(validDate, /.{1,2}/g, '/').substring(0, 5);
 
         if (detailsDate.value.length < 5) {
-            detailsDate.classList.add('error');
-            detailsDate.classList.remove('check');
-            isFormDetailsSelected(details, btnConfirm);
+            activateLock(detailsDate, details, btnConfirm);
         }
 
         if (detailsDate.value.length === 5) {
@@ -229,30 +196,22 @@ export function showPopUp(
                 detailsDate.value.match(regexDate) !== null &&
                 detailsDate.value.slice(0, 2) <= '12'
             ) {
-                detailsDate.classList.remove('error');
-                detailsDate.classList.add('check');
-                isFormDetailsSelected(details, btnConfirm);
+                deactivateLock(detailsDate, details, btnConfirm);
             } else {
-                detailsDate.classList.add('error');
-                detailsDate.classList.remove('check');
-                isFormDetailsSelected(details, btnConfirm);
+                activateLock(detailsDate, details, btnConfirm);
             }
         }
     });
     detailsCVV.addEventListener('input', () => {
         detailsCVV.value = detailsCVV.value.replace(/[^\d]/g, '');
-        detailsCVV.classList.add('error');
-        detailsCVV.classList.remove('check');
-        isFormDetailsSelected(details, btnConfirm);
+        activateLock(detailsCVV, details, btnConfirm);
 
         if (detailsCVV.value.length > 3) {
             detailsCVV.value = detailsCVV.value.slice(0, 3);
         }
 
         if (regexCVV.test(detailsCVV.value) === true && detailsCVV.value.length === 3) {
-            detailsCVV.classList.remove('error');
-            detailsCVV.classList.add('check');
-            isFormDetailsSelected(details, btnConfirm);
+            deactivateLock(detailsCVV, details, btnConfirm);
         }
     });
 
@@ -325,4 +284,20 @@ function matcher(string: string, regexp: RegExp, joiner: string): string {
     } else {
         return '';
     }
+}
+
+/* function to activate lock of element ------------------------------------------------- */
+
+function activateLock(el: HTMLElement, form: HTMLElement, button: HTMLButtonElement): void {
+    el.classList.add('error');
+    el.classList.remove('check');
+    isFormDetailsSelected(form, button);
+}
+
+/* function to deactivate lock of element ------------------------------------------------- */
+
+function deactivateLock(el: HTMLElement, form: HTMLElement, button: HTMLButtonElement): void {
+    el.classList.add('check');
+    el.classList.remove('error');
+    isFormDetailsSelected(form, button);
 }
