@@ -1,0 +1,112 @@
+/* topbar global settings ------------------------------------------------- */
+
+.products__topbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 5px 0 gray;
+}
+
+.sort__contaiter {
+    position: relative;
+    width: 200px;
+}
+
+/* topbar sort-list ------------------------------------------------- */
+
+.sort__list_button {
+    width: 100%;
+    padding: 10px;
+    text-align: start;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.sort__list_button:focus,
+.sort__list_button:hover {
+    box-shadow: 0 0 5px 1px #3f72af;
+    border: 1px solid transparent;
+}
+
+.sort__list {
+    position: absolute;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.sort__list_item {
+    cursor: pointer;
+    user-select: none;
+    padding: 3px;
+}
+
+.sort__list_item:hover {
+    background-color: rgba(63, 114, 175, 0.7);
+    border-radius: 3px;
+    color: #FFFFFF;
+}
+
+.sort__list_hidden {
+    display: none;
+}
+
+/* topbar search ------------------------------------------------- */
+
+.sort__search {
+    width: 25%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+.sort__search:focus {
+    border-radius: 5px;
+    border: 1px solid transparent;
+    box-shadow: 0 0 5px 1px #3f72af;
+}
+
+/* topbar view ------------------------------------------------- */
+
+.products__view {
+    display: flex;
+    gap: 10px;
+}
+
+.view__button_1,
+.view__button_2 {
+    width: 40px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid gray;
+    transition: 0.3s;
+}
+
+.view__button_1,
+.view__button_2 {
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.view__button_1:hover,
+.view__button_2:hover {
+    box-shadow: 0 0 5px 1px #3f72af;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.view__button_selected {
+    color: white;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    box-shadow: 0 0 5px 1px #3F72AF;
+}
